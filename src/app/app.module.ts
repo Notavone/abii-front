@@ -1,4 +1,4 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -18,20 +18,24 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {ProductCreateFormComponent} from './products/product-create-form/product-create-form.component';
 import {MatSelectModule} from "@angular/material/select";
-import { ClientsComponent } from './clients/clients.component';
-import { ClientCreateFormComponent } from './clients/client-create-form/client-create-form.component';
-import { ClientComponent } from './clients/client/client.component';
-import { ClientBalanceFormComponent } from './clients/client-balance-form/client-balance-form.component';
-import { ClientBuyFormComponent } from './clients/client-buy-form/client-buy-form.component';
+import {ClientsComponent} from './clients/clients.component';
+import {ClientCreateFormComponent} from './clients/client-create-form/client-create-form.component';
+import {ClientComponent} from './clients/client/client.component';
+import {ClientBalanceFormComponent} from './clients/client-balance-form/client-balance-form.component';
+import {ClientBuyFormComponent} from './clients/client-buy-form/client-buy-form.component';
 import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatIconModule} from "@angular/material/icon";
-import { OrdersComponent } from './orders/orders.component';
-import { ClientOrdersComponent } from './clients/client-orders/client-orders.component';
-import { OrdersTableComponent } from './orders/orders-table/orders-table.component';
-import { OrderComponent } from './orders/order/order.component';
-import { ClientCastComponent } from './clients/client-cast/client-cast.component';
-import { ProductCastComponent } from './products/product-cast/product-cast.component';
+import {OrdersComponent} from './orders/orders.component';
+import {ClientOrdersComponent} from './clients/client-orders/client-orders.component';
+import {OrdersTableComponent} from './orders/orders-table/orders-table.component';
+import {OrderComponent} from './orders/order/order.component';
+import {ClientCastComponent} from './clients/client-cast/client-cast.component';
+import {ProductCastComponent} from './products/product-cast/product-cast.component';
+import localeFr from "@angular/common/locales/fr";
+import {registerLocaleData} from "@angular/common";
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -53,25 +57,26 @@ import { ProductCastComponent } from './products/product-cast/product-cast.compo
     ClientCastComponent,
     ProductCastComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatTabsModule,
-        HttpClientModule,
-        MatTableModule,
-        MatCardModule,
-        MatInputModule,
-        FormsModule,
-        MatSelectModule,
-        MatListModule,
-        MatExpansionModule,
-        MatIconModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatTabsModule,
+    HttpClientModule,
+    MatTableModule,
+    MatCardModule,
+    MatInputModule,
+    FormsModule,
+    MatSelectModule,
+    MatListModule,
+    MatExpansionModule,
+    MatIconModule,
+  ],
   providers: [
-    {provide: LOCALE_ID, useValue: "en-EN"},
+    {provide: LOCALE_ID, useValue: "fr-FR"},
+    {provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR'},
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}
   ],
   bootstrap: [AppComponent]

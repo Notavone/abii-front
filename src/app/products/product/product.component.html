@@ -25,7 +25,7 @@
         </mat-form-field>
       </p>
 
-      Prix des adhérents : {{product.price - product.price * product.discount / 100 | currency:'EUR':'symbol':"1.2-2"}}
+      Prix des adhérents : {{product.price - product.price * product.discount / 100 | currency}}
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="accent" (click)="goBack()">Retour</button>

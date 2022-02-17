@@ -10,7 +10,7 @@
         </mat-expansion-panel-header>
         <mat-list>
           <mat-list-item class="spacing" *ngFor="let line of lines">
-            {{line.product.name}} {{(isSubscribed() ? line.product.price - line.product.price * line.product.discount / 100 : line.product.price) | currency:'EUR':'symbol':'1.2-2'}}
+            {{line.product.name}} {{(isSubscribed() ? line.product.price - line.product.price * line.product.discount / 100 : line.product.price) | currency}}
             <div>
               <button mat-mini-fab color="warn" (click)="subtract(line.product)"><mat-icon>remove</mat-icon></button>
               <button mat-flat-button (click)="reset(line.product)">{{line.qty}}</button>
@@ -19,7 +19,7 @@
           </mat-list-item>
         </mat-list>
         <mat-action-row>
-          <button mat-raised-button color="primary" (click)="makeTransaction()">Payer {{getTotal() | currency:'EUR':'symbol':'1.2-2'}}</button>
+          <button mat-raised-button color="primary" (click)="makeTransaction()">Payer {{getTotal() | currency}}</button>
         </mat-action-row>
       </mat-expansion-panel>
     </div>
