@@ -1,0 +1,27 @@
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ProductService} from "../shared/product.service";
+import {Product} from "../shared/product";
+
+@Component({
+  selector: 'app-product-cast',
+  templateUrl: './product-cast.component.html',
+  styleUrls: ['./product-cast.component.scss']
+})
+export class ProductCastComponent implements OnInit, OnChanges {
+  @Input() id: string = "";
+  product?: Product;
+
+  constructor(private productService: ProductService) {
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.productService.getProduct(this.id)
+      .subscribe(product => {
+        console.log(product);
+        this.product = product
+      });
+  }
+}

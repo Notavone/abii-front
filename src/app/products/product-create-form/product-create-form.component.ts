@@ -1,0 +1,32 @@
+import {Component, OnInit} from '@angular/core';
+import {ProductService} from '../shared/product.service';
+import {Product} from "../shared/product";
+import {ProductType} from "../shared/product-type";
+import {Router} from "@angular/router";
+
+@Component({
+  selector: 'app-product-create-form',
+  templateUrl: './product-create-form.component.html',
+  styleUrls: ['./product-create-form.component.scss']
+})
+export class ProductCreateFormComponent implements OnInit {
+  product: Product = {
+    _id: "",
+    name: "",
+    type: ProductType.PRODUCT_FOOD,
+    price: 1,
+    discount: 50
+  }
+  productType = ProductType
+
+  constructor(private productService: ProductService, private router: Router) {
+  }
+
+  ngOnInit(): void {
+  }
+
+  public save() {
+    this.productService.addProduct(this.product)
+      .subscribe(product => this.router.navigate([`/products/${product._id}`]));
+  }
+}

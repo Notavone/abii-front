@@ -1,0 +1,25 @@
+<mat-card *ngIf="client">
+  <mat-card-header>
+    <mat-card-title>Mettre à jour le solde de "{{client.name}}"</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      <mat-form-field>
+        <mat-label>Somme à {{selectedPaymentType !== paymentType.BALANCE ? "ajouter" : "retirer "}}</mat-label>
+        <input type="number" matNativeControl required [(ngModel)]="amount" [value]="''+adjustedValue()" placeholder="Ajuster le solde">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Mode de paiement</mat-label>
+        <mat-select [(ngModel)]="selectedPaymentType" required>
+          <mat-option [value]="paymentType.CASH">Liquide</mat-option>
+          <mat-option [value]="paymentType.CREDIT_CARD">Carte bancaire</mat-option>
+          <mat-option [value]="paymentType.BALANCE">Solde</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="adjust()">{{selectedPaymentType !== paymentType.BALANCE ? "Ajouter" : "Retirer"}}</button>
+  </mat-card-actions>
+</mat-card>

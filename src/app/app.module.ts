@@ -1,18 +1,80 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {LOCALE_ID, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NavbarComponent} from './navbar/navbar.component';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatButtonModule} from "@angular/material/button";
+import {ProductsComponent} from './products/products.component';
+import {HttpClientModule} from "@angular/common/http";
+import {MatTabsModule} from "@angular/material/tabs";
+import {ProductTableComponent} from './products/product-table/product-table.component';
+import {MatTableModule} from "@angular/material/table";
+import {ProductComponent} from './products/product/product.component';
+import {MatCardModule} from "@angular/material/card";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule} from "@angular/forms";
+import {ProductCreateFormComponent} from './products/product-create-form/product-create-form.component';
+import {MatSelectModule} from "@angular/material/select";
+import { ClientsComponent } from './clients/clients.component';
+import { ClientCreateFormComponent } from './clients/client-create-form/client-create-form.component';
+import { ClientComponent } from './clients/client/client.component';
+import { ClientBalanceFormComponent } from './clients/client-balance-form/client-balance-form.component';
+import { ClientBuyFormComponent } from './clients/client-buy-form/client-buy-form.component';
+import {MatListModule} from "@angular/material/list";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatIconModule} from "@angular/material/icon";
+import { OrdersComponent } from './orders/orders.component';
+import { ClientOrdersComponent } from './clients/client-orders/client-orders.component';
+import { OrdersTableComponent } from './orders/orders-table/orders-table.component';
+import { OrderComponent } from './orders/order/order.component';
+import { ClientCastComponent } from './clients/client-cast/client-cast.component';
+import { ProductCastComponent } from './products/product-cast/product-cast.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent,
+    ProductsComponent,
+    ProductTableComponent,
+    ProductComponent,
+    ProductCreateFormComponent,
+    ClientsComponent,
+    ClientCreateFormComponent,
+    ClientComponent,
+    ClientBalanceFormComponent,
+    ClientBuyFormComponent,
+    OrdersComponent,
+    ClientOrdersComponent,
+    OrdersTableComponent,
+    OrderComponent,
+    ClientCastComponent,
+    ProductCastComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatTabsModule,
+        HttpClientModule,
+        MatTableModule,
+        MatCardModule,
+        MatInputModule,
+        FormsModule,
+        MatSelectModule,
+        MatListModule,
+        MatExpansionModule,
+        MatIconModule,
+    ],
+  providers: [
+    {provide: LOCALE_ID, useValue: "en-EN"},
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

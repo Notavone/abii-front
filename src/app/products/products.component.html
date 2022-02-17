@@ -1,0 +1,29 @@
+<mat-tab-group>
+  <mat-tab label="Liste">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Produits</mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-product-table [products]="filterBy(productTypes.PRODUCT_FOOD)"></app-product-table>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Extras</mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-product-table [products]="filterBy(productTypes.PRODUCT_EXTRA)"></app-product-table>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Adhésions</mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-product-table [products]="filterBy(productTypes.SUBSCRIPTION)"></app-product-table>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-tab>
+  <mat-tab label="Ajouter">
+    <app-product-create-form></app-product-create-form>
+  </mat-tab>
+</mat-tab-group>

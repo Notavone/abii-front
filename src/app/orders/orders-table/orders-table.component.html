@@ -1,0 +1,35 @@
+<table mat-table [dataSource]="dataSet">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>Id</th>
+    <td mat-cell *matCellDef="let order"><a routerLink="/orders/{{order._id}}">{{order._id}}</a></td>
+  </ng-container>
+
+  <ng-container matColumnDef="client">
+    <th mat-header-cell *matHeaderCellDef>Client</th>
+    <td mat-cell *matCellDef="let order"><a routerLink="/clients/{{order.client}}"><app-client-cast [id]="order.client"></app-client-cast></a></td>
+  </ng-container>
+
+  <ng-container matColumnDef="lines">
+    <th mat-header-cell *matHeaderCellDef>Produit(s)</th>
+    <td mat-cell *matCellDef="let order">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Contient {{order.lines.length}} produit(s)</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let line of order.lines">
+          {{line.qty}}x
+          <a routerLink="/products/{{line.product}}"><app-product-cast [id]="line.product"></app-product-cast></a>
+        </div>
+      </mat-expansion-panel>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="total">
+    <th mat-header-cell *matHeaderCellDef>Total de la commande</th>
+    <td mat-cell *matCellDef="let order">{{order.total | currency:'EUR':'symbol':"1.2-2"}}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let order; columns: columnsToDisplay"></tr>
+
+</table>

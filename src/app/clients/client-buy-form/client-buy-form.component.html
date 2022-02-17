@@ -1,0 +1,38 @@
+<mat-card *ngIf="client">
+  <mat-card-header>
+    <mat-card-title>Enregistrer un achat pour "{{client.name}}"</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div *ngIf="selected.length">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Produit sélectionné(s)</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item class="spacing" *ngFor="let line of lines">
+            {{line.product.name}} {{(isSubscribed() ? line.product.price - line.product.price * line.product.discount / 100 : line.product.price) | currency:'EUR':'symbol':'1.2-2'}}
+            <div>
+              <button mat-mini-fab color="warn" (click)="subtract(line.product)"><mat-icon>remove</mat-icon></button>
+              <button mat-flat-button (click)="reset(line.product)">{{line.qty}}</button>
+              <button mat-mini-fab color="primary" (click)="add(line.product)"><mat-icon>add</mat-icon></button>
+            </div>
+          </mat-list-item>
+        </mat-list>
+        <mat-action-row>
+          <button mat-raised-button color="primary" (click)="makeTransaction()">Payer {{getTotal() | currency:'EUR':'symbol':'1.2-2'}}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </div>
+
+    <mat-selection-list [(ngModel)]="selected" (selectionChange)="updateLines()">
+      <h3 matSubheader>Produits</h3>
+      <mat-list-option *ngFor="let product of filterBy(productType.PRODUCT_FOOD)" [value]="product">{{product.name}}</mat-list-option>
+      <mat-divider></mat-divider>
+      <h3 matSubheader>Extras</h3>
+      <mat-list-option *ngFor="let product of filterBy(productType.PRODUCT_EXTRA)" [value]="product">{{product.name}}</mat-list-option>
+      <mat-divider></mat-divider>
+      <h3 matSubheader>Adhésions</h3>
+      <mat-list-option *ngFor="let product of filterBy(productType.SUBSCRIPTION)" [value]="product">{{product.name}}</mat-list-option>
+    </mat-selection-list>
+  </mat-card-content>
+</mat-card>
