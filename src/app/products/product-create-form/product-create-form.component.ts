@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ProductService} from '../shared/product.service';
 import {Product} from "../shared/product";
 import {ProductType} from "../shared/product-type";
@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   templateUrl: './product-create-form.component.html',
   styleUrls: ['./product-create-form.component.scss']
 })
-export class ProductCreateFormComponent implements OnInit {
+export class ProductCreateFormComponent {
   product: Product = {
     _id: "",
     name: "",
@@ -20,9 +20,6 @@ export class ProductCreateFormComponent implements OnInit {
   productType = ProductType
 
   constructor(private productService: ProductService, private router: Router) {
-  }
-
-  ngOnInit(): void {
   }
 
   public save() {

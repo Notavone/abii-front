@@ -14,7 +14,7 @@ import {OrderLine} from "../../orders/shared/order-line";
   styleUrls: ['./client-buy-form.component.scss']
 })
 export class ClientBuyFormComponent implements OnInit {
-  @Input() client!: Client;
+  @Input() client?: Client;
   productType = ProductType;
   products: Product[] = [];
   selected: MatListOption[] = [];
@@ -36,6 +36,7 @@ export class ClientBuyFormComponent implements OnInit {
   }
 
   isSubscribed() {
+    if(!this.client) throw "Should not happen.";
     return Date.now() < this.client.subscriptionEnd;
   }
 
@@ -78,6 +79,7 @@ export class ClientBuyFormComponent implements OnInit {
   }
 
   makeTransaction() {
+    if(!this.client) throw "Should not happen.";
     this.clientService.makeTransaction(this.client, this.lines)
       .subscribe(_ => this.reload());
   }

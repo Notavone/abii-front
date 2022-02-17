@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Product} from "../shared/product";
 
 @Component({
@@ -6,13 +6,7 @@ import {Product} from "../shared/product";
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.scss']
 })
-export class ProductTableComponent implements OnInit {
+export class ProductTableComponent {
   @Input() products: Product[] = [];
-  columnsToDisplay: string[] = ["name", "price", "discount"];
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
+  columnsToDisplay: string[] = ["name", "price", "discount"]
 }

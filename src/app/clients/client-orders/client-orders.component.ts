@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Client} from "../shared/client";
 import {OrderService} from "../../orders/shared/order.service";
 import {Order} from "../../orders/shared/order";
@@ -8,15 +8,11 @@ import {Order} from "../../orders/shared/order";
   templateUrl: './client-orders.component.html',
   styleUrls: ['./client-orders.component.scss']
 })
-export class ClientOrdersComponent implements OnInit, OnChanges {
+export class ClientOrdersComponent implements OnChanges {
   @Input() client?: Client;
   public orders: Order[] = [];
 
   constructor(private orderService: OrderService) {
-  }
-
-  ngOnInit(): void {
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {

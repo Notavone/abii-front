@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ProductService} from "../shared/product.service";
 import {Product} from "../shared/product";
 
@@ -7,14 +7,11 @@ import {Product} from "../shared/product";
   templateUrl: './product-cast.component.html',
   styleUrls: ['./product-cast.component.scss']
 })
-export class ProductCastComponent implements OnInit, OnChanges {
+export class ProductCastComponent implements OnChanges {
   @Input() id: string = "";
   product?: Product;
 
   constructor(private productService: ProductService) {
-  }
-
-  ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges): void {

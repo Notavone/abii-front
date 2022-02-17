@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ClientService} from 'src/app/clients/shared/client.service';
 import {Client} from "../shared/client";
 import {Router} from "@angular/router";
@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   templateUrl: './client-create-form.component.html',
   styleUrls: ['./client-create-form.component.scss']
 })
-export class ClientCreateFormComponent implements OnInit {
+export class ClientCreateFormComponent {
   client: Client = {
     subscriptionEnd: 0,
     _id: "",
@@ -17,9 +17,6 @@ export class ClientCreateFormComponent implements OnInit {
   }
 
   constructor(private clientService: ClientService, private router: Router) {
-  }
-
-  ngOnInit(): void {
   }
 
   save() {
