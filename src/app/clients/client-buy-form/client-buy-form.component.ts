@@ -78,9 +78,9 @@ export class ClientBuyFormComponent implements OnInit {
     return this.products.filter(p => p.type === type);
   }
 
-  makeTransaction() {
+  sendOrder() {
     if(!this.client) throw "Should not happen.";
-    this.clientService.makeTransaction(this.client, this.lines)
+    this.clientService.sendOrder(this.client, this.lines)
       .subscribe(_ => this.reload());
   }
 }

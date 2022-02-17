@@ -7,6 +7,7 @@ import {Client} from "./client";
 import {Status} from "./status";
 import {PaymentType} from "./payment-type";
 import {OrderLine} from "../../orders/shared/order-line";
+import {Order} from "../../orders/shared/order";
 
 @Injectable({
   providedIn: 'root'
@@ -86,7 +87,7 @@ export class ClientService {
       );
   }
 
-  setStatus(client: Client, status: Status): Observable<Client> {
+  updateStatus(client: Client, status: Status): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}/status`
     return this.http.patch<Response<Client>>(url, {status}, this.httpOptions)
       .pipe(
@@ -96,7 +97,7 @@ export class ClientService {
       );
   }
 
-  adjust(client: Client, selectedPaymentType: PaymentType, amount: number): Observable<Client> {
+  updateBalance(client: Client, selectedPaymentType: PaymentType, amount: number): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}/balance`;
     return this.http.patch<Response<Client>>(url, {type: selectedPaymentType, amount}, this.httpOptions)
       .pipe(
@@ -106,9 +107,9 @@ export class ClientService {
       );
   }
 
-  makeTransaction(client: Client, lines: OrderLine[]): Observable<Client> {
+  sendOrder(client: Client, lines: OrderLine[]): Observable<{ client: Client, order: Order }> {
     let url = `${this.baseUrl}/${client._id}/orders`;
-    return this.http.post<Response<Client>>(url, {lines}, this.httpOptions)
+    return this.http.post<Response<{ client: Client, order: Order }>>(url, {lines}, this.httpOptions)
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`ordered for client id=${client._id}`)),

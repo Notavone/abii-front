@@ -27,9 +27,9 @@ export class ClientBalanceFormComponent {
     this.router.navigateByUrl("/", {skipLocationChange: true}).then(_ => this.router.navigate([url]));
   }
 
-  adjust() {
+  updateBalance() {
     if (!this.client) throw new Error("Should not happen.");
-    this.clientService.adjust(this.client, this.selectedPaymentType, this.adjustedValue())
+    this.clientService.updateBalance(this.client, this.selectedPaymentType, this.adjustedValue())
       .subscribe(_ => this.reload());
   }
 }

@@ -34,6 +34,7 @@ import {ClientCastComponent} from './clients/client-cast/client-cast.component';
 import {ProductCastComponent} from './products/product-cast/product-cast.component';
 import localeFr from "@angular/common/locales/fr";
 import {registerLocaleData} from "@angular/common";
+import { ClientStatusFormComponent } from './clients/client-status-form/client-status-form.component';
 
 registerLocaleData(localeFr);
 
@@ -55,7 +56,8 @@ registerLocaleData(localeFr);
     OrdersTableComponent,
     OrderComponent,
     ClientCastComponent,
-    ProductCastComponent
+    ProductCastComponent,
+    ClientStatusFormComponent
   ],
   imports: [
     BrowserModule,
