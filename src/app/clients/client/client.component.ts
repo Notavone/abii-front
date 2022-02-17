@@ -3,6 +3,8 @@ import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
 import {ClientService} from "../shared/client.service";
 import {Client} from "../shared/client";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
 
 @Component({
   selector: 'app-client',
@@ -12,7 +14,7 @@ import {Client} from "../shared/client";
 export class ClientComponent implements OnInit {
   @Input() client?: Client;
 
-  constructor(private route: ActivatedRoute, private clientService: ClientService, private location: Location) {
+  constructor(private route: ActivatedRoute, private clientService: ClientService, private location: Location, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -37,7 +39,15 @@ export class ClientComponent implements OnInit {
 
   delete() {
     if (!this.client) throw new Error("Should not happen.");
-    this.clientService.deleteClient(this.client)
-      .subscribe(_ => this.goBack());
+    this.dialog.open(DialogConfirmComponent, {
+      data: `Voulez vous vraiment supprimer le client "${this.client.name}" ?`
+    }).afterClosed()
+      .subscribe(response => {
+        if (response as unknown as boolean) {
+          if (!this.client) throw new Error("Should not happen.");
+          this.clientService.deleteClient(this.client)
+            .subscribe(_ => this.goBack());
+        }
+      });
   }
 }

@@ -3,6 +3,8 @@ import {PaymentType} from "../shared/payment-type";
 import {Client} from "../shared/client";
 import {ClientService} from "../shared/client.service";
 import {Router} from "@angular/router";
+import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-client-balance-form',
@@ -15,7 +17,7 @@ export class ClientBalanceFormComponent {
   public selectedPaymentType = PaymentType.CASH;
   public amount = 0;
 
-  constructor(private clientService: ClientService, private router: Router) {
+  constructor(private clientService: ClientService, private router: Router, public dialog: MatDialog) {
   }
 
   adjustedValue() {
@@ -29,7 +31,15 @@ export class ClientBalanceFormComponent {
 
   updateBalance() {
     if (!this.client) throw new Error("Should not happen.");
-    this.clientService.updateBalance(this.client, this.selectedPaymentType, this.adjustedValue())
-      .subscribe(_ => this.reload());
+    this.dialog.open(DialogConfirmComponent, {
+      data: `Voulez vous vraiment effectuer cette action ?`
+    }).afterClosed()
+      .subscribe(response => {
+        if (response as unknown as boolean) {
+          if (!this.client) throw new Error("Should not happen.");
+          this.clientService.updateBalance(this.client, this.selectedPaymentType, this.adjustedValue())
+            .subscribe(_ => this.reload());
+        }
+      });
   }
 }

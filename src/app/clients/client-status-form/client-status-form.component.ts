@@ -3,6 +3,8 @@ import {Client} from "../shared/client";
 import {Status} from "../shared/status";
 import {ClientService} from "../shared/client.service";
 import {Router} from "@angular/router";
+import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-client-status-form',
@@ -13,7 +15,7 @@ export class ClientStatusFormComponent {
   @Input() client?: Client;
   status = Status;
 
-  constructor(private clientService: ClientService, private router: Router) {
+  constructor(private clientService: ClientService, private router: Router, public dialog: MatDialog) {
   }
 
   reload(): void {
@@ -28,8 +30,16 @@ export class ClientStatusFormComponent {
 
   updateStatus(status: Status) {
     if (!this.client) throw new Error("Should not happen.");
-    this.clientService.updateStatus(this.client, status)
-      .subscribe(_ => this.reload());
+    this.dialog.open(DialogConfirmComponent, {
+      data: `Êtes-vous sûr de vouloir effectuer cette action?`
+    }).afterClosed()
+      .subscribe(response => {
+        if (response as unknown as boolean) {
+          if (!this.client) throw new Error("Should not happen.");
+          this.clientService.updateStatus(this.client, status)
+            .subscribe(_ => this.reload());
+        }
+      });
   }
 
 }

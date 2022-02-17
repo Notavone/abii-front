@@ -35,6 +35,8 @@ import {ProductCastComponent} from './products/product-cast/product-cast.compone
 import localeFr from "@angular/common/locales/fr";
 import {registerLocaleData} from "@angular/common";
 import { ClientStatusFormComponent } from './clients/client-status-form/client-status-form.component';
+import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 registerLocaleData(localeFr);
 
@@ -57,7 +59,8 @@ registerLocaleData(localeFr);
     OrderComponent,
     ClientCastComponent,
     ProductCastComponent,
-    ClientStatusFormComponent
+    ClientStatusFormComponent,
+    DialogConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +78,7 @@ registerLocaleData(localeFr);
     MatListModule,
     MatExpansionModule,
     MatIconModule,
+    MatDialogModule,
   ],
   providers: [
     {provide: LOCALE_ID, useValue: "fr-FR"},

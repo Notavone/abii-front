@@ -7,11 +7,13 @@ import {ProductType} from "../../products/shared/product-type";
 import {Product} from "../../products/shared/product";
 import {MatListOption} from "@angular/material/list";
 import {OrderLine} from "../../orders/shared/order-line";
+import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-client-buy-form',
   templateUrl: './client-buy-form.component.html',
-  styleUrls: ['./client-buy-form.component.scss']
+  styleUrls: ['./client-buy-form.component.scss'],
 })
 export class ClientBuyFormComponent implements OnInit {
   @Input() client?: Client;
@@ -20,7 +22,7 @@ export class ClientBuyFormComponent implements OnInit {
   selected: MatListOption[] = [];
   lines: OrderLine[] = []
 
-  constructor(private clientService: ClientService, private productService: ProductService, private router: Router) {
+  constructor(private clientService: ClientService, private productService: ProductService, private router: Router, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -36,7 +38,7 @@ export class ClientBuyFormComponent implements OnInit {
   }
 
   isSubscribed() {
-    if(!this.client) throw "Should not happen.";
+    if (!this.client) throw "Should not happen.";
     return Date.now() < this.client.subscriptionEnd;
   }
 
@@ -79,8 +81,16 @@ export class ClientBuyFormComponent implements OnInit {
   }
 
   sendOrder() {
-    if(!this.client) throw "Should not happen.";
-    this.clientService.sendOrder(this.client, this.lines)
-      .subscribe(_ => this.reload());
+    if (!this.client) throw new Error("Should not happen.");
+    this.dialog.open(DialogConfirmComponent, {
+      data: `Ce client sera débité de ${this.getTotal()} €`
+    }).afterClosed()
+      .subscribe(response => {
+        if (response as unknown as boolean) {
+          if (!this.client) throw new Error("Should not happen.");
+          this.clientService.sendOrder(this.client, this.lines)
+            .subscribe(_ => this.reload());
+        }
+      });
   }
 }

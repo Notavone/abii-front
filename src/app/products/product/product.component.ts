@@ -3,6 +3,8 @@ import {ProductService} from "../shared/product.service";
 import {Location} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {Product} from "../shared/product";
+import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-product',
@@ -12,7 +14,7 @@ import {Product} from "../shared/product";
 export class ProductComponent implements OnInit {
   @Input() product?: Product;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private location: Location) {
+  constructor(private route: ActivatedRoute, private productService: ProductService, private location: Location, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -37,7 +39,15 @@ export class ProductComponent implements OnInit {
 
   delete() {
     if (!this.product) throw new Error("Should not happen.");
-    this.productService.deleteProduct(this.product)
-      .subscribe(_ => this.goBack());
+    this.dialog.open(DialogConfirmComponent, {
+      data: `Êtes-vous sûr de vouloir supprimer le produit "${this.product.name}" ?`
+    }).afterClosed()
+      .subscribe(response => {
+        if (response as unknown as boolean) {
+          if (!this.product) throw new Error("Should not happen.");
+          this.productService.deleteProduct(this.product)
+            .subscribe(_ => this.goBack());
+        }
+      });
   }
 }

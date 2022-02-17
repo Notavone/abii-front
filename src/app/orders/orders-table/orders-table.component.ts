@@ -13,7 +13,7 @@ export class OrdersTableComponent implements OnChanges {
   columnsToDisplay = ["id", "client", "total", "lines"];
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.dataSet.data = this.orders;
+    this.dataSet.data = this.orders.reverse();
   }
 
   set filter(value: string) {
