@@ -31,7 +31,10 @@ export class ClientStatusFormComponent {
   updateStatus(status: Status) {
     if (!this.client) throw new Error("Should not happen.");
     this.dialog.open(DialogConfirmComponent, {
-      data: `Êtes-vous sûr de vouloir effectuer cette action?`
+      data: {
+        title: "Mettre à jour l'adhésion d'un client",
+        text: "Êtes vous sûr de vouloir effectuer cette action ?"
+      }
     }).afterClosed()
       .subscribe(response => {
         if (response as unknown as boolean) {

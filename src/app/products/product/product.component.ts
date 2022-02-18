@@ -40,7 +40,11 @@ export class ProductComponent implements OnInit {
   delete() {
     if (!this.product) throw new Error("Should not happen.");
     this.dialog.open(DialogConfirmComponent, {
-      data: `Êtes-vous sûr de vouloir supprimer le produit "${this.product.name}" ?`
+      data: {
+        title: "Supprimer un produit",
+        text: `Êtes-vous sûr de vouloir supprimer le produit "${this.product.name}" ?`,
+        confirm: "Supprimer"
+      }
     }).afterClosed()
       .subscribe(response => {
         if (response as unknown as boolean) {

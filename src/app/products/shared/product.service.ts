@@ -1,21 +1,19 @@
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of, tap} from "rxjs";
 import {Product} from "./product";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {MessageService} from "../../shared/message.service";
 import {Response} from "../../shared/response";
 import {ProductType} from "./product-type";
+import {AuthService} from "../../auth/shared/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
   private baseUrl = "http://localhost:3000/api/products";
-  private httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
 
-  constructor(private messageService: MessageService, private http: HttpClient) {
+  constructor(private messageService: MessageService, private http: HttpClient, private authService: AuthService) {
   }
 
   private log(message: string) {
@@ -31,7 +29,7 @@ export class ProductService {
   }
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Response<Product[]>>(this.baseUrl)
+    return this.http.get<Response<Product[]>>(this.baseUrl, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log("fetched products")),
@@ -41,7 +39,7 @@ export class ProductService {
 
   getProduct(id: string): Observable<Product> {
     let url = `${this.baseUrl}/${id}`;
-    return this.http.get<Response<Product>>(url)
+    return this.http.get<Response<Product>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`fetched product id=${id}`)),
@@ -57,7 +55,7 @@ export class ProductService {
 
   updateProduct(product: Product): Observable<Product> {
     let url = `${this.baseUrl}/${product._id}`;
-    return this.http.patch<Response<Product>>(url, product, this.httpOptions)
+    return this.http.patch<Response<Product>>(url, product, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`updated product id=${product._id}`)),
@@ -67,7 +65,7 @@ export class ProductService {
 
   addProduct(product: Product): Observable<Product> {
     let url = `${this.baseUrl}/${product._id}`;
-    return this.http.post<Response<Product>>(url, product, this.httpOptions)
+    return this.http.post<Response<Product>>(url, product, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`created new product`)),
@@ -77,7 +75,7 @@ export class ProductService {
 
   deleteProduct(product: Product): Observable<Product> {
     let url = `${this.baseUrl}/${product._id}`;
-    return this.http.delete<Response<Product>>(url, this.httpOptions)
+    return this.http.delete<Response<Product>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`deleted product id=${product._id}`)),

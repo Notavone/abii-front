@@ -5,6 +5,7 @@ import {Order} from "./order";
 import {Response} from "../../shared/response";
 import {MessageService} from "../../shared/message.service";
 import {QueryService} from "../../shared/query.service";
+import {AuthService} from "../../auth/shared/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import {QueryService} from "../../shared/query.service";
 export class OrderService {
   private baseUrl = "http://localhost:3000/api/orders";
 
-  constructor(private http: HttpClient, private messageService: MessageService, private queryService: QueryService) {
+  constructor(private http: HttpClient, private messageService: MessageService, private queryService: QueryService, private authService: AuthService) {
   }
 
   private log(message: string) {
@@ -29,7 +30,7 @@ export class OrderService {
 
   getOrders(query?: Object): Observable<Order[]> {
     let url = `${this.baseUrl}${this.queryService.encode(query ?? {})}`;
-    return this.http.get<Response<Order[]>>(url)
+    return this.http.get<Response<Order[]>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log("fetched orders")),

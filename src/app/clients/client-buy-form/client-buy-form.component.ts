@@ -83,7 +83,11 @@ export class ClientBuyFormComponent implements OnInit {
   sendOrder() {
     if (!this.client) throw new Error("Should not happen.");
     this.dialog.open(DialogConfirmComponent, {
-      data: `Ce client sera débité`
+      data: {
+        title: "Confirmer un achat",
+        text: "Ce client sera débité",
+        confirm: "Payer"
+      }
     }).afterClosed()
       .subscribe(response => {
         if (response as unknown as boolean) {

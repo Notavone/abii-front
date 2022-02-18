@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {MessageService} from "../../shared/message.service";
 import {catchError, map, Observable, of, tap} from "rxjs";
 import {Response} from "../../shared/response";
@@ -8,17 +8,15 @@ import {Status} from "./status";
 import {PaymentType} from "./payment-type";
 import {OrderLine} from "../../orders/shared/order-line";
 import {Order} from "../../orders/shared/order";
+import {AuthService} from "../../auth/shared/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
   private baseUrl = "http://localhost:3000/api/clients";
-  private httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
 
-  constructor(private messageService: MessageService, private http: HttpClient) {
+  constructor(private messageService: MessageService, private http: HttpClient, private authService: AuthService) {
   }
 
   private log(message: string) {
@@ -34,7 +32,7 @@ export class ClientService {
   }
 
   getClients(): Observable<Client[]> {
-    return this.http.get<Response<Client[]>>(this.baseUrl)
+    return this.http.get<Response<Client[]>>(this.baseUrl, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log("fetched clients")),
@@ -44,7 +42,7 @@ export class ClientService {
 
   getClient(id: string): Observable<Client> {
     let url = `${this.baseUrl}/${id}`;
-    return this.http.get<Response<Client>>(url)
+    return this.http.get<Response<Client>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`fetched client id=${id}`)),
@@ -59,7 +57,7 @@ export class ClientService {
 
   updateClient(client: Client): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}`;
-    return this.http.patch<Response<Client>>(url, client, this.httpOptions)
+    return this.http.patch<Response<Client>>(url, client, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`updated client id=${client._id}`)),
@@ -69,7 +67,7 @@ export class ClientService {
 
   addClient(client: Client): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}`;
-    return this.http.post<Response<Client>>(url, client, this.httpOptions)
+    return this.http.post<Response<Client>>(url, client, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`created new client`)),
@@ -79,7 +77,7 @@ export class ClientService {
 
   deleteClient(client: Client): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}`;
-    return this.http.delete<Response<Client>>(url, this.httpOptions)
+    return this.http.delete<Response<Client>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`deleted client id=${client._id}`)),
@@ -89,7 +87,7 @@ export class ClientService {
 
   updateStatus(client: Client, status: Status): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}/status`
-    return this.http.patch<Response<Client>>(url, {status}, this.httpOptions)
+    return this.http.patch<Response<Client>>(url, {status}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`updated client id=${client._id} status=${status}`)),
@@ -99,7 +97,7 @@ export class ClientService {
 
   updateBalance(client: Client, selectedPaymentType: PaymentType, amount: number): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}/balance`;
-    return this.http.patch<Response<Client>>(url, {type: selectedPaymentType, amount}, this.httpOptions)
+    return this.http.patch<Response<Client>>(url, {type: selectedPaymentType, amount}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`updated client id=${client._id} balance with ${amount}`)),
@@ -109,7 +107,7 @@ export class ClientService {
 
   sendOrder(client: Client, lines: OrderLine[]): Observable<{ client: Client, order: Order }> {
     let url = `${this.baseUrl}/${client._id}/orders`;
-    return this.http.post<Response<{ client: Client, order: Order }>>(url, {lines}, this.httpOptions)
+    return this.http.post<Response<{ client: Client, order: Order }>>(url, {lines}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         tap(_ => this.log(`ordered for client id=${client._id}`)),

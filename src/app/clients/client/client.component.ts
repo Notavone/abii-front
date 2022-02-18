@@ -40,7 +40,11 @@ export class ClientComponent implements OnInit {
   delete() {
     if (!this.client) throw new Error("Should not happen.");
     this.dialog.open(DialogConfirmComponent, {
-      data: `Voulez vous vraiment supprimer le client "${this.client.name}" ?`
+      data: {
+        title: "Supprimer un client",
+        text: `Voulez vous vraiment supprimer le client "${this.client.name}" ?`,
+        confirm: "Supprimer"
+      }
     }).afterClosed()
       .subscribe(response => {
         if (response as unknown as boolean) {

@@ -6,8 +6,11 @@ import {ClientsComponent} from "./clients/clients.component";
 import {ClientComponent} from "./clients/client/client.component";
 import {OrdersComponent} from "./orders/orders.component";
 import {OrderComponent} from "./orders/order/order.component";
+import {AuthLoginComponent} from "./auth/auth-login/auth-login.component"
 
 const routes: Routes = [
+  {path: "login", component: AuthLoginComponent},
+
   {path: "orders/:id", component: OrderComponent},
   {path: "orders", component: OrdersComponent},
 

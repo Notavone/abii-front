@@ -37,6 +37,8 @@ import {registerLocaleData} from "@angular/common";
 import { ClientStatusFormComponent } from './clients/client-status-form/client-status-form.component';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {AuthService} from "./auth/shared/auth.service";
+import {AuthLoginComponent} from "./auth/auth-login/auth-login.component";
 
 registerLocaleData(localeFr);
 
@@ -61,6 +63,7 @@ registerLocaleData(localeFr);
     ProductCastComponent,
     ClientStatusFormComponent,
     DialogConfirmComponent,
+    AuthLoginComponent
   ],
   imports: [
     BrowserModule,
@@ -78,9 +81,10 @@ registerLocaleData(localeFr);
     MatListModule,
     MatExpansionModule,
     MatIconModule,
-    MatDialogModule,
+    MatDialogModule
   ],
   providers: [
+    AuthService,
     {provide: LOCALE_ID, useValue: "fr-FR"},
     {provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR'},
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}

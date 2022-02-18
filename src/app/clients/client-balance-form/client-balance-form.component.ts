@@ -32,7 +32,10 @@ export class ClientBalanceFormComponent {
   updateBalance() {
     if (!this.client) throw new Error("Should not happen.");
     this.dialog.open(DialogConfirmComponent, {
-      data: `Voulez vous vraiment effectuer cette action ?`
+      data: {
+        title: "Modifier le solde",
+        text: "Voulez vous vraiment effectuer cette action ?"
+      }
     }).afterClosed()
       .subscribe(response => {
         if (response as unknown as boolean) {
