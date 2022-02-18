@@ -21,8 +21,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {ClientsComponent} from './clients/clients.component';
 import {ClientCreateFormComponent} from './clients/client-create-form/client-create-form.component';
 import {ClientComponent} from './clients/client/client.component';
-import {ClientBalanceFormComponent} from './clients/client-balance-form/client-balance-form.component';
-import {ClientBuyFormComponent} from './clients/client-buy-form/client-buy-form.component';
+import {ClientBalanceFormComponent} from './clients/client/client-balance-form/client-balance-form.component';
+import {ClientBuyFormComponent} from './clients/client/client-buy-form/client-buy-form.component';
 import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatIconModule} from "@angular/material/icon";
@@ -33,16 +33,18 @@ import {ClientCastComponent} from './clients/client-cast/client-cast.component';
 import {ProductCastComponent} from './products/product-cast/product-cast.component';
 import localeFr from "@angular/common/locales/fr";
 import {CurrencyPipe, registerLocaleData} from "@angular/common";
-import { ClientStatusFormComponent } from './clients/client-status-form/client-status-form.component';
+import { ClientStatusFormComponent } from './clients/client/client-status-form/client-status-form.component';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {AuthService} from "./auth/shared/auth.service";
 import {AuthLoginComponent} from "./auth/auth-login/auth-login.component";
 import { HomepageComponent } from './homepage/homepage.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import { ClientHistoryComponent } from './clients/client-history/client-history.component';
-import { ClientParamsComponent } from './clients/client-params/client-params.component';
+import { ClientHistoryComponent } from './clients/client/client-history/client-history.component';
+import { ClientParamsComponent } from './clients/client/client-params/client-params.component';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar} from "@angular/material/snack-bar";
+import { ProductParamsComponent } from './products/product/product-params/product-params.component';
+import { ProductHistoryComponent } from './products/product/product-history/product-history.component';
 
 registerLocaleData(localeFr);
 
@@ -69,7 +71,9 @@ registerLocaleData(localeFr);
     AuthLoginComponent,
     HomepageComponent,
     ClientHistoryComponent,
-    ClientParamsComponent
+    ClientParamsComponent,
+    ProductParamsComponent,
+    ProductHistoryComponent
   ],
     imports: [
         BrowserModule,

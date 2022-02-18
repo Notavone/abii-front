@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Client} from "../shared/client";
-import {Status} from "../shared/status";
-import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
+import {Client} from "../../shared/client";
+import {Status} from "../../shared/status";
+import {DialogConfirmComponent} from "../../../dialog-confirm/dialog-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({

@@ -8,9 +8,11 @@ import {OrdersComponent} from "./orders/orders.component";
 import {OrderComponent} from "./orders/order/order.component";
 import {AuthLoginComponent} from "./auth/auth-login/auth-login.component"
 import {HomepageComponent} from "./homepage/homepage.component";
-import {ClientBuyFormComponent} from "./clients/client-buy-form/client-buy-form.component";
-import {ClientHistoryComponent} from "./clients/client-history/client-history.component";
-import {ClientParamsComponent} from "./clients/client-params/client-params.component";
+import {ClientBuyFormComponent} from "./clients/client/client-buy-form/client-buy-form.component";
+import {ClientHistoryComponent} from "./clients/client/client-history/client-history.component";
+import {ClientParamsComponent} from "./clients/client/client-params/client-params.component";
+import {ProductParamsComponent} from "./products/product/product-params/product-params.component";
+import {ProductHistoryComponent} from './products/product/product-history/product-history.component';
 
 const routes: Routes = [
   {path: "", component: HomepageComponent},
@@ -28,7 +30,12 @@ const routes: Routes = [
   },
   {path: "clients", component: ClientsComponent},
 
-  {path: "products/:id", component: ProductComponent},
+  {
+    path: "products/:id", component: ProductComponent, children: [
+      {path: "params", component: ProductParamsComponent},
+      {path: "history", component: ProductHistoryComponent}
+    ]
+  },
   {path: "products", component: ProductsComponent}
 ];
 

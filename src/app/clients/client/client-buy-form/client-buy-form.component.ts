@@ -1,16 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Client} from "../shared/client";
-import {ProductService} from "../../products/shared/product.service";
-import {ClientService} from "../shared/client.service";
+import {Client} from "../../shared/client";
+import {ProductService} from "../../../products/shared/product.service";
+import {ClientService} from "../../shared/client.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ProductType} from "../../products/shared/product-type";
-import {Product} from "../../products/shared/product";
+import {ProductType} from "../../../products/shared/product-type";
+import {Product} from "../../../products/shared/product";
 import {MatListOption} from "@angular/material/list";
-import {OrderLine} from "../../orders/shared/order-line";
-import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
+import {OrderLine} from "../../../orders/shared/order-line";
+import {DialogConfirmComponent} from "../../../dialog-confirm/dialog-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
 import {CurrencyPipe} from "@angular/common";
-import {OrderService} from "../../orders/shared/order.service";
+import {OrderService} from "../../../orders/shared/order.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({

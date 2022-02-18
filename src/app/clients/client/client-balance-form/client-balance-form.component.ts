@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PaymentType} from "../shared/payment-type";
-import {Client} from "../shared/client";
-import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
+import {PaymentType} from "../../shared/payment-type";
+import {Client} from "../../shared/client";
+import {DialogConfirmComponent} from "../../../dialog-confirm/dialog-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
-import {BalanceUpdateEvent} from "../shared/balance-update-event";
+import {BalanceUpdateEvent} from "../../shared/balance-update-event";
 
 @Component({
   selector: 'app-client-balance-form',

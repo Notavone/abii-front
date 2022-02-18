@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {OrderEvent} from "../../orders/shared/order-event";
-import {Client} from "../shared/client";
+import {OrderEvent} from "../../../orders/shared/order-event";
+import {Client} from "../../shared/client";
 import {ActivatedRoute} from "@angular/router";
-import {ClientService} from '../shared/client.service';
-import {Order} from "../../orders/shared/order";
-import {OrderService} from "../../orders/shared/order.service";
+import {ClientService} from '../../shared/client.service';
+import {Order} from "../../../orders/shared/order";
+import {OrderService} from "../../../orders/shared/order.service";
 
 @Component({
   selector: 'app-client-history',

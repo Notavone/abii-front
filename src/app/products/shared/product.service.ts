@@ -36,7 +36,7 @@ export class ProductService {
       .pipe(
         map(r => r.data),
         catchError(this.handleError<Product>({
-          _id: "",
+          _id: id,
           name: "(??) Produit inconnu",
           price: 0,
           discount: 0,

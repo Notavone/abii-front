@@ -1,0 +1,43 @@
+<mat-card *ngIf="product">
+  <mat-card-header>
+    <mat-card-title>Mettre à jour "{{product.name}}"</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form (submit)="update()">
+      <p>
+        <mat-form-field>
+          <mat-label>Nom du produit</mat-label>
+          <input type="text" matNativeControl required placeholder="Nom du produit" [(ngModel)]="product.name" name="name">
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <mat-label>Prix de base</mat-label>
+          <input type="number" min="0" matNativeControl required placeholder="Prix de base" [(ngModel)]="product.price" name="price">
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <mat-label>Pourcentage de réduction</mat-label>
+          <input type="number" min="0" max="100" matNativeControl required placeholder="Pourcentage de réduction" [(ngModel)]="product.discount" name="discount">
+        </mat-form-field>
+      </p>
+
+      <mat-checkbox [(ngModel)]="product.available" name="available">Disponible</mat-checkbox>
+
+      <p>
+        Prix des adhérents : {{product.price - product.price * product.discount / 100 | currency}}
+      </p>
+
+      <button mat-raised-button color="primary" type="submit">Mettre à jour</button>
+    </form>
+
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
+    <button mat-raised-button color="warn" (click)="delete()">Supprimer</button>
+  </mat-card-actions>
+</mat-card>

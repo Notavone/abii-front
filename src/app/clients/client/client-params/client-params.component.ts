@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {ClientService} from "../shared/client.service";
-import {Client} from "../shared/client";
-import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
-import {BalanceUpdateEvent} from "../shared/balance-update-event";
-import {Status} from "../shared/status";
+import {ClientService} from "../../shared/client.service";
+import {Client} from "../../shared/client";
+import {DialogConfirmComponent} from "../../../dialog-confirm/dialog-confirm.component";
+import {BalanceUpdateEvent} from "../../shared/balance-update-event";
+import {Status} from "../../shared/status";
 import {MatDialog} from "@angular/material/dialog";
-import {OrderService} from "../../orders/shared/order.service";
+import {OrderService} from "../../../orders/shared/order.service";
 
 @Component({
   selector: 'app-client-params',
