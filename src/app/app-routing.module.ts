@@ -8,6 +8,9 @@ import {OrdersComponent} from "./orders/orders.component";
 import {OrderComponent} from "./orders/order/order.component";
 import {AuthLoginComponent} from "./auth/auth-login/auth-login.component"
 import {HomepageComponent} from "./homepage/homepage.component";
+import {ClientBuyFormComponent} from "./clients/client-buy-form/client-buy-form.component";
+import {ClientHistoryComponent} from "./clients/client-history/client-history.component";
+import {ClientParamsComponent} from "./clients/client-params/client-params.component";
 
 const routes: Routes = [
   {path: "", component: HomepageComponent},
@@ -16,7 +19,13 @@ const routes: Routes = [
   {path: "orders/:id", component: OrderComponent},
   {path: "orders", component: OrdersComponent},
 
-  {path: "clients/:id", component: ClientComponent},
+  {
+    path: "clients/:id", component: ClientComponent, children: [
+      {path: 'params', component: ClientParamsComponent},
+      {path: 'buy', component: ClientBuyFormComponent},
+      {path: 'history', component: ClientHistoryComponent}
+    ]
+  },
   {path: "clients", component: ClientsComponent},
 
   {path: "products/:id", component: ProductComponent},

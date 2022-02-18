@@ -40,6 +40,9 @@ import {AuthService} from "./auth/shared/auth.service";
 import {AuthLoginComponent} from "./auth/auth-login/auth-login.component";
 import { HomepageComponent } from './homepage/homepage.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { ClientHistoryComponent } from './clients/client-history/client-history.component';
+import { ClientParamsComponent } from './clients/client-params/client-params.component';
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar} from "@angular/material/snack-bar";
 
 registerLocaleData(localeFr);
 
@@ -64,7 +67,9 @@ registerLocaleData(localeFr);
     ClientStatusFormComponent,
     DialogConfirmComponent,
     AuthLoginComponent,
-    HomepageComponent
+    HomepageComponent,
+    ClientHistoryComponent,
+    ClientParamsComponent
   ],
     imports: [
         BrowserModule,
@@ -88,9 +93,11 @@ registerLocaleData(localeFr);
   providers: [
     AuthService,
     CurrencyPipe,
+    MatSnackBar,
     {provide: LOCALE_ID, useValue: "fr-FR"},
     {provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR'},
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2000}}
   ],
   bootstrap: [AppComponent]
 })

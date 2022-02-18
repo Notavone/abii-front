@@ -1,0 +1,26 @@
+<mat-card *ngIf="client">
+  <mat-card-header>
+    <mat-card-title>Mettre à jour "{{client.name}}"</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form (submit)="update()">
+      <p>
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input type="text" matNativeControl required placeholder="Nom" [(ngModel)]="client.name" name="name">
+        </mat-form-field>
+      </p>
+
+      <button mat-raised-button color="primary" type="submit">Mettre à jour</button>
+    </form>
+
+
+    <app-client-status-form [client]="client" (statusUpdated)="statusUpdated($event)"></app-client-status-form>
+    <app-client-balance-form [client]="client" (balanceChange)="balanceChange($event)"></app-client-balance-form>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
+    <button mat-raised-button color="warn" (click)="delete()">Supprimer</button>
+  </mat-card-actions>
+</mat-card>

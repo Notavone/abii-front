@@ -1,18 +1,13 @@
-<mat-card *ngIf="client">
-  <mat-card-header>
-    <mat-card-title>Adhésion de "{{client.name}}"</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div *ngIf="isSubscribed(); else notSub">
-      <p>{{client.name}} est adhérent(e) jusqu'au {{client.subscriptionEnd | date:"dd/MM/yyyy"}}</p>
-      <button mat-raised-button color="warn" (click)="updateStatus(status.NONE)">Retirer l'adhésion</button>
+<div *ngIf="client" class="container">
+  <div *ngIf="isSubscribed(); else notSub">
+    <p>{{client.name}} est adhérent(e) jusqu'au {{client.subscriptionEnd | date:"dd/MM/yyyy"}}</p>
+    <button mat-raised-button color="warn" (click)="updateStatus(status.NONE)">Retirer l'adhésion</button>
+  </div>
+  <ng-template #notSub>
+    <div>
+      <p>{{client.name}} n'est pas adhérent(e)</p>
+      <button mat-raised-button color="primary" (click)="updateStatus(status.SEMESTER)">Adhésion 1 semestre</button>
+      <button mat-raised-button color="primary" (click)="updateStatus(status.ANNUAL)">Adhésion 1 année</button>
     </div>
-    <ng-template #notSub>
-      {{client.name}} n'est pas adhérent(e)
-    </ng-template>
-  </mat-card-content>
-  <mat-card-actions *ngIf="!isSubscribed()">
-    <button mat-raised-button color="primary" (click)="updateStatus(status.SEMESTER)">Adhésion 1 semestre</button>
-    <button mat-raised-button color="primary" (click)="updateStatus(status.ANNUAL)">Adhésion 1 année</button>
-  </mat-card-actions>
-</mat-card>
+  </ng-template>
+</div>

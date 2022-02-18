@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Client} from "../shared/client";
 import {ProductService} from "../../products/shared/product.service";
 import {ClientService} from "../shared/client.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ProductType} from "../../products/shared/product-type";
 import {Product} from "../../products/shared/product";
 import {MatListOption} from "@angular/material/list";
@@ -10,7 +10,8 @@ import {OrderLine} from "../../orders/shared/order-line";
 import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
 import {CurrencyPipe} from "@angular/common";
-import {OrderCreatedEvent} from "../shared/order-created-event";
+import {OrderService} from "../../orders/shared/order.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-client-buy-form',
@@ -19,7 +20,6 @@ import {OrderCreatedEvent} from "../shared/order-created-event";
 })
 export class ClientBuyFormComponent implements OnInit {
   @Input() client?: Client;
-  @Output() orderCreated = new EventEmitter<OrderCreatedEvent>();
   productType = ProductType;
   products: Product[] = [];
   selected: MatListOption[] = [];
@@ -28,6 +28,9 @@ export class ClientBuyFormComponent implements OnInit {
   constructor(
     private clientService: ClientService,
     private productService: ProductService,
+    private orderService: OrderService,
+    private route: ActivatedRoute,
+    private snackbar: MatSnackBar,
     private router: Router,
     private dialog: MatDialog,
     private currencyPipe: CurrencyPipe
@@ -35,7 +38,13 @@ export class ClientBuyFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProducts();
+    let id = "" + this.route.parent?.snapshot.paramMap.get("id");
+
+    this.clientService.getClient(id)
+      .subscribe(client => this.client = client);
+
+    this.productService.getProducts()
+      .subscribe(products => this.products = products);
   }
 
   updateLines() {
@@ -54,11 +63,6 @@ export class ClientBuyFormComponent implements OnInit {
   getTotal() {
     let isSubscribed = this.isSubscribed();
     return this.lines.reduce((acc: number, cur: OrderLine) => acc + (isSubscribed ? cur.product.price - cur.product.price * cur.product.discount / 100 : cur.product.price) * cur.qty, 0);
-  }
-
-  private getProducts() {
-    this.productService.getProducts()
-      .subscribe(products => this.products = products);
   }
 
   addQuantity(product: Product) {
@@ -96,7 +100,11 @@ export class ClientBuyFormComponent implements OnInit {
       .subscribe(response => {
         if (response as unknown as boolean) {
           if (!this.client) throw new Error("Should not happen.");
-          this.orderCreated.emit({client: this.client, lines: this.lines});
+          this.orderService.addOrder(this.client, this.lines)
+            .subscribe(ret => {
+              this.client = ret.client;
+              this.snackbar.open("Achat enregistré");
+            });
           this.selected = [];
           this.updateLines();
         }
