@@ -18,8 +18,10 @@ export class ClientCastComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.clientService.getClient(this.id)
-      .subscribe(client => this.client = client);
+    if(this.id) {
+      this.clientService.getClient(this.id)
+        .subscribe(client => this.client = client);
+    }
   }
 
 
