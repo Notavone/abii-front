@@ -9,6 +9,7 @@ import {MatListOption} from "@angular/material/list";
 import {OrderLine} from "../../orders/shared/order-line";
 import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
+import {CurrencyPipe} from "@angular/common";
 
 @Component({
   selector: 'app-client-buy-form',
@@ -22,7 +23,7 @@ export class ClientBuyFormComponent implements OnInit {
   selected: MatListOption[] = [];
   lines: OrderLine[] = []
 
-  constructor(private clientService: ClientService, private productService: ProductService, private router: Router, public dialog: MatDialog) {
+  constructor(private clientService: ClientService, private productService: ProductService, private router: Router, public dialog: MatDialog, private currencyPipe: CurrencyPipe) {
   }
 
   ngOnInit(): void {
@@ -85,7 +86,7 @@ export class ClientBuyFormComponent implements OnInit {
     this.dialog.open(DialogConfirmComponent, {
       data: {
         title: "Confirmer un achat",
-        text: "Ce client sera débité",
+        text: `Ce client sera débité de ${this.currencyPipe.transform(this.getTotal())}`,
         confirm: "Payer"
       }
     }).afterClosed()

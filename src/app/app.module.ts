@@ -33,7 +33,7 @@ import {OrderComponent} from './orders/order/order.component';
 import {ClientCastComponent} from './clients/client-cast/client-cast.component';
 import {ProductCastComponent} from './products/product-cast/product-cast.component';
 import localeFr from "@angular/common/locales/fr";
-import {registerLocaleData} from "@angular/common";
+import {CurrencyPipe, registerLocaleData} from "@angular/common";
 import { ClientStatusFormComponent } from './clients/client-status-form/client-status-form.component';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
 import {MatDialogModule} from "@angular/material/dialog";
@@ -87,6 +87,7 @@ registerLocaleData(localeFr);
   ],
   providers: [
     AuthService,
+    CurrencyPipe,
     {provide: LOCALE_ID, useValue: "fr-FR"},
     {provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR'},
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}
