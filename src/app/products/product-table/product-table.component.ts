@@ -20,7 +20,11 @@ export class ProductTableComponent {
   }
 
   toggleAvailability(product: Product) {
+    product.available = !product.available;
     this.productService.toggleAvailability(product)
-      .subscribe(_ => this.reload())
+      .subscribe(newProduct => {
+        let id = this.products.indexOf(product);
+        this.products[id] = newProduct;
+      })
   }
 }
