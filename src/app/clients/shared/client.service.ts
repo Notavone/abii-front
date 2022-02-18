@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {MessageService} from "../../shared/message.service";
-import {catchError, map, Observable, of, tap} from "rxjs";
+import {catchError, map, Observable, of} from "rxjs";
 import {Response} from "../../shared/response";
 import {Client} from "./client";
 import {Status} from "./status";
@@ -16,17 +15,12 @@ import {AuthService} from "../../auth/shared/auth.service";
 export class ClientService {
   private baseUrl = "http://localhost:3000/api/clients";
 
-  constructor(private messageService: MessageService, private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService) {
   }
 
-  private log(message: string) {
-    this.messageService.add(`ClientService: ${message}`);
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
-      this.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
   }
@@ -35,8 +29,7 @@ export class ClientService {
     return this.http.get<Response<Client[]>>(this.baseUrl, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log("fetched clients")),
-        catchError(this.handleError<Client[]>("getAll", []))
+        catchError(this.handleError<Client[]>([]))
       )
   }
 
@@ -45,8 +38,7 @@ export class ClientService {
     return this.http.get<Response<Client>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`fetched client id=${id}`)),
-        catchError(this.handleError<Client>("get", {
+        catchError(this.handleError<Client>({
           _id: id,
           name: "(??) Client inconnu",
           balance: 0,
@@ -60,8 +52,7 @@ export class ClientService {
     return this.http.patch<Response<Client>>(url, client, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`updated client id=${client._id}`)),
-        catchError(this.handleError<any>("update"))
+        catchError(this.handleError<any>())
       );
   }
 
@@ -70,8 +61,7 @@ export class ClientService {
     return this.http.post<Response<Client>>(url, client, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`created new client`)),
-        catchError(this.handleError<any>("create"))
+        catchError(this.handleError<any>())
       );
   }
 
@@ -80,8 +70,7 @@ export class ClientService {
     return this.http.delete<Response<Client>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`deleted client id=${client._id}`)),
-        catchError(this.handleError<any>("delete"))
+        catchError(this.handleError<any>())
       );
   }
 
@@ -90,8 +79,7 @@ export class ClientService {
     return this.http.patch<Response<Client>>(url, {status}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`updated client id=${client._id} status=${status}`)),
-        catchError(this.handleError<any>("setStatus"))
+        catchError(this.handleError<any>())
       );
   }
 
@@ -100,8 +88,7 @@ export class ClientService {
     return this.http.patch<Response<Client>>(url, {type: selectedPaymentType, amount}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`updated client id=${client._id} balance with ${amount}`)),
-        catchError(this.handleError<any>("setBalance"))
+        catchError(this.handleError<any>())
       );
   }
 
@@ -110,8 +97,7 @@ export class ClientService {
     return this.http.post<Response<{ client: Client, order: Order }>>(url, {lines}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`ordered for client id=${client._id}`)),
-        catchError(this.handleError<any>("makeTransaction"))
+        catchError(this.handleError<any>())
       );
   }
 }

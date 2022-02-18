@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {catchError, map, Observable, of, tap} from "rxjs";
+import {catchError, map, Observable, of} from "rxjs";
 import {Product} from "./product";
 import {HttpClient} from "@angular/common/http";
-import {MessageService} from "../../shared/message.service";
 import {Response} from "../../shared/response";
 import {ProductType} from "./product-type";
 import {AuthService} from "../../auth/shared/auth.service";
@@ -13,17 +12,12 @@ import {AuthService} from "../../auth/shared/auth.service";
 export class ProductService {
   private baseUrl = "http://localhost:3000/api/products";
 
-  constructor(private messageService: MessageService, private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService) {
   }
 
-  private log(message: string) {
-    this.messageService.add(`ProductService: ${message}`);
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
-      this.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
   }
@@ -32,8 +26,7 @@ export class ProductService {
     return this.http.get<Response<Product[]>>(this.baseUrl, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log("fetched products")),
-        catchError(this.handleError<Product[]>("getAll", []))
+        catchError(this.handleError<Product[]>([]))
       )
   }
 
@@ -42,8 +35,7 @@ export class ProductService {
     return this.http.get<Response<Product>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`fetched product id=${id}`)),
-        catchError(this.handleError<Product>("get", {
+        catchError(this.handleError<Product>({
           _id: "",
           name: "(??) Produit inconnu",
           price: 0,
@@ -59,8 +51,7 @@ export class ProductService {
     return this.http.patch<Response<Product>>(url, product, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`updated product id=${product._id}`)),
-        catchError(this.handleError<any>("update"))
+        catchError(this.handleError<any>())
       );
   }
 
@@ -69,8 +60,7 @@ export class ProductService {
     return this.http.post<Response<Product>>(url, product, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`created new product`)),
-        catchError(this.handleError<any>("create"))
+        catchError(this.handleError<any>())
       );
   }
 
@@ -79,8 +69,7 @@ export class ProductService {
     return this.http.delete<Response<Product>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`deleted product id=${product._id}`)),
-        catchError(this.handleError<any>("delete"))
+        catchError(this.handleError<any>())
       );
   }
 
@@ -89,8 +78,7 @@ export class ProductService {
     return this.http.patch<Response<Product>>(url, {}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        tap(_ => this.log(`toggle availability for product=${product._id}`)),
-        catchError(this.handleError<any>("toggleAvailability"))
+        catchError(this.handleError<any>())
       );
   }
 }
