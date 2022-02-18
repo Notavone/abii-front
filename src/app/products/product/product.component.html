@@ -26,6 +26,8 @@
           </mat-form-field>
         </p>
 
+        <mat-checkbox [(ngModel)]="product.available" name="available">Disponible</mat-checkbox>
+
         <p>
           Prix des adhérents : {{product.price - product.price * product.discount / 100 | currency}}
         </p>

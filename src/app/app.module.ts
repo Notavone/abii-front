@@ -40,6 +40,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {AuthService} from "./auth/shared/auth.service";
 import {AuthLoginComponent} from "./auth/auth-login/auth-login.component";
 import { HomepageComponent } from './homepage/homepage.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 registerLocaleData(localeFr);
 
@@ -67,24 +68,25 @@ registerLocaleData(localeFr);
     AuthLoginComponent,
     HomepageComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatTabsModule,
-    HttpClientModule,
-    MatTableModule,
-    MatCardModule,
-    MatInputModule,
-    FormsModule,
-    MatSelectModule,
-    MatListModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatDialogModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatTabsModule,
+        HttpClientModule,
+        MatTableModule,
+        MatCardModule,
+        MatInputModule,
+        FormsModule,
+        MatSelectModule,
+        MatListModule,
+        MatExpansionModule,
+        MatIconModule,
+        MatDialogModule,
+        MatCheckboxModule
+    ],
   providers: [
     AuthService,
     CurrencyPipe,

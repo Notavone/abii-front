@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Product} from "../shared/product";
-import { ProductService } from '../shared/product.service';
-import {Router} from "@angular/router";
+import {ProductService} from '../shared/product.service';
 
 @Component({
   selector: 'app-product-table',
@@ -12,11 +11,7 @@ export class ProductTableComponent {
   @Input() products: Product[] = [];
   @Input() columnsToDisplay: string[] = ["name", "available", "price", "discount"]
 
-  constructor(private productService: ProductService, private router: Router) { }
-
-  reload(): void {
-    let url = this.router.url;
-    this.router.navigateByUrl("/", {skipLocationChange: true}).then(_ => this.router.navigate([url]));
+  constructor(private productService: ProductService) {
   }
 
   toggleAvailability(product: Product) {
