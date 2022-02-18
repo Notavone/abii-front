@@ -5,7 +5,7 @@
   <mat-card-content>
     <form (submit)="updateBalance()">
 
-      <p>Solde: {{client.balance | currency:"EUR":"symbol":"2.2-2"}}</p>
+      <p>Solde: {{client.balance | currency}}</p>
 
       <p>
         <mat-form-field>
