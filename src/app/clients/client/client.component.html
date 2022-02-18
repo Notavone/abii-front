@@ -30,7 +30,7 @@
     </mat-tab>
 
     <mat-tab label="Solde">
-      <app-client-balance-form [client]="client"></app-client-balance-form>
+      <app-client-balance-form [client]="client" (balanceChange)="balanceChange($event)"></app-client-balance-form>
     </mat-tab>
 
     <mat-tab label="Achat">

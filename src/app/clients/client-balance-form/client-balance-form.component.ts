@@ -1,10 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PaymentType} from "../shared/payment-type";
 import {Client} from "../shared/client";
-import {ClientService} from "../shared/client.service";
-import {Router} from "@angular/router";
 import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
+import {BalanceUpdateEvent} from "../shared/balance-update-event";
 
 @Component({
   selector: 'app-client-balance-form',
@@ -13,20 +12,16 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class ClientBalanceFormComponent {
   @Input() client?: Client;
+  @Output() balanceChange = new EventEmitter<BalanceUpdateEvent>();
   public paymentType = PaymentType;
   public selectedPaymentType = PaymentType.CASH;
   public amount = 0;
 
-  constructor(private clientService: ClientService, private router: Router, public dialog: MatDialog) {
+  constructor(public dialog: MatDialog) {
   }
 
   adjustedValue() {
     return this.selectedPaymentType !== PaymentType.BALANCE ? Math.abs(this.amount) : Math.abs(this.amount) * -1;
-  }
-
-  reload(): void {
-    let url = this.router.url;
-    this.router.navigateByUrl("/", {skipLocationChange: true}).then(_ => this.router.navigate([url]));
   }
 
   updateBalance() {
@@ -40,8 +35,9 @@ export class ClientBalanceFormComponent {
       .subscribe(response => {
         if (response as unknown as boolean) {
           if (!this.client) throw new Error("Should not happen.");
-          this.clientService.updateBalance(this.client, this.selectedPaymentType, this.adjustedValue())
-            .subscribe(_ => this.reload());
+          this.balanceChange.emit({type: this.selectedPaymentType, amount: this.adjustedValue()});
+          this.amount = 0;
+          this.selectedPaymentType = PaymentType.CASH;
         }
       });
   }

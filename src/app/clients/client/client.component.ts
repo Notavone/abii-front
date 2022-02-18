@@ -5,6 +5,7 @@ import {ClientService} from "../shared/client.service";
 import {Client} from "../shared/client";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
+import {BalanceUpdateEvent} from "../shared/balance-update-event";
 
 @Component({
   selector: 'app-client',
@@ -53,5 +54,11 @@ export class ClientComponent implements OnInit {
             .subscribe(_ => this.goBack());
         }
       });
+  }
+
+  balanceChange(event: BalanceUpdateEvent) {
+    if(!this.client) throw new Error("Should not happen.");
+    this.clientService.updateBalance(this.client, event.type, event.amount)
+      .subscribe(client => this.client = client);
   }
 }
