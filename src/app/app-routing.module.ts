@@ -7,8 +7,10 @@ import {ClientComponent} from "./clients/client/client.component";
 import {OrdersComponent} from "./orders/orders.component";
 import {OrderComponent} from "./orders/order/order.component";
 import {AuthLoginComponent} from "./auth/auth-login/auth-login.component"
+import {HomepageComponent} from "./homepage/homepage.component";
 
 const routes: Routes = [
+  {path: "", component: HomepageComponent},
   {path: "login", component: AuthLoginComponent},
 
   {path: "orders/:id", component: OrderComponent},

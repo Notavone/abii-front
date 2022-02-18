@@ -39,6 +39,7 @@ import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.componen
 import {MatDialogModule} from "@angular/material/dialog";
 import {AuthService} from "./auth/shared/auth.service";
 import {AuthLoginComponent} from "./auth/auth-login/auth-login.component";
+import { HomepageComponent } from './homepage/homepage.component';
 
 registerLocaleData(localeFr);
 
@@ -63,7 +64,8 @@ registerLocaleData(localeFr);
     ProductCastComponent,
     ClientStatusFormComponent,
     DialogConfirmComponent,
-    AuthLoginComponent
+    AuthLoginComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,
