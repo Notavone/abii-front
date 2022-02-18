@@ -1,8 +1,8 @@
-import {OrderLineInDb} from "./order-line-in-db";
+import {OrderLine} from "./order-line";
 
 export interface Order {
   _id: string,
-  lines: OrderLineInDb[],
+  lines: OrderLine[],
   total: number,
   client: string
 }

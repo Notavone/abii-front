@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Product} from "../shared/product";
+import { ProductService } from '../shared/product.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-table',
@@ -8,5 +10,17 @@ import {Product} from "../shared/product";
 })
 export class ProductTableComponent {
   @Input() products: Product[] = [];
-  @Input() columnsToDisplay: string[] = ["name", "price", "discount"]
+  @Input() columnsToDisplay: string[] = ["name", "available", "price", "discount"]
+
+  constructor(private productService: ProductService, private router: Router) { }
+
+  reload(): void {
+    let url = this.router.url;
+    this.router.navigateByUrl("/", {skipLocationChange: true}).then(_ => this.router.navigate([url]));
+  }
+
+  toggleAvailability(product: Product) {
+    this.productService.toggleAvailability(product)
+      .subscribe(_ => this.reload())
+  }
 }

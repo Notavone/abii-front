@@ -15,7 +15,7 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit(): void {
     this.productService.getProducts()
-      .subscribe(products => this.products = products.filter(p => p.type === ProductType.PRODUCT_FOOD));
+      .subscribe(products => this.products = products.filter(p => p.type === ProductType.PRODUCT_FOOD && p.available));
   }
 
 }

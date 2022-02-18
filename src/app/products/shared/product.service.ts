@@ -48,7 +48,8 @@ export class ProductService {
           name: "(??) Produit inconnu",
           price: 0,
           discount: 0,
-          type: ProductType.PRODUCT_FOOD
+          type: ProductType.PRODUCT_FOOD,
+          available: false
         }))
       );
   }
@@ -80,6 +81,16 @@ export class ProductService {
         map(r => r.data),
         tap(_ => this.log(`deleted product id=${product._id}`)),
         catchError(this.handleError<any>("delete"))
+      );
+  }
+
+  toggleAvailability(product: Product): Observable<Product> {
+    let url = `${this.baseUrl}/${product._id}/available`;
+    return this.http.patch<Response<Product>>(url, {}, this.authService.httpOptions())
+      .pipe(
+        map(r => r.data),
+        tap(_ => this.log(`toggle availability for product=${product._id}`)),
+        catchError(this.handleError<any>("toggleAvailability"))
       );
   }
 }
