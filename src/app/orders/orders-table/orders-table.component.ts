@@ -9,8 +9,8 @@ import {MatTableDataSource} from "@angular/material/table";
 })
 export class OrdersTableComponent implements OnChanges {
   @Input() orders: Order[] = [];
+  @Input() columnsToDisplay = ["id", "client", "total", "lines"];
   dataSet: MatTableDataSource<Order> = new MatTableDataSource<Order>();
-  columnsToDisplay = ["id", "client", "total", "lines"];
 
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSet.data = this.orders.reverse();

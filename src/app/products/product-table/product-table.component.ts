@@ -8,5 +8,5 @@ import {Product} from "../shared/product";
 })
 export class ProductTableComponent {
   @Input() products: Product[] = [];
-  columnsToDisplay: string[] = ["name", "price", "discount"]
+  @Input() columnsToDisplay: string[] = ["name", "price", "discount"]
 }
