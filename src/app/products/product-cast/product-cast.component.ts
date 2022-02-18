@@ -16,9 +16,6 @@ export class ProductCastComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.productService.getProduct(this.id)
-      .subscribe(product => {
-        console.log(product);
-        this.product = product
-      });
+      .subscribe(product => this.product = product);
   }
 }
