@@ -27,7 +27,6 @@ import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatIconModule} from "@angular/material/icon";
 import {OrdersComponent} from './orders/orders.component';
-import {ClientOrdersComponent} from './clients/client-orders/client-orders.component';
 import {OrdersTableComponent} from './orders/orders-table/orders-table.component';
 import {OrderComponent} from './orders/order/order.component';
 import {ClientCastComponent} from './clients/client-cast/client-cast.component';
@@ -58,7 +57,6 @@ registerLocaleData(localeFr);
     ClientBalanceFormComponent,
     ClientBuyFormComponent,
     OrdersComponent,
-    ClientOrdersComponent,
     OrdersTableComponent,
     OrderComponent,
     ClientCastComponent,

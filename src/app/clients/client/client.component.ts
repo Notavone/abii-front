@@ -10,6 +10,7 @@ import {OrderCreatedEvent} from "../shared/order-created-event";
 import {Order} from "../../orders/shared/order";
 import {OrderService} from "../../orders/shared/order.service";
 import {Status} from "../shared/status";
+import {OrderEvent} from "../../orders/shared/order-event";
 
 @Component({
   selector: 'app-client',
@@ -75,7 +76,7 @@ export class ClientComponent implements OnInit {
 
   orderCreated(event: OrderCreatedEvent) {
     if (!this.client) throw new Error("Should not happen.");
-    this.clientService.sendOrder(event.client, event.lines)
+    this.orderService.addOrder(event.client, event.lines)
       .subscribe(response => {
         this.client = response.client;
         this.orders.push(response.order);
@@ -86,5 +87,10 @@ export class ClientComponent implements OnInit {
     if (!this.client) throw new Error("Should not happen.");
     this.clientService.updateStatus(this.client, event)
       .subscribe(client => this.client = client);
+  }
+
+  orderDeleted(event: OrderEvent) {
+    this.client = event.client;
+    this.orders = this.orders.filter(o => o._id !== event.order._id);
   }
 }

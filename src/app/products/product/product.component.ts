@@ -7,6 +7,7 @@ import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.compon
 import {MatDialog} from "@angular/material/dialog";
 import {Order} from "../../orders/shared/order";
 import {OrderService} from "../../orders/shared/order.service";
+import {OrderEvent} from "../../orders/shared/order-event";
 
 @Component({
   selector: 'app-product',
@@ -62,5 +63,9 @@ export class ProductComponent implements OnInit {
             .subscribe(_ => this.goBack());
         }
       });
+  }
+
+  orderDeleted(event: OrderEvent) {
+    this.orders = this.orders.filter(o => o._id !== event.order._id);
   }
 }

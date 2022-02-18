@@ -5,6 +5,9 @@ import {Order} from "./order";
 import {Response} from "../../shared/response";
 import {QueryService} from "../../shared/query.service";
 import {AuthService} from "../../auth/shared/auth.service";
+import {Client} from "../../clients/shared/client";
+import {OrderLine} from "./order-line";
+import {OrderEvent} from "./order-event";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +31,32 @@ export class OrderService {
       .pipe(
         map(r => r.data),
         catchError(this.handleError<Order[]>([]))
+      );
+  }
+
+  getOrder(id: string): Observable<Order> {
+    let url = `${this.baseUrl}/${id}`;
+    return this.http.get<Response<Order[]>>(url, this.authService.httpOptions())
+      .pipe(
+        map(r => r.data),
+        catchError(this.handleError<any>())
+      );
+  }
+
+  addOrder(client: Client, lines: OrderLine[]): Observable<OrderEvent> {
+    return this.http.post<Response<OrderEvent>>(this.baseUrl, {lines, client: client._id}, this.authService.httpOptions())
+      .pipe(
+        map(r => r.data),
+        catchError(this.handleError<any>())
+      );
+  }
+
+  deleteOrder(order: Order): Observable<OrderEvent> {
+    let url = `${this.baseUrl}/${order._id}`;
+    return this.http.delete<Response<OrderEvent>>(url, this.authService.httpOptions())
+      .pipe(
+        map(r => r.data),
+        catchError(this.handleError<any>())
       );
   }
 }

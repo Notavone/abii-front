@@ -5,8 +5,6 @@ import {Response} from "../../shared/response";
 import {Client} from "./client";
 import {Status} from "./status";
 import {PaymentType} from "./payment-type";
-import {OrderLine} from "../../orders/shared/order-line";
-import {Order} from "../../orders/shared/order";
 import {AuthService} from "../../auth/shared/auth.service";
 
 @Injectable({
@@ -86,15 +84,6 @@ export class ClientService {
   updateBalance(client: Client, selectedPaymentType: PaymentType, amount: number): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}/balance`;
     return this.http.patch<Response<Client>>(url, {type: selectedPaymentType, amount}, this.authService.httpOptions())
-      .pipe(
-        map(r => r.data),
-        catchError(this.handleError<any>())
-      );
-  }
-
-  sendOrder(client: Client, lines: OrderLine[]): Observable<{ client: Client, order: Order }> {
-    let url = `${this.baseUrl}/${client._id}/orders`;
-    return this.http.post<Response<{ client: Client, order: Order }>>(url, {lines}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
         catchError(this.handleError<any>())
