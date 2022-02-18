@@ -5,6 +5,8 @@ import {ActivatedRoute} from "@angular/router";
 import {Product} from "../shared/product";
 import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Order} from "../../orders/shared/order";
+import {OrderService} from "../../orders/shared/order.service";
 
 @Component({
   selector: 'app-product',
@@ -13,18 +15,25 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class ProductComponent implements OnInit {
   @Input() product?: Product;
+  orders: Order[] = [];
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private location: Location, private dialog: MatDialog) {
+  constructor(
+    private route: ActivatedRoute,
+    private productService: ProductService,
+    private orderService: OrderService,
+    private location: Location,
+    private dialog: MatDialog
+  ) {
   }
 
   ngOnInit(): void {
-    this.getProduct();
-  }
-
-  private getProduct(): void {
     let id = "" + this.route.snapshot.paramMap.get("id");
+
     this.productService.getProduct(id)
       .subscribe(product => this.product = product);
+
+    this.orderService.getOrders({'lines.product': id})
+      .subscribe(orders => this.orders = orders);
   }
 
   goBack(): void {
