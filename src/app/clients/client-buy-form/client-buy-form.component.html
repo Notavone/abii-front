@@ -12,9 +12,13 @@
           <mat-list-item class="spacing" *ngFor="let line of lines">
             {{line.product.name}} {{(isSubscribed() ? line.product.price - line.product.price * line.product.discount / 100 : line.product.price) | currency}}
             <div>
-              <button mat-mini-fab color="warn" (click)="subtract(line.product)"><mat-icon>remove</mat-icon></button>
-              <button mat-flat-button (click)="reset(line.product)">{{line.qty}}</button>
-              <button mat-mini-fab color="primary" (click)="add(line.product)"><mat-icon>add</mat-icon></button>
+              <button mat-mini-fab color="warn" (click)="subtractQuantity(line.product)">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <button mat-flat-button (click)="resetQuantity(line.product)">{{line.qty}}</button>
+              <button mat-mini-fab color="primary" (click)="addQuantity(line.product)">
+                <mat-icon>add</mat-icon>
+              </button>
             </div>
           </mat-list-item>
         </mat-list>

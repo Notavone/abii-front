@@ -14,7 +14,7 @@ import {MatDialog} from "@angular/material/dialog";
 export class ProductComponent implements OnInit {
   @Input() product?: Product;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private location: Location, public dialog: MatDialog) {
+  constructor(private route: ActivatedRoute, private productService: ProductService, private location: Location, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {

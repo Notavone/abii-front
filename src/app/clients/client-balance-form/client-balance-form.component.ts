@@ -17,7 +17,7 @@ export class ClientBalanceFormComponent {
   public selectedPaymentType = PaymentType.CASH;
   public amount = 0;
 
-  constructor(public dialog: MatDialog) {
+  constructor(private dialog: MatDialog) {
   }
 
   adjustedValue() {

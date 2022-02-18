@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Client} from "../shared/client";
 import {ProductService} from "../../products/shared/product.service";
 import {ClientService} from "../shared/client.service";
@@ -10,6 +10,7 @@ import {OrderLine} from "../../orders/shared/order-line";
 import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
 import {CurrencyPipe} from "@angular/common";
+import {OrderCreatedEvent} from "../shared/order-created-event";
 
 @Component({
   selector: 'app-client-buy-form',
@@ -18,12 +19,19 @@ import {CurrencyPipe} from "@angular/common";
 })
 export class ClientBuyFormComponent implements OnInit {
   @Input() client?: Client;
+  @Output() orderCreated = new EventEmitter<OrderCreatedEvent>();
   productType = ProductType;
   products: Product[] = [];
   selected: MatListOption[] = [];
   lines: OrderLine[] = []
 
-  constructor(private clientService: ClientService, private productService: ProductService, private router: Router, public dialog: MatDialog, private currencyPipe: CurrencyPipe) {
+  constructor(
+    private clientService: ClientService,
+    private productService: ProductService,
+    private router: Router,
+    private dialog: MatDialog,
+    private currencyPipe: CurrencyPipe
+  ) {
   }
 
   ngOnInit(): void {
@@ -48,22 +56,17 @@ export class ClientBuyFormComponent implements OnInit {
     return this.lines.reduce((acc: number, cur: OrderLine) => acc + (isSubscribed ? cur.product.price - cur.product.price * cur.product.discount / 100 : cur.product.price) * cur.qty, 0);
   }
 
-  reload(): void {
-    let url = this.router.url;
-    this.router.navigateByUrl("/", {skipLocationChange: true}).then(_ => this.router.navigate([url]));
-  }
-
   private getProducts() {
     this.productService.getProducts()
       .subscribe(products => this.products = products);
   }
 
-  add(product: Product) {
+  addQuantity(product: Product) {
     let id = this.lines.map(l => l.product).indexOf(product);
     if (id >= 0) this.lines[id].qty++;
   }
 
-  subtract(product: Product) {
+  subtractQuantity(product: Product) {
     let id = this.lines.map(l => l.product).indexOf(product);
     if (id >= 0) this.lines[id].qty--;
     if (this.lines[id].qty < 1) {
@@ -72,7 +75,7 @@ export class ClientBuyFormComponent implements OnInit {
     }
   }
 
-  reset(product: Product) {
+  resetQuantity(product: Product) {
     let id = this.lines.map(l => l.product).indexOf(product);
     if (id >= 0) this.lines[id].qty = 1;
   }
@@ -93,8 +96,9 @@ export class ClientBuyFormComponent implements OnInit {
       .subscribe(response => {
         if (response as unknown as boolean) {
           if (!this.client) throw new Error("Should not happen.");
-          this.clientService.sendOrder(this.client, this.lines)
-            .subscribe(_ => this.reload());
+          this.orderCreated.emit({client: this.client, lines: this.lines});
+          this.selected = [];
+          this.updateLines();
         }
       });
   }

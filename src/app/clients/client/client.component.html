@@ -26,7 +26,7 @@
     </mat-tab>
 
     <mat-tab label="Adhésion">
-      <app-client-status-form [client]="client"></app-client-status-form>
+      <app-client-status-form [client]="client" (statusUpdated)="statusUpdated($event)"></app-client-status-form>
     </mat-tab>
 
     <mat-tab label="Solde">
@@ -34,11 +34,11 @@
     </mat-tab>
 
     <mat-tab label="Achat">
-      <app-client-buy-form [client]="client"></app-client-buy-form>
+      <app-client-buy-form [client]="client" (orderCreated)="orderCreated($event)"></app-client-buy-form>
     </mat-tab>
 
     <mat-tab label="Historique">
-      <app-client-orders [client]="client"></app-client-orders>
+      <app-client-orders [orders]="orders"></app-client-orders>
     </mat-tab>
   </mat-tab-group>
 </div>

@@ -1,8 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Client} from "../shared/client";
 import {Status} from "../shared/status";
-import {ClientService} from "../shared/client.service";
-import {Router} from "@angular/router";
 import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
 
@@ -13,14 +11,10 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class ClientStatusFormComponent {
   @Input() client?: Client;
+  @Output() statusUpdated = new EventEmitter<Status>();
   status = Status;
 
-  constructor(private clientService: ClientService, private router: Router, public dialog: MatDialog) {
-  }
-
-  reload(): void {
-    let url = this.router.url;
-    this.router.navigateByUrl("/", {skipLocationChange: true}).then(_ => this.router.navigate([url]));
+  constructor(private dialog: MatDialog) {
   }
 
   isSubscribed() {
@@ -39,8 +33,7 @@ export class ClientStatusFormComponent {
       .subscribe(response => {
         if (response as unknown as boolean) {
           if (!this.client) throw new Error("Should not happen.");
-          this.clientService.updateStatus(this.client, status)
-            .subscribe(_ => this.reload());
+          this.statusUpdated.emit(status);
         }
       });
   }

@@ -6,6 +6,10 @@ import {Client} from "../shared/client";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
 import {BalanceUpdateEvent} from "../shared/balance-update-event";
+import {OrderCreatedEvent} from "../shared/order-created-event";
+import {Order} from "../../orders/shared/order";
+import {OrderService} from "../../orders/shared/order.service";
+import {Status} from "../shared/status";
 
 @Component({
   selector: 'app-client',
@@ -14,18 +18,25 @@ import {BalanceUpdateEvent} from "../shared/balance-update-event";
 })
 export class ClientComponent implements OnInit {
   @Input() client?: Client;
+  orders: Order[] = [];
 
-  constructor(private route: ActivatedRoute, private clientService: ClientService, private location: Location, public dialog: MatDialog) {
+  constructor(
+    private route: ActivatedRoute,
+    private clientService: ClientService,
+    private location: Location,
+    private dialog: MatDialog,
+    private orderService: OrderService
+  ) {
   }
 
   ngOnInit(): void {
-    this.getProduct();
-  }
-
-  private getProduct(): void {
     let id = "" + this.route.snapshot.paramMap.get("id");
+
     this.clientService.getClient(id)
       .subscribe(client => this.client = client);
+
+    this.orderService.getOrders({client: id})
+      .subscribe(orders => this.orders = orders);
   }
 
   goBack(): void {
@@ -57,8 +68,23 @@ export class ClientComponent implements OnInit {
   }
 
   balanceChange(event: BalanceUpdateEvent) {
-    if(!this.client) throw new Error("Should not happen.");
+    if (!this.client) throw new Error("Should not happen.");
     this.clientService.updateBalance(this.client, event.type, event.amount)
+      .subscribe(client => this.client = client);
+  }
+
+  orderCreated(event: OrderCreatedEvent) {
+    if (!this.client) throw new Error("Should not happen.");
+    this.clientService.sendOrder(event.client, event.lines)
+      .subscribe(response => {
+        this.client = response.client;
+        this.orders.push(response.order);
+      });
+  }
+
+  statusUpdated(event: Status) {
+    if (!this.client) throw new Error("Should not happen.");
+    this.clientService.updateStatus(this.client, event)
       .subscribe(client => this.client = client);
   }
 }
