@@ -13,7 +13,7 @@ import {OrderEvent} from "../shared/order-event";
 })
 export class OrdersTableComponent implements OnChanges {
   @Input() orders: Order[] = [];
-  @Input() columnsToDisplay = ["id", "client", "total", "lines"];
+  @Input() columnsToDisplay = ["id", "client", "total", "date", "lines"];
   @Output() orderDeleted = new EventEmitter<OrderEvent>();
   dataSet: MatTableDataSource<Order> = new MatTableDataSource<Order>();
 

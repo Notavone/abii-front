@@ -5,4 +5,5 @@ export interface Order {
   lines: OrderLine[],
   total: number,
   client: string
+  date: number
 }
