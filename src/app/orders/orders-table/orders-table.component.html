@@ -43,3 +43,4 @@
   <tr mat-row *matRowDef="let order; columns: columnsToDisplay"></tr>
 
 </table>
+<mat-paginator #paginator showFirstLastButtons [pageSizeOptions]="[10, 25, 50]"></mat-paginator>

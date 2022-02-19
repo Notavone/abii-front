@@ -5,7 +5,7 @@
       <input type="text" matNativeControl [(ngModel)]="filter" placeholder="Trier">
     </mat-form-field>
 
-    <table mat-table [dataSource]="clients">
+    <table mat-table [dataSource]="dataSet">
 
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Nom</th>
@@ -26,6 +26,7 @@
       <tr mat-row *matRowDef="let client; columns: columnsToDisplay"></tr>
 
     </table>
+    <mat-paginator #paginator showFirstLastButtons [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
   </mat-tab>
   <mat-tab label="Ajouter">
     <app-client-create-form></app-client-create-form>

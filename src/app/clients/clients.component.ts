@@ -1,30 +1,32 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Client} from "./shared/client";
 import {ClientService} from "./shared/client.service";
 import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss']
 })
-export class ClientsComponent implements OnInit {
-  clients: MatTableDataSource<Client> = new MatTableDataSource<Client>();
+export class ClientsComponent implements OnInit, AfterViewInit {
+  @ViewChild("paginator") paginator?: MatPaginator;
+  dataSet: MatTableDataSource<Client> = new MatTableDataSource<Client>();
   columnsToDisplay = ["name", "balance", "subscription"];
 
   constructor(private clientService: ClientService) {
   }
 
   ngOnInit(): void {
-    this.getClients();
+    this.clientService.getClients()
+      .subscribe(clients => this.dataSet.data = clients.sort((a, b) => a.name.localeCompare(b.name)));
+  }
+
+  ngAfterViewInit() {
+    if (this.paginator) this.dataSet.paginator = this.paginator;
   }
 
   set filter(value: string) {
-    this.clients.filter = value;
-  }
-
-  getClients(): void {
-    this.clientService.getClients()
-      .subscribe(clients => this.clients.data = clients);
+    this.dataSet.filter = value;
   }
 }
