@@ -11,12 +11,14 @@ import {AuthService} from "../../auth/shared/auth.service";
 })
 export class ProductService {
   private baseUrl = "http://localhost:3000/api/products";
+  private errored = new Set<string>();
 
   constructor(private http: HttpClient, private authService: AuthService) {
   }
 
-  private handleError<T>(result?: T) {
+  private handleError<T>(result?: T, id?: string) {
     return (error: any): Observable<T> => {
+      if (id) this.errored.add(id);
       console.error(error);
       return of(result as T);
     };
@@ -31,18 +33,21 @@ export class ProductService {
   }
 
   getProduct(id: string): Observable<Product> {
+    let defaultResult = {
+      _id: id,
+      name: "(??) Produit inconnu",
+      price: 0,
+      discount: 0,
+      type: ProductType.PRODUCT_FOOD,
+      available: false
+    };
+    if (this.errored.has(id)) return of(defaultResult);
+
     let url = `${this.baseUrl}/${id}`;
     return this.http.get<Response<Product>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        catchError(this.handleError<Product>({
-          _id: id,
-          name: "(??) Produit inconnu",
-          price: 0,
-          discount: 0,
-          type: ProductType.PRODUCT_FOOD,
-          available: false
-        }))
+        catchError(this.handleError<Product>(defaultResult, id))
       );
   }
 

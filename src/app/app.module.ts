@@ -7,7 +7,7 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {ProductsComponent} from './products/products.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {MatTabsModule} from "@angular/material/tabs";
 import {ProductTableComponent} from './products/product-table/product-table.component';
 import {MatTableModule} from "@angular/material/table";
@@ -33,18 +33,19 @@ import {ClientCastComponent} from './clients/client-cast/client-cast.component';
 import {ProductCastComponent} from './products/product-cast/product-cast.component';
 import localeFr from "@angular/common/locales/fr";
 import {CurrencyPipe, registerLocaleData} from "@angular/common";
-import { ClientStatusFormComponent } from './clients/client/client-status-form/client-status-form.component';
-import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
+import {ClientStatusFormComponent} from './clients/client/client-status-form/client-status-form.component';
+import {DialogConfirmComponent} from './dialog-confirm/dialog-confirm.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {AuthService} from "./auth/shared/auth.service";
 import {AuthLoginComponent} from "./auth/auth-login/auth-login.component";
-import { HomepageComponent } from './homepage/homepage.component';
+import {HomepageComponent} from './homepage/homepage.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import { ClientHistoryComponent } from './clients/client/client-history/client-history.component';
-import { ClientParamsComponent } from './clients/client/client-params/client-params.component';
+import {ClientHistoryComponent} from './clients/client/client-history/client-history.component';
+import {ClientParamsComponent} from './clients/client/client-params/client-params.component';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar} from "@angular/material/snack-bar";
-import { ProductParamsComponent } from './products/product/product-params/product-params.component';
-import { ProductHistoryComponent } from './products/product/product-history/product-history.component';
+import {ProductParamsComponent} from './products/product/product-params/product-params.component';
+import {ProductHistoryComponent} from './products/product/product-history/product-history.component';
+import {AuthInterceptor} from "./auth/shared/auth.interceptor";
 
 registerLocaleData(localeFr);
 
@@ -75,29 +76,30 @@ registerLocaleData(localeFr);
     ProductParamsComponent,
     ProductHistoryComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatTabsModule,
-        HttpClientModule,
-        MatTableModule,
-        MatCardModule,
-        MatInputModule,
-        FormsModule,
-        MatSelectModule,
-        MatListModule,
-        MatExpansionModule,
-        MatIconModule,
-        MatDialogModule,
-        MatCheckboxModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatTabsModule,
+    HttpClientModule,
+    MatTableModule,
+    MatCardModule,
+    MatInputModule,
+    FormsModule,
+    MatSelectModule,
+    MatListModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatDialogModule,
+    MatCheckboxModule
+  ],
   providers: [
     AuthService,
     CurrencyPipe,
     MatSnackBar,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: LOCALE_ID, useValue: "fr-FR"},
     {provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR'},
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
