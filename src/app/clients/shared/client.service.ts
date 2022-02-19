@@ -39,12 +39,12 @@ export class ClientService {
   }
 
   getClients(): Observable<Client[]> {
-    return this.http.get<Response<Client[]>>(this.baseUrl, this.authService.httpOptions())
+    return this.http.get<Response<Client[]>>(this.baseUrl)
       .pipe(
         map(r => r.data),
         tap(clients => {
           for (let client of clients) {
-            if(!this.cache.has(client._id)) this.set(client);
+            if (!this.cache.has(client._id)) this.set(client);
           }
         }),
         catchError(this.handleError<Client[]>([]))
@@ -63,7 +63,7 @@ export class ClientService {
     };
 
     let url = `${this.baseUrl}/${id}`;
-    return this.http.get<Response<Client>>(url, this.authService.httpOptions())
+    return this.http.get<Response<Client>>(url)
       .pipe(
         map(r => r.data),
         tap(client => this.set(client)),
@@ -73,7 +73,7 @@ export class ClientService {
 
   updateClient(client: Client): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}`;
-    return this.http.patch<Response<Client>>(url, client, this.authService.httpOptions())
+    return this.http.patch<Response<Client>>(url, client)
       .pipe(
         map(r => r.data),
         tap(client => this.set(client)),
@@ -83,7 +83,7 @@ export class ClientService {
 
   addClient(client: Client): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}`;
-    return this.http.post<Response<Client>>(url, client, this.authService.httpOptions())
+    return this.http.post<Response<Client>>(url, client)
       .pipe(
         map(r => r.data),
         tap(client => this.set(client)),
@@ -93,7 +93,7 @@ export class ClientService {
 
   deleteClient(client: Client): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}`;
-    return this.http.delete<Response<Client>>(url, this.authService.httpOptions())
+    return this.http.delete<Response<Client>>(url)
       .pipe(
         map(r => r.data),
         tap(() => this.delete(client)),
@@ -103,7 +103,7 @@ export class ClientService {
 
   updateStatus(client: Client, status: Status): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}/status`
-    return this.http.patch<Response<Client>>(url, {status}, this.authService.httpOptions())
+    return this.http.patch<Response<Client>>(url, {status})
       .pipe(
         map(r => r.data),
         tap(client => this.set(client)),
@@ -113,7 +113,7 @@ export class ClientService {
 
   updateBalance(client: Client, selectedPaymentType: PaymentType, amount: number): Observable<Client> {
     let url = `${this.baseUrl}/${client._id}/balance`;
-    return this.http.patch<Response<Client>>(url, {type: selectedPaymentType, amount}, this.authService.httpOptions())
+    return this.http.patch<Response<Client>>(url, {type: selectedPaymentType, amount})
       .pipe(
         map(r => r.data),
         tap(client => this.set(client)),

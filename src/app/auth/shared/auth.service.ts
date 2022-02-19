@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, Observable, of} from "rxjs";
-import { LoggingService } from 'src/app/shared/logging.service';
+import {LoggingService} from 'src/app/shared/logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -44,9 +44,7 @@ export class AuthService {
     return !!this.token
   }
 
-  httpOptions() {
-    return {
-      headers: new HttpHeaders({'Authorization': "Bearer " + this.token}),
-    };
+  authHeader() {
+    return new HttpHeaders({'Authorization': "Bearer " + this.token});
   }
 }

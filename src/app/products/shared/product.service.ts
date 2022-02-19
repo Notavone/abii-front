@@ -37,7 +37,7 @@ export class ProductService {
   }
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Response<Product[]>>(this.baseUrl, this.authService.httpOptions())
+    return this.http.get<Response<Product[]>>(this.baseUrl)
       .pipe(
         map(r => r.data),
         tap(products => {
@@ -63,7 +63,7 @@ export class ProductService {
     };
 
     let url = `${this.baseUrl}/${id}`;
-    return this.http.get<Response<Product>>(url, this.authService.httpOptions())
+    return this.http.get<Response<Product>>(url)
       .pipe(
         map(r => r.data),
         tap(product => this.set(product)),
@@ -73,7 +73,7 @@ export class ProductService {
 
   updateProduct(product: Product): Observable<Product> {
     let url = `${this.baseUrl}/${product._id}`;
-    return this.http.patch<Response<Product>>(url, product, this.authService.httpOptions())
+    return this.http.patch<Response<Product>>(url, product)
       .pipe(
         map(r => r.data),
         tap(product => this.set(product)),
@@ -83,7 +83,7 @@ export class ProductService {
 
   addProduct(product: Product): Observable<Product> {
     let url = `${this.baseUrl}/${product._id}`;
-    return this.http.post<Response<Product>>(url, product, this.authService.httpOptions())
+    return this.http.post<Response<Product>>(url, product)
       .pipe(
         map(r => r.data),
         tap(product => this.set(product)),
@@ -93,7 +93,7 @@ export class ProductService {
 
   deleteProduct(product: Product): Observable<Product> {
     let url = `${this.baseUrl}/${product._id}`;
-    return this.http.delete<Response<Product>>(url, this.authService.httpOptions())
+    return this.http.delete<Response<Product>>(url)
       .pipe(
         map(r => r.data),
         tap(() => this.delete(product)),
@@ -103,7 +103,7 @@ export class ProductService {
 
   toggleAvailability(product: Product): Observable<Product> {
     let url = `${this.baseUrl}/${product._id}/available`;
-    return this.http.patch<Response<Product>>(url, {}, this.authService.httpOptions())
+    return this.http.patch<Response<Product>>(url, {})
       .pipe(
         map(r => r.data),
         tap(product => this.set(product)),

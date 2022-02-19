@@ -47,7 +47,7 @@ export class OrderService {
 
   getOrders(query?: Object): Observable<Order[]> {
     let url = `${this.baseUrl}${this.queryService.encode(query ?? {})}`;
-    return this.http.get<Response<Order[]>>(url, this.authService.httpOptions())
+    return this.http.get<Response<Order[]>>(url)
       .pipe(
         map(r => r.data),
         tap(orders => {
@@ -64,7 +64,7 @@ export class OrderService {
     if (existing) return of(existing);
 
     let url = `${this.baseUrl}/${id}`;
-    return this.http.get<Response<Order[]>>(url, this.authService.httpOptions())
+    return this.http.get<Response<Order[]>>(url)
       .pipe(
         map(r => r.data),
         catchError(this.handleError<any>())
@@ -72,7 +72,7 @@ export class OrderService {
   }
 
   addOrder(client: Client, lines: OrderLine[]): Observable<OrderEvent> {
-    return this.http.post<Response<OrderEvent>>(this.baseUrl, {lines, client: client._id}, this.authService.httpOptions())
+    return this.http.post<Response<OrderEvent>>(this.baseUrl, {lines, client: client._id})
       .pipe(
         map(r => r.data),
         tap(response => {
@@ -85,7 +85,7 @@ export class OrderService {
 
   deleteOrder(order: Order): Observable<OrderEvent> {
     let url = `${this.baseUrl}/${order._id}`;
-    return this.http.delete<Response<OrderEvent>>(url, this.authService.httpOptions())
+    return this.http.delete<Response<OrderEvent>>(url)
       .pipe(
         map(r => r.data),
         tap(response => {
