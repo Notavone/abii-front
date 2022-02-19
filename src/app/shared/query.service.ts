@@ -1,11 +1,14 @@
 import {Injectable} from '@angular/core';
+import { LoggingService } from './logging.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QueryService {
+  private provider = "QueryService";
 
-  constructor() {
+  constructor(private loggingService: LoggingService) {
+    this.loggingService.log(this.provider, "init");
   }
 
   encode<T extends Object>(params: T): string {

@@ -1,25 +1,38 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, Observable, of} from "rxjs";
+import {catchError, map, Observable, of, tap} from "rxjs";
 import {Response} from "../../shared/response";
 import {Client} from "./client";
 import {Status} from "./status";
 import {PaymentType} from "./payment-type";
 import {AuthService} from "../../auth/shared/auth.service";
+import {LoggingService} from "../../shared/logging.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
   private baseUrl = "http://localhost:3000/api/clients";
-  private errored = new Set<string>();
+  private provider = "ClientService";
+  private cache: Map<string, Client> = new Map();
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService, private loggingService: LoggingService) {
+    this.loggingService.log(this.provider, `init cache`);
   }
 
-  private handleError<T>(result?: T, id?: string) {
+  set(client: Client) {
+    this.loggingService.log(this.provider, `set cache for id=${client._id}`);
+    this.cache.set(client._id, client);
+  }
+
+  delete(client: Client) {
+    this.loggingService.log(this.provider, `delete cache for id=${client._id}`);
+    this.cache.set(client._id, client);
+  }
+
+  private handleError<T>(result?: T, errorClient?: Client) {
     return (error: any): Observable<T> => {
-      if(id) this.errored.add(id);
+      if (errorClient) this.cache.set(errorClient._id, errorClient);
       console.error(error);
       return of(result as T);
     };
@@ -29,24 +42,32 @@ export class ClientService {
     return this.http.get<Response<Client[]>>(this.baseUrl, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(clients => {
+          for (let client of clients) {
+            if(!this.cache.has(client._id)) this.set(client);
+          }
+        }),
         catchError(this.handleError<Client[]>([]))
       )
   }
 
   getClient(id: string): Observable<Client> {
+    let existing = this.cache.get(id);
+    if (existing) return of(existing);
+
     let defaultResult = {
       _id: id,
       name: "(??) Client inconnu",
       balance: 0,
       subscriptionEnd: 0
     };
-    if(this.errored.has(id)) return of(defaultResult);
 
     let url = `${this.baseUrl}/${id}`;
     return this.http.get<Response<Client>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        catchError(this.handleError<Client>(defaultResult, id))
+        tap(client => this.set(client)),
+        catchError(this.handleError<Client>(defaultResult, defaultResult))
       );
   }
 
@@ -55,6 +76,7 @@ export class ClientService {
     return this.http.patch<Response<Client>>(url, client, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(client => this.set(client)),
         catchError(this.handleError<any>())
       );
   }
@@ -64,6 +86,7 @@ export class ClientService {
     return this.http.post<Response<Client>>(url, client, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(client => this.set(client)),
         catchError(this.handleError<any>())
       );
   }
@@ -73,6 +96,7 @@ export class ClientService {
     return this.http.delete<Response<Client>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(() => this.delete(client)),
         catchError(this.handleError<any>())
       );
   }
@@ -82,6 +106,7 @@ export class ClientService {
     return this.http.patch<Response<Client>>(url, {status}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(client => this.set(client)),
         catchError(this.handleError<any>())
       );
   }
@@ -91,6 +116,7 @@ export class ClientService {
     return this.http.patch<Response<Client>>(url, {type: selectedPaymentType, amount}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(client => this.set(client)),
         catchError(this.handleError<any>())
       );
   }

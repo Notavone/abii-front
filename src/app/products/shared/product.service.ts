@@ -1,24 +1,36 @@
 import {Injectable} from '@angular/core';
-import {catchError, map, Observable, of} from "rxjs";
+import {catchError, map, Observable, of, tap} from "rxjs";
 import {Product} from "./product";
 import {HttpClient} from "@angular/common/http";
 import {Response} from "../../shared/response";
 import {ProductType} from "./product-type";
 import {AuthService} from "../../auth/shared/auth.service";
+import {LoggingService} from "../../shared/logging.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
   private baseUrl = "http://localhost:3000/api/products";
-  private errored = new Set<string>();
+  private provider = "ProductService";
+  private cache: Map<string, Product> = new Map();
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService, private loggingService: LoggingService) {
+    this.loggingService.log(this.provider, `init cache`);
   }
 
-  private handleError<T>(result?: T, id?: string) {
+  set(product: Product) {
+    this.cache.set(product._id, product);
+  }
+
+  delete(product: Product) {
+    this.loggingService.log(this.provider, `delete cache for id=${product._id}`);
+    this.cache.set(product._id, product);
+  }
+
+  private handleError<T>(result?: T, errorProduct?: Product) {
     return (error: any): Observable<T> => {
-      if (id) this.errored.add(id);
+      if (errorProduct) this.cache.set(errorProduct._id, errorProduct);
       console.error(error);
       return of(result as T);
     };
@@ -28,11 +40,19 @@ export class ProductService {
     return this.http.get<Response<Product[]>>(this.baseUrl, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(products => {
+          for (let product of products) {
+            if(!this.cache.has(product._id)) this.set(product);
+          }
+        }),
         catchError(this.handleError<Product[]>([]))
       )
   }
 
   getProduct(id: string): Observable<Product> {
+    let existing = this.cache.get(id);
+    if (existing) return of(existing);
+
     let defaultResult = {
       _id: id,
       name: "(??) Produit inconnu",
@@ -41,13 +61,13 @@ export class ProductService {
       type: ProductType.PRODUCT_FOOD,
       available: false
     };
-    if (this.errored.has(id)) return of(defaultResult);
 
     let url = `${this.baseUrl}/${id}`;
     return this.http.get<Response<Product>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
-        catchError(this.handleError<Product>(defaultResult, id))
+        tap(product => this.set(product)),
+        catchError(this.handleError<Product>(defaultResult, defaultResult))
       );
   }
 
@@ -56,6 +76,7 @@ export class ProductService {
     return this.http.patch<Response<Product>>(url, product, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(product => this.set(product)),
         catchError(this.handleError<any>())
       );
   }
@@ -65,6 +86,7 @@ export class ProductService {
     return this.http.post<Response<Product>>(url, product, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(product => this.set(product)),
         catchError(this.handleError<any>())
       );
   }
@@ -74,6 +96,7 @@ export class ProductService {
     return this.http.delete<Response<Product>>(url, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(() => this.delete(product)),
         catchError(this.handleError<any>())
       );
   }
@@ -83,6 +106,7 @@ export class ProductService {
     return this.http.patch<Response<Product>>(url, {}, this.authService.httpOptions())
       .pipe(
         map(r => r.data),
+        tap(product => this.set(product)),
         catchError(this.handleError<any>())
       );
   }

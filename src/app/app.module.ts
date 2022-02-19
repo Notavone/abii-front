@@ -32,11 +32,10 @@ import {OrderComponent} from './orders/order/order.component';
 import {ClientCastComponent} from './clients/client-cast/client-cast.component';
 import {ProductCastComponent} from './products/product-cast/product-cast.component';
 import localeFr from "@angular/common/locales/fr";
-import {CurrencyPipe, registerLocaleData} from "@angular/common";
+import {CurrencyPipe, DatePipe, registerLocaleData} from "@angular/common";
 import {ClientStatusFormComponent} from './clients/client/client-status-form/client-status-form.component';
 import {DialogConfirmComponent} from './dialog-confirm/dialog-confirm.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import {AuthService} from "./auth/shared/auth.service";
 import {AuthLoginComponent} from "./auth/auth-login/auth-login.component";
 import {HomepageComponent} from './homepage/homepage.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
@@ -46,6 +45,7 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar} from "@angular/material/snac
 import {ProductParamsComponent} from './products/product/product-params/product-params.component';
 import {ProductHistoryComponent} from './products/product/product-history/product-history.component';
 import {AuthInterceptor} from "./auth/shared/auth.interceptor";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 registerLocaleData(localeFr);
 
@@ -93,10 +93,11 @@ registerLocaleData(localeFr);
     MatExpansionModule,
     MatIconModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatPaginatorModule
   ],
   providers: [
-    AuthService,
+    DatePipe,
     CurrencyPipe,
     MatSnackBar,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

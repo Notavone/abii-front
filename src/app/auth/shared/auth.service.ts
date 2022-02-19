@@ -1,18 +1,20 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, Observable, of} from "rxjs";
+import { LoggingService } from 'src/app/shared/logging.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private baseUrl = "http://localhost:3000/token";
+  private provider = "AuthService";
   token: string = "";
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private loggingService: LoggingService) {
+    this.loggingService.log(this.provider, "init");
     this.token = sessionStorage.getItem("token") ?? "";
   }
-
 
   private handleError<T>(result?: T) {
     return (error: any): Observable<T> => {
