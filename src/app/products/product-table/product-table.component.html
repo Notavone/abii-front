@@ -1,22 +1,22 @@
-<table mat-table [dataSource]="dataSet">
+<table mat-table [dataSource]="dataSet" matSort>
 
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Nom</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Nom</th>
     <td mat-cell *matCellDef="let product"><a routerLink="/products/{{product._id}}" mat-button>{{product.name}}</a></td>
   </ng-container>
 
   <ng-container matColumnDef="price">
-    <th mat-header-cell *matHeaderCellDef>Prix</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Prix</th>
     <td mat-cell *matCellDef="let product">{{product.price | currency}}</td>
   </ng-container>
 
   <ng-container matColumnDef="discount">
-    <th mat-header-cell *matHeaderCellDef>Prix des adhérents</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Prix des adhérents</th>
     <td mat-cell *matCellDef="let product">{{product.price - product.price * product.discount / 100 | currency}}</td>
   </ng-container>
 
   <ng-container matColumnDef="available">
-    <th mat-header-cell *matHeaderCellDef>Disponibilité</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Disponibilité</th>
     <td mat-cell *matCellDef="let product"><button mat-icon-button (click)="toggleAvailability(product)"><mat-icon>{{product.available ? "check_box" : "check_box_outline_blank"}}</mat-icon></button></td>
   </ng-container>
 

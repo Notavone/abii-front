@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="dataSet">
+<table mat-table [dataSource]="dataSet" matSort>
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef>Id</th>
     <td mat-cell *matCellDef="let order"><a routerLink="/orders/{{order._id}}" mat-button>{{order._id}}</a></td>
@@ -25,7 +25,7 @@
   </ng-container>
 
   <ng-container matColumnDef="total">
-    <th mat-header-cell *matHeaderCellDef>Total de la commande</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Total de la commande</th>
     <td mat-cell *matCellDef="let order">{{order.total | currency}}</td>
   </ng-container>
 

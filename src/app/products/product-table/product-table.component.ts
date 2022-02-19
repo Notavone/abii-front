@@ -1,23 +1,29 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {Product} from "../shared/product";
 import {ProductService} from '../shared/product.service';
 import {MatTableDataSource} from "@angular/material/table";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-product-table',
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.scss']
 })
-export class ProductTableComponent implements OnChanges {
+export class ProductTableComponent implements OnChanges, AfterViewInit {
   @Input() products: Product[] = [];
   @Input() columnsToDisplay: string[] = ["name", "available", "price", "discount"]
+  @ViewChild(MatSort) sort?: MatSort;
   dataSet: MatTableDataSource<Product> = new MatTableDataSource<Product>();
 
   constructor(private productService: ProductService) {
   }
 
+  ngAfterViewInit() {
+    if(this.sort) this.dataSet.sort = this.sort;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    this.dataSet.data = this.products.sort((a, b) => a.name.localeCompare(b.name));
+    this.dataSet.data = this.products
   }
 
   toggleAvailability(product: Product) {

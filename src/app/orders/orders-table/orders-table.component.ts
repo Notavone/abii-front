@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
 import {OrderEvent} from "../shared/order-event";
 import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-orders-table',
@@ -17,6 +18,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
   @Input() columnsToDisplay = ["id", "client", "total", "date", "lines"];
   @Output() orderDeleted = new EventEmitter<OrderEvent>();
   @ViewChild("paginator") paginator?: MatPaginator;
+  @ViewChild(MatSort) sort?: MatSort;
   dataSet: MatTableDataSource<Order> = new MatTableDataSource<Order>();
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {
@@ -27,6 +29,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    if(this.sort) this.dataSet.sort = this.sort;
     if (this.paginator) this.dataSet.paginator = this.paginator;
   }
 

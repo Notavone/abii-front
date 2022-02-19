@@ -46,6 +46,7 @@ import {ProductParamsComponent} from './products/product/product-params/product-
 import {ProductHistoryComponent} from './products/product/product-history/product-history.component';
 import {AuthInterceptor} from "./auth/shared/auth.interceptor";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
 
 registerLocaleData(localeFr);
 
@@ -94,7 +95,8 @@ registerLocaleData(localeFr);
     MatIconModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [
     DatePipe,

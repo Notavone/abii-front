@@ -3,6 +3,7 @@ import {Client} from "./shared/client";
 import {ClientService} from "./shared/client.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-clients',
@@ -11,6 +12,7 @@ import {MatPaginator} from "@angular/material/paginator";
 })
 export class ClientsComponent implements OnInit, AfterViewInit {
   @ViewChild("paginator") paginator?: MatPaginator;
+  @ViewChild(MatSort) sort?: MatSort;
   dataSet: MatTableDataSource<Client> = new MatTableDataSource<Client>();
   columnsToDisplay = ["name", "balance", "subscription"];
 
@@ -19,10 +21,11 @@ export class ClientsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.clientService.getClients()
-      .subscribe(clients => this.dataSet.data = clients.sort((a, b) => a.name.localeCompare(b.name)));
+      .subscribe(clients => this.dataSet.data = clients);
   }
 
   ngAfterViewInit() {
+    if(this.sort) this.dataSet.sort = this.sort;
     if (this.paginator) this.dataSet.paginator = this.paginator;
   }
 
