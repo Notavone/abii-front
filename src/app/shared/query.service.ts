@@ -15,7 +15,7 @@ export class QueryService {
     let query = "?";
     let encodedParams: string[] = [];
     for (let paramsKey in params) {
-      encodedParams.push(encodeURI(paramsKey) + "=" + encodeURI(String(params[paramsKey])));
+      encodedParams.push(encodeURI(paramsKey) + "=" + encodeURI(JSON.stringify(params[paramsKey])));
     }
     return query + encodedParams.join("&");
   }

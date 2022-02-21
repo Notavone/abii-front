@@ -13,6 +13,7 @@ import {ClientHistoryComponent} from "./clients/client/client-history/client-his
 import {ClientParamsComponent} from "./clients/client/client-params/client-params.component";
 import {ProductParamsComponent} from "./products/product/product-params/product-params.component";
 import {ProductHistoryComponent} from './products/product/product-history/product-history.component';
+import { OverviewComponent } from './overview/overview.component';
 
 const routes: Routes = [
   {path: "", component: HomepageComponent},
@@ -36,7 +37,9 @@ const routes: Routes = [
       {path: "history", component: ProductHistoryComponent}
     ]
   },
-  {path: "products", component: ProductsComponent}
+  {path: "products", component: ProductsComponent},
+
+  {path: "overview", component: OverviewComponent}
 ];
 
 @NgModule({

@@ -4,6 +4,7 @@ import {Product} from "../../shared/product";
 import {ProductService} from '../../shared/product.service';
 import {DialogConfirmComponent} from "../../../dialog-confirm/dialog-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
+import {ProductType} from "../../shared/product-type";
 
 @Component({
   selector: 'app-product-params',
@@ -12,6 +13,7 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class ProductParamsComponent implements OnInit {
   @Input() product?: Product;
+  productType = ProductType;
 
   constructor(
     private router: Router,

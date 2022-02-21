@@ -47,6 +47,9 @@ import {ProductHistoryComponent} from './products/product/product-history/produc
 import {AuthInterceptor} from "./auth/shared/auth.interceptor";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
+import { OverviewComponent } from './overview/overview.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 registerLocaleData(localeFr);
 
@@ -75,29 +78,32 @@ registerLocaleData(localeFr);
     ClientHistoryComponent,
     ClientParamsComponent,
     ProductParamsComponent,
-    ProductHistoryComponent
+    ProductHistoryComponent,
+    OverviewComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatTabsModule,
-    HttpClientModule,
-    MatTableModule,
-    MatCardModule,
-    MatInputModule,
-    FormsModule,
-    MatSelectModule,
-    MatListModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatDialogModule,
-    MatCheckboxModule,
-    MatPaginatorModule,
-    MatSortModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatTabsModule,
+        HttpClientModule,
+        MatTableModule,
+        MatCardModule,
+        MatInputModule,
+        FormsModule,
+        MatSelectModule,
+        MatListModule,
+        MatExpansionModule,
+        MatIconModule,
+        MatDialogModule,
+        MatCheckboxModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatDatepickerModule,
+        MatNativeDateModule
+    ],
   providers: [
     DatePipe,
     CurrencyPipe,

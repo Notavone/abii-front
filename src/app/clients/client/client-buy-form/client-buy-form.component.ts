@@ -62,7 +62,7 @@ export class ClientBuyFormComponent implements OnInit {
 
   getTotal() {
     let isSubscribed = this.isSubscribed();
-    return this.lines.reduce((acc: number, cur: OrderLine) => acc + (isSubscribed ? cur.product.price - cur.product.price * cur.product.discount / 100 : cur.product.price) * cur.qty, 0);
+    return this.lines.reduce((acc: number, cur: OrderLine) => acc + (isSubscribed ? cur.product.price_red : cur.product.price) * cur.qty, 0);
   }
 
   addQuantity(product: Product) {

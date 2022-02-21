@@ -11,8 +11,8 @@
   </ng-container>
 
   <ng-container matColumnDef="discount">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Prix des adhérents</th>
-    <td mat-cell *matCellDef="let product">{{product.price - product.price * product.discount / 100 | currency}}</td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Prix adhérent</th>
+    <td mat-cell *matCellDef="let product">{{product.price_red | currency}}</td>
   </ng-container>
 
   <ng-container matColumnDef="available">

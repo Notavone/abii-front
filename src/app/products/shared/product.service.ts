@@ -11,7 +11,7 @@ import {LoggingService} from "../../shared/logging.service";
   providedIn: 'root'
 })
 export class ProductService {
-  private baseUrl = "http://localhost:3000/api/products";
+  private baseUrl = "https://localhost/abii/api/products";
   private provider = "ProductService";
   private cache: Map<string, Product> = new Map();
 
@@ -20,6 +20,7 @@ export class ProductService {
   }
 
   set(product: Product) {
+    this.loggingService.log(this.provider, `set cache for id=${product._id}`);
     this.cache.set(product._id, product);
   }
 
@@ -39,7 +40,7 @@ export class ProductService {
   getProducts(): Observable<Product[]> {
     return this.http.get<Response<Product[]>>(this.baseUrl)
       .pipe(
-        map(r => r.data),
+        map(r => r.data.map(p => this.cache.has(p._id) ? this.cache.get(p._id)! : p)),
         tap(products => {
           for (let product of products) {
             if(!this.cache.has(product._id)) this.set(product);
@@ -57,7 +58,7 @@ export class ProductService {
       _id: id,
       name: "(??) Produit inconnu",
       price: 0,
-      discount: 0,
+      price_red: 0,
       type: ProductType.PRODUCT_FOOD,
       available: false
     };

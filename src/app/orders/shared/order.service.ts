@@ -15,7 +15,7 @@ import {ClientService} from "../../clients/shared/client.service";
   providedIn: 'root'
 })
 export class OrderService {
-  private baseUrl = "http://localhost:3000/api/orders";
+  private baseUrl = "https://localhost/abii/api/orders";
   private provider = "OrderService";
   private cache: Map<string, Order> = new Map();
 
@@ -49,7 +49,7 @@ export class OrderService {
     let url = `${this.baseUrl}${this.queryService.encode(query ?? {})}`;
     return this.http.get<Response<Order[]>>(url)
       .pipe(
-        map(r => r.data),
+        map(r => r.data.map(o => this.cache.has(o._id) ? this.cache.get(o._id)! : o)),
         tap(orders => {
           for (let order of orders) {
             if(!this.cache.has(order._id)) this.set(order);

@@ -12,7 +12,7 @@ import {LoggingService} from "../../shared/logging.service";
   providedIn: 'root'
 })
 export class ClientService {
-  private baseUrl = "http://localhost:3000/api/clients";
+  private baseUrl = "https://localhost/abii/api/clients";
   private provider = "ClientService";
   private cache: Map<string, Client> = new Map();
 
@@ -41,7 +41,7 @@ export class ClientService {
   getClients(): Observable<Client[]> {
     return this.http.get<Response<Client[]>>(this.baseUrl)
       .pipe(
-        map(r => r.data),
+        map(r => r.data.map(c => this.cache.has(c._id) ? this.cache.get(c._id)! : c)),
         tap(clients => {
           for (let client of clients) {
             if (!this.cache.has(client._id)) this.set(client);

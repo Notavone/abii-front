@@ -15,7 +15,7 @@ export class ProductCreateFormComponent {
     name: "",
     type: ProductType.PRODUCT_FOOD,
     price: 1,
-    discount: 50,
+    price_red: 0.50,
     available: true
   }
   productType = ProductType

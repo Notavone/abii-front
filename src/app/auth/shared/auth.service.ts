@@ -7,7 +7,7 @@ import {LoggingService} from 'src/app/shared/logging.service';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = "http://localhost:3000/token";
+  private baseUrl = "https://localhost/abii/token";
   private provider = "AuthService";
   token: string = "";
 

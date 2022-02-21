@@ -5,6 +5,6 @@ export interface Product {
   type: ProductType,
   name: string,
   price: number,
-  discount: number,
+  price_red: number,
   available: boolean
 }

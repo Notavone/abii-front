@@ -20,15 +20,24 @@
 
       <p>
         <mat-form-field>
-          <mat-label>Pourcentage de réduction</mat-label>
-          <input type="number" min="0" max="100" matNativeControl required placeholder="Pourcentage de réduction" [(ngModel)]="product.discount" name="discount">
+          <mat-label>Prix adhérents</mat-label>
+          <input type="number" min="0" matNativeControl required placeholder="Prix adhérent" [(ngModel)]="product.price_red" name="discount">
         </mat-form-field>
       </p>
 
-      <mat-checkbox [(ngModel)]="product.available" name="available">Disponible</mat-checkbox>
+      <p>
+        <mat-form-field>
+          <mat-label>Type de produit</mat-label>
+          <mat-select [(ngModel)]="product.type" required name="type">
+            <mat-option [value]="productType.PRODUCT_FOOD">Nourriture / Boisson</mat-option>
+            <mat-option [value]="productType.PRODUCT_EXTRA">Extra</mat-option>
+            <mat-option [value]="productType.SUBSCRIPTION">Adhésion</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </p>
 
       <p>
-        Prix des adhérents : {{product.price - product.price * product.discount / 100 | currency}}
+        <mat-checkbox [(ngModel)]="product.available" name="available">Disponible</mat-checkbox>
       </p>
 
       <button mat-raised-button color="primary" type="submit">Mettre à jour</button>
