@@ -12,7 +12,7 @@ import {environment} from "../../../environments/environment";
   providedIn: 'root'
 })
 export class ProductService {
-  private baseUrl = environment.url + "/products";
+  private baseUrl = environment.url + "/api/products";
   private provider = "ProductService";
   private cache: Map<string, Product> = new Map();
 

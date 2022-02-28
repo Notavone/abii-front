@@ -13,7 +13,7 @@ import {environment} from "../../../environments/environment";
   providedIn: 'root'
 })
 export class ClientService {
-  private baseUrl = environment.url + "/clients";
+  private baseUrl = environment.url + "/api/clients";
   private provider = "ClientService";
   private cache: Map<string, Client> = new Map();
 
