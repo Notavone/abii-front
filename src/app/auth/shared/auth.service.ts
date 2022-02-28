@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, Observable, of} from "rxjs";
 import {LoggingService} from 'src/app/shared/logging.service';
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = "https://localhost/abii/token";
+  private baseUrl = environment.url + "/token";
   private provider = "AuthService";
   token: string = "";
 

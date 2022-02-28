@@ -10,12 +10,13 @@ import {OrderLine} from "./order-line";
 import {OrderEvent} from "./order-event";
 import {LoggingService} from "../../shared/logging.service";
 import {ClientService} from "../../clients/shared/client.service";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private baseUrl = "https://localhost/abii/api/orders";
+  private baseUrl = environment.url + "/orders";
   private provider = "OrderService";
   private cache: Map<string, Order> = new Map();
 

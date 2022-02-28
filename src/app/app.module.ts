@@ -1,4 +1,4 @@
-import {DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule} from '@angular/core';
+import {DEFAULT_CURRENCY_CODE, enableProdMode, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -50,8 +50,13 @@ import {MatSortModule} from "@angular/material/sort";
 import { OverviewComponent } from './overview/overview.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import {environment} from "../environments/environment";
 
 registerLocaleData(localeFr);
+
+if(environment.production) {
+  enableProdMode();
+}
 
 @NgModule({
   declarations: [

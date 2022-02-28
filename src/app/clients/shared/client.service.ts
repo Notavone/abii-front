@@ -7,12 +7,13 @@ import {Status} from "./status";
 import {PaymentType} from "./payment-type";
 import {AuthService} from "../../auth/shared/auth.service";
 import {LoggingService} from "../../shared/logging.service";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
-  private baseUrl = "https://localhost/abii/api/clients";
+  private baseUrl = environment.url + "/clients";
   private provider = "ClientService";
   private cache: Map<string, Client> = new Map();
 

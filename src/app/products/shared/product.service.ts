@@ -6,12 +6,13 @@ import {Response} from "../../shared/response";
 import {ProductType} from "./product-type";
 import {AuthService} from "../../auth/shared/auth.service";
 import {LoggingService} from "../../shared/logging.service";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private baseUrl = "https://localhost/abii/api/products";
+  private baseUrl = environment.url + "/products";
   private provider = "ProductService";
   private cache: Map<string, Product> = new Map();
 
