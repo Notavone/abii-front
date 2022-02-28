@@ -16,7 +16,7 @@ import {environment} from "../../../environments/environment";
   providedIn: 'root'
 })
 export class OrderService {
-  private baseUrl = environment.url + "api//orders";
+  private baseUrl = environment.url + "/api//orders";
   private provider = "OrderService";
   private cache: Map<string, Order> = new Map();
 
