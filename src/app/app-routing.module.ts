@@ -39,7 +39,9 @@ const routes: Routes = [
   },
   {path: "products", component: ProductsComponent},
 
-  {path: "overview", component: OverviewComponent}
+  {path: "overview", component: OverviewComponent},
+
+  {path: "**", pathMatch: "full", redirectTo: "/"}
 ];
 
 @NgModule({
