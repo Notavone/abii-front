@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductService} from '../products/shared/product.service';
-import {Product} from "../products/shared/product";
-import {ProductType} from "../products/shared/product-type";
+import {ProductsService} from '../products/products.service';
+import {Product} from "../shared/product";
+import {ProductType} from "../shared/product-type";
 
 @Component({
   selector: 'app-homepage',
@@ -11,7 +11,7 @@ import {ProductType} from "../products/shared/product-type";
 export class HomepageComponent implements OnInit {
   products: Product[] = []
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductsService) { }
 
   ngOnInit(): void {
     this.productService.getProducts()

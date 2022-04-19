@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, map, Observable, of} from "rxjs";
-import {LoggingService} from 'src/app/shared/logging.service';
-import {environment} from "../../../environments/environment";
+import {LoggingService} from 'src/app/features/logging.service';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'

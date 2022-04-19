@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {ClientService} from 'src/app/clients/shared/client.service';
-import {Client} from "../shared/client";
+import {ClientsService} from 'src/app/clients/clients.service';
+import {Client} from "../../shared/client";
 import {Router} from "@angular/router";
 
 @Component({
@@ -16,7 +16,7 @@ export class ClientCreateFormComponent {
     balance: 0,
   }
 
-  constructor(private clientService: ClientService, private router: Router) {
+  constructor(private clientService: ClientsService, private router: Router) {
   }
 
   save() {

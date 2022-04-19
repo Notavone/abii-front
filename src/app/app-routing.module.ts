@@ -6,7 +6,7 @@ import {ClientsComponent} from "./clients/clients.component";
 import {ClientComponent} from "./clients/client/client.component";
 import {OrdersComponent} from "./orders/orders.component";
 import {OrderComponent} from "./orders/order/order.component";
-import {AuthLoginComponent} from "./auth/auth-login/auth-login.component"
+import {AuthComponent} from "./auth/auth.component"
 import {HomepageComponent} from "./homepage/homepage.component";
 import {ClientBuyFormComponent} from "./clients/client/client-buy-form/client-buy-form.component";
 import {ClientHistoryComponent} from "./clients/client/client-history/client-history.component";
@@ -17,7 +17,7 @@ import { OverviewComponent } from './overview/overview.component';
 
 const routes: Routes = [
   {path: "", component: HomepageComponent},
-  {path: "login", component: AuthLoginComponent},
+  {path: "login", component: AuthComponent},
 
   {path: "orders/:id", component: OrderComponent},
   {path: "orders", component: OrdersComponent},

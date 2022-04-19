@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {ProductService} from '../shared/product.service';
-import {Product} from "../shared/product";
-import {ProductType} from "../shared/product-type";
+import {ProductsService} from '../products.service';
+import {Product} from "../../shared/product";
+import {ProductType} from "../../shared/product-type";
 import {Router} from "@angular/router";
 
 @Component({
@@ -20,7 +20,7 @@ export class ProductCreateFormComponent {
   }
   productType = ProductType
 
-  constructor(private productService: ProductService, private router: Router) {
+  constructor(private productService: ProductsService, private router: Router) {
   }
 
   public save() {

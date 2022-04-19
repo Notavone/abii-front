@@ -1,12 +1,15 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {Order} from "../shared/order";
+import {Order} from "../../shared/order";
 import {MatTableDataSource} from "@angular/material/table";
-import {OrderService} from '../shared/order.service';
+import {OrdersService} from '../orders.service';
 import {MatDialog} from "@angular/material/dialog";
-import {DialogConfirmComponent} from "../../dialog-confirm/dialog-confirm.component";
-import {OrderEvent} from "../shared/order-event";
+import {ConfirmComponent} from "../../dialog/confirm/confirm.component";
+import {OrderEvent} from "../order-event";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
+import {ProductsService} from "../../products/products.service";
+import {ClientsService} from "../../clients/clients.service";
+import {map} from "rxjs";
 
 @Component({
   selector: 'app-orders-table',
@@ -21,7 +24,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatSort) sort?: MatSort;
   dataSet: MatTableDataSource<Order> = new MatTableDataSource<Order>();
 
-  constructor(private orderService: OrderService, private dialog: MatDialog) {
+  constructor(private orderService: OrdersService, private dialog: MatDialog, private productService: ProductsService, private clientsService: ClientsService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -29,7 +32,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if(this.sort) this.dataSet.sort = this.sort;
+    if (this.sort) this.dataSet.sort = this.sort;
     if (this.paginator) this.dataSet.paginator = this.paginator;
   }
 
@@ -38,7 +41,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
   }
 
   deleteOrder(order: Order) {
-    this.dialog.open(DialogConfirmComponent, {
+    this.dialog.open(ConfirmComponent, {
       data: {
         title: "Supprimer un achat",
         text: "Êtes vous sûr de vouloir supprimer cet achat ?",
@@ -53,5 +56,13 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
             })
         }
       })
+  }
+
+  getProductName(product: string) {
+    return this.productService.getProduct(product).pipe(map(p => p.name));
+  }
+
+  getClientName(client: string) {
+    return this.clientsService.getClient(client).pipe(map(c => c.name));
   }
 }

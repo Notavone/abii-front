@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {AuthService} from '../shared/auth.service';
+import {AuthService} from './auth.service';
 import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-auth-login',
-  templateUrl: './auth-login.component.html',
-  styleUrls: ['./auth-login.component.scss']
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss']
 })
-export class AuthLoginComponent {
+export class AuthComponent {
   email: string = "";
   password: string = "";
 

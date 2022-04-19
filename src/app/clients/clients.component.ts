@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {Client} from "./shared/client";
-import {ClientService} from "./shared/client.service";
+import {Client} from "../shared/client";
+import {ClientsService} from "./clients.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
@@ -16,7 +16,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
   dataSet: MatTableDataSource<Client> = new MatTableDataSource<Client>();
   columnsToDisplay = ["name", "balance", "subscription"];
 
-  constructor(private clientService: ClientService) {
+  constructor(private clientService: ClientsService) {
   }
 
   ngOnInit(): void {

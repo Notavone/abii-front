@@ -1,4 +1,4 @@
-import {PaymentType} from "./payment-type";
+import {PaymentType} from "../shared/payment-type";
 
 export interface BalanceUpdateEvent {
   type: PaymentType,

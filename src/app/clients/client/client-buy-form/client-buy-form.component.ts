@@ -1,16 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Client} from "../../shared/client";
-import {ProductService} from "../../../products/shared/product.service";
-import {ClientService} from "../../shared/client.service";
+import {Client} from "../../../shared/client";
+import {ProductsService} from "../../../products/products.service";
+import {ClientsService} from "../../clients.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ProductType} from "../../../products/shared/product-type";
-import {Product} from "../../../products/shared/product";
+import {ProductType} from "../../../shared/product-type";
+import {Product} from "../../../shared/product";
 import {MatListOption} from "@angular/material/list";
-import {OrderLine} from "../../../orders/shared/order-line";
-import {DialogConfirmComponent} from "../../../dialog-confirm/dialog-confirm.component";
+import {OrderLine} from "../../../shared/order-line";
+import {ConfirmComponent} from "../../../dialog/confirm/confirm.component";
 import {MatDialog} from "@angular/material/dialog";
 import {CurrencyPipe} from "@angular/common";
-import {OrderService} from "../../../orders/shared/order.service";
+import {OrdersService} from "../../../orders/orders.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -26,9 +26,9 @@ export class ClientBuyFormComponent implements OnInit {
   lines: OrderLine[] = []
 
   constructor(
-    private clientService: ClientService,
-    private productService: ProductService,
-    private orderService: OrderService,
+    private clientService: ClientsService,
+    private productService: ProductsService,
+    private orderService: OrdersService,
     private route: ActivatedRoute,
     private snackbar: MatSnackBar,
     private router: Router,
@@ -90,7 +90,7 @@ export class ClientBuyFormComponent implements OnInit {
 
   sendOrder() {
     if (!this.client) throw new Error("Should not happen.");
-    this.dialog.open(DialogConfirmComponent, {
+    this.dialog.open(ConfirmComponent, {
       data: {
         title: "Confirmer un achat",
         text: `Ce client sera débité de ${this.currencyPipe.transform(this.getTotal())}`,

@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Product} from "../../shared/product";
-import {ProductService} from '../../shared/product.service';
-import {DialogConfirmComponent} from "../../../dialog-confirm/dialog-confirm.component";
+import {Product} from "../../../shared/product";
+import {ProductsService} from '../../products.service';
 import {MatDialog} from "@angular/material/dialog";
-import {ProductType} from "../../shared/product-type";
+import {ProductType} from "../../../shared/product-type";
+import {ConfirmComponent} from "../../../dialog/confirm/confirm.component";
 
 @Component({
   selector: 'app-product-params',
@@ -18,7 +18,7 @@ export class ProductParamsComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private productService: ProductService,
+    private productService: ProductsService,
     private dialog: MatDialog
   ) {
   }
@@ -43,7 +43,7 @@ export class ProductParamsComponent implements OnInit {
 
   delete() {
     if (!this.product) throw new Error("Should not happen.");
-    this.dialog.open(DialogConfirmComponent, {
+    this.dialog.open(ConfirmComponent, {
       data: {
         title: "Supprimer un produit",
         text: `Êtes-vous sûr de vouloir supprimer le produit "${this.product.name}" ?`,

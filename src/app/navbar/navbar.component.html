@@ -1,14 +1,22 @@
 <mat-toolbar role="heading" color="primary">
   <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Accueil</a>
-  <div *ngIf="isLoggedIn()">
+
+  <ng-container *ngIf="isLoggedIn()">
     <a mat-button routerLink="/clients" routerLinkActive="active">Clients</a>
     <a mat-button routerLink="/products" routerLinkActive="active">Produits</a>
     <a mat-button routerLink="/orders" routerLinkActive="active">Commandes</a>
     <a mat-button routerLink="/overview" routerLinkActive="active">Aperçu</a>
-  </div>
+  </ng-container>
+
   <span class="spacer"></span>
-  <a *ngIf="!isLoggedIn(); else loggedIn" mat-button routerLink="/login" routerLinkActive="active">Connexion</a>
-  <ng-template #loggedIn>
-    <button mat-button (click)="logout()">Déconnexion</button>
-  </ng-template>
+
+  <ng-container *ngIf="isLoggedIn();then loggedIn; else loggedOut"></ng-container>
 </mat-toolbar>
+
+<ng-template #loggedIn>
+  <button mat-button (click)="logout()">Déconnexion</button>
+</ng-template>
+
+<ng-template #loggedOut>
+  <a mat-button routerLink="/login" routerLinkActive="active">Connexion</a>
+</ng-template>

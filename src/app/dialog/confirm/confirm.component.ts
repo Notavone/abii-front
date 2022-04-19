@@ -3,11 +3,11 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {Data} from "./shared/data";
 
 @Component({
-  selector: 'app-dialog-confirm',
-  templateUrl: './dialog-confirm.component.html',
-  styleUrls: ['./dialog-confirm.component.scss']
+  selector: 'app-confirm',
+  templateUrl: './confirm.component.html',
+  styleUrls: ['./confirm.component.scss']
 })
-export class DialogConfirmComponent {
+export class ConfirmComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Data) {
   }

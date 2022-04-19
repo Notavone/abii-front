@@ -1,23 +1,23 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable, of, tap} from "rxjs";
-import {Order} from "./order";
-import {Response} from "../../shared/response";
-import {QueryService} from "../../shared/query.service";
-import {AuthService} from "../../auth/shared/auth.service";
-import {Client} from "../../clients/shared/client";
-import {OrderLine} from "./order-line";
+import {Order} from "../shared/order";
+import {Response} from "../shared/response";
+import {QueryService} from "../features/query.service";
+import {AuthService} from "../auth/auth.service";
+import {Client} from "../shared/client";
+import {OrderLine} from "../shared/order-line";
 import {OrderEvent} from "./order-event";
-import {LoggingService} from "../../shared/logging.service";
-import {ClientService} from "../../clients/shared/client.service";
-import {environment} from "../../../environments/environment";
+import {LoggingService} from "../features/logging.service";
+import {ClientsService} from "../clients/clients.service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrderService {
+export class OrdersService {
   private baseUrl = environment.url + "/api//orders";
-  private provider = "OrderService";
+  private provider = "OrdersService";
   private cache: Map<string, Order> = new Map();
 
   constructor(
@@ -25,7 +25,7 @@ export class OrderService {
     private queryService: QueryService,
     private authService: AuthService,
     private loggingService: LoggingService,
-    private clientService: ClientService
+    private clientService: ClientsService
   ) {
   }
 

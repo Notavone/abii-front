@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Client} from "../../shared/client";
-import {Status} from "../../shared/status";
-import {DialogConfirmComponent} from "../../../dialog-confirm/dialog-confirm.component";
+import {Client} from "../../../shared/client";
+import {Status} from "../../../shared/status";
+import {ConfirmComponent} from "../../../dialog/confirm/confirm.component";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
@@ -24,7 +24,7 @@ export class ClientStatusFormComponent {
 
   updateStatus(status: Status) {
     if (!this.client) throw new Error("Should not happen.");
-    this.dialog.open(DialogConfirmComponent, {
+    this.dialog.open(ConfirmComponent, {
       data: {
         title: "Mettre à jour l'adhésion d'un client",
         text: "Êtes vous sûr de vouloir effectuer cette action ?"

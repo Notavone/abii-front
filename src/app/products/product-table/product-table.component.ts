@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
-import {Product} from "../shared/product";
-import {ProductService} from '../shared/product.service';
+import {Product} from "../../shared/product";
+import {ProductsService} from '../products.service';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 
@@ -15,7 +15,7 @@ export class ProductTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatSort) sort?: MatSort;
   dataSet: MatTableDataSource<Product> = new MatTableDataSource<Product>();
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductsService) {
   }
 
   ngAfterViewInit() {

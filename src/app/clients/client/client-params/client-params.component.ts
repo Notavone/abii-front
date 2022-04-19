@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {ClientService} from "../../shared/client.service";
-import {Client} from "../../shared/client";
-import {DialogConfirmComponent} from "../../../dialog-confirm/dialog-confirm.component";
-import {BalanceUpdateEvent} from "../../shared/balance-update-event";
-import {Status} from "../../shared/status";
+import {ClientsService} from "../../clients.service";
+import {Client} from "../../../shared/client";
+import {ConfirmComponent} from "../../../dialog/confirm/confirm.component";
+import {BalanceUpdateEvent} from "../../balance-update-event";
+import {Status} from "../../../shared/status";
 import {MatDialog} from "@angular/material/dialog";
-import {OrderService} from "../../../orders/shared/order.service";
+import {OrdersService} from "../../../orders/orders.service";
 
 @Component({
   selector: 'app-client-params',
@@ -18,8 +18,8 @@ export class ClientParamsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private clientService: ClientService,
-    private orderService: OrderService,
+    private clientService: ClientsService,
+    private orderService: OrdersService,
     private router: Router,
     private dialog: MatDialog,
   ) {
@@ -44,7 +44,7 @@ export class ClientParamsComponent implements OnInit {
 
   delete() {
     if (!this.client) throw new Error("Should not happen.");
-    this.dialog.open(DialogConfirmComponent, {
+    this.dialog.open(ConfirmComponent, {
       data: {
         title: "Supprimer un client",
         text: `Voulez vous vraiment supprimer le client "${this.client.name}" ?`,

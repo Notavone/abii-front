@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {ClientService} from "../shared/client.service";
-import {Client} from "../shared/client";
+import {ClientsService} from "../clients.service";
+import {Client} from "../../shared/client";
 import {NavigationLink} from 'src/app/shared/navigation-link';
 
 @Component({
@@ -14,7 +14,7 @@ export class ClientComponent implements OnInit {
   links: NavigationLink[] = [];
   activeLink: string = this.route.snapshot.url.join("/");
 
-  constructor(private clientService: ClientService, private route: ActivatedRoute, private router: Router) {
+  constructor(private clientService: ClientsService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {

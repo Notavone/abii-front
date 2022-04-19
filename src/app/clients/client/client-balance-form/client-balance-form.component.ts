@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PaymentType} from "../../shared/payment-type";
-import {Client} from "../../shared/client";
-import {DialogConfirmComponent} from "../../../dialog-confirm/dialog-confirm.component";
+import {PaymentType} from "../../../shared/payment-type";
+import {Client} from "../../../shared/client";
+import {ConfirmComponent} from "../../../dialog/confirm/confirm.component";
 import {MatDialog} from "@angular/material/dialog";
-import {BalanceUpdateEvent} from "../../shared/balance-update-event";
+import {BalanceUpdateEvent} from "../../balance-update-event";
 
 @Component({
   selector: 'app-client-balance-form',
@@ -26,7 +26,7 @@ export class ClientBalanceFormComponent {
 
   updateBalance() {
     if (!this.client) throw new Error("Should not happen.");
-    this.dialog.open(DialogConfirmComponent, {
+    this.dialog.open(ConfirmComponent, {
       data: {
         title: "Modifier le solde",
         text: "Voulez vous vraiment effectuer cette action ?"

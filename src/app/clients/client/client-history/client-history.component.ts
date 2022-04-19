@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {OrderEvent} from "../../../orders/shared/order-event";
-import {Client} from "../../shared/client";
+import {OrderEvent} from "../../../orders/order-event";
+import {Client} from "../../../shared/client";
 import {ActivatedRoute} from "@angular/router";
-import {ClientService} from '../../shared/client.service';
-import {Order} from "../../../orders/shared/order";
-import {OrderService} from "../../../orders/shared/order.service";
+import {ClientsService} from '../../clients.service';
+import {Order} from "../../../shared/order";
+import {OrdersService} from "../../../orders/orders.service";
 
 @Component({
   selector: 'app-client-history',
@@ -15,7 +15,7 @@ export class ClientHistoryComponent implements OnInit {
   @Input() client?: Client;
   orders: Order[] = [];
 
-  constructor(private route: ActivatedRoute, private clientService: ClientService, private orderService: OrderService) {
+  constructor(private route: ActivatedRoute, private clientService: ClientsService, private orderService: OrdersService) {
   }
 
   ngOnInit() {

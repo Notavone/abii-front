@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Order} from "../orders/shared/order";
-import {OrderService} from "../orders/shared/order.service";
-import {ClientService} from "../clients/shared/client.service";
-import { ProductService } from '../products/shared/product.service';
-import {Client} from "../clients/shared/client";
-import {Product} from "../products/shared/product";
+import {Order} from "../shared/order";
+import {OrdersService} from "../orders/orders.service";
+import {ClientsService} from "../clients/clients.service";
+import { ProductsService } from '../products/products.service';
+import {Client} from "../shared/client";
+import {Product} from "../shared/product";
 
 @Component({
   selector: 'app-overview',
@@ -22,7 +22,7 @@ export class OverviewComponent implements OnInit {
   selectedClient?: Client;
   selectedProduct?: Product;
 
-  constructor(private orderService: OrderService, private clientService: ClientService, private productService: ProductService) {
+  constructor(private orderService: OrdersService, private clientService: ClientsService, private productService: ProductsService) {
   }
 
   ngOnInit(): void {

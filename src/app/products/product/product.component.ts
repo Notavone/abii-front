@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ProductService} from "../shared/product.service";
+import {ProductsService} from "../products.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Product} from "../shared/product";
+import {Product} from "../../shared/product";
 import {NavigationLink} from "../../shared/navigation-link";
 
 @Component({
@@ -17,7 +17,7 @@ export class ProductComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private productService: ProductService
+    private productService: ProductsService
   ) {
   }
 

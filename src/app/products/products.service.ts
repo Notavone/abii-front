@@ -1,19 +1,19 @@
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of, tap} from "rxjs";
-import {Product} from "./product";
+import {Product} from "../shared/product";
 import {HttpClient} from "@angular/common/http";
-import {Response} from "../../shared/response";
-import {ProductType} from "./product-type";
-import {AuthService} from "../../auth/shared/auth.service";
-import {LoggingService} from "../../shared/logging.service";
-import {environment} from "../../../environments/environment";
+import {Response} from "../shared/response";
+import {ProductType} from "../shared/product-type";
+import {AuthService} from "../auth/auth.service";
+import {LoggingService} from "../features/logging.service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class ProductsService {
   private baseUrl = environment.url + "/api/products";
-  private provider = "ProductService";
+  private provider = "ProductsService";
   private cache: Map<string, Product> = new Map();
 
   constructor(private http: HttpClient, private authService: AuthService, private loggingService: LoggingService) {

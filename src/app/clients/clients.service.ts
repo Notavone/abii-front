@@ -1,20 +1,20 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable, of, tap} from "rxjs";
-import {Response} from "../../shared/response";
-import {Client} from "./client";
-import {Status} from "./status";
-import {PaymentType} from "./payment-type";
-import {AuthService} from "../../auth/shared/auth.service";
-import {LoggingService} from "../../shared/logging.service";
-import {environment} from "../../../environments/environment";
+import {Response} from "../shared/response";
+import {Client} from "../shared/client";
+import {Status} from "../shared/status";
+import {PaymentType} from "../shared/payment-type";
+import {AuthService} from "../auth/auth.service";
+import {LoggingService} from "../features/logging.service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClientService {
+export class ClientsService {
   private baseUrl = environment.url + "/api/clients";
-  private provider = "ClientService";
+  private provider = "ClientsService";
   private cache: Map<string, Client> = new Map();
 
   constructor(private http: HttpClient, private authService: AuthService, private loggingService: LoggingService) {

@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {OrderEvent} from "../../../orders/shared/order-event";
-import {Order} from "../../../orders/shared/order";
+import {OrderEvent} from "../../../orders/order-event";
+import {Order} from "../../../shared/order";
 import {ActivatedRoute} from "@angular/router";
-import {Product} from "../../shared/product";
-import {ProductService} from "../../shared/product.service";
-import {OrderService} from "../../../orders/shared/order.service";
+import {Product} from "../../../shared/product";
+import {ProductsService} from "../../products.service";
+import {OrdersService} from "../../../orders/orders.service";
 
 @Component({
   selector: 'app-product-history',
@@ -15,7 +15,7 @@ export class ProductHistoryComponent implements OnInit {
   @Input() product?: Product;
   orders: Order[] = [];
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private orderService: OrderService) {
+  constructor(private route: ActivatedRoute, private productService: ProductsService, private orderService: OrdersService) {
   }
 
   ngOnInit(): void {
