@@ -3,29 +3,27 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable, tap} from 'rxjs';
 import {Router} from "@angular/router";
 import {AuthService} from "./auth.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private snackBar: MatSnackBar
+  ) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    request = request.clone({
-      headers: this.authService.authHeader()
-    });
-
     return next.handle(request)
       .pipe(
         tap({
-          error: err => {
-            if (err instanceof HttpErrorResponse) {
-              if (err.status !== 401) {
-                return;
-              }
-              this.authService.logout();
-              this.router.navigate(['/login']);
-            }
+          error: (err) => {
+            if (!(err instanceof HttpErrorResponse) || err.status !== 401) return;
+            this.snackBar.open("Session expirée, veuillez vous reconnecter", "", {duration: 5000});
+            return this.router.navigate(['/login']);
           }
-        }));
+        })
+      );
   }
 }

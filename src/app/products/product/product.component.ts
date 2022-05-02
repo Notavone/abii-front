@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ProductsService} from "../products.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Product} from "../../shared/product";
+import {Product} from "../dto/product";
 import {NavigationLink} from "../../shared/navigation-link";
 
 @Component({
@@ -22,14 +22,17 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let id = "" + this.route.snapshot.paramMap.get("id");
+    let id = this.route.snapshot.paramMap.get("id");
+    if(!id) {
+      return;
+    }
 
-    this.productService.getProduct(id)
+    this.productService.getProduct(+id)
       .subscribe(product => {
         this.product = product;
         let navigationLinks = [
-          {path: `/products/${product._id}/params`, label: "Paramètres"},
-          {path: `/products/${product._id}/history`, label: "Historique"},
+          {path: `/products/${product.id}/params`, label: "Paramètres"},
+          {path: `/products/${product.id}/history`, label: "Historique"},
         ];
         this.links = navigationLinks;
         if (!navigationLinks.map(l => l.path).includes(this.activeLink)) {

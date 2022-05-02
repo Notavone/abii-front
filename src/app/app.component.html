@@ -1,2 +1,25 @@
-<app-navbar></app-navbar>
+<mat-toolbar role="heading" color="primary">
+  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Accueil</a>
+
+  <ng-container *ngIf="isLoggedIn() && hasManageRights()">
+    <a mat-button routerLink="/clients" routerLinkActive="active">Clients</a>
+    <a mat-button routerLink="/products" routerLinkActive="active">Produits</a>
+    <a mat-button routerLink="/users" routerLinkActive="active">Utilisateurs</a>
+    <a mat-button routerLink="/orders" routerLinkActive="active">Commandes</a>
+  </ng-container>
+
+  <span class="spacer"></span>
+
+  <ng-container *ngIf="isLoggedIn();then loggedIn; else loggedOut"></ng-container>
+</mat-toolbar>
+
 <router-outlet></router-outlet>
+
+<ng-template #loggedIn>
+  <a mat-button routerLink="/profile" routerLinkActive="active">Profil</a>
+  <button mat-button (click)="logout()">Déconnexion</button>
+</ng-template>
+
+<ng-template #loggedOut>
+  <a mat-button routerLink="/login" routerLinkActive="active">Connexion</a>
+</ng-template>

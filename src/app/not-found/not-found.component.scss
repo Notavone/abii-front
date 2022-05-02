@@ -1,0 +1,10 @@
+img {
+  max-width: 40vw;
+  max-height: 40vh;
+}
+
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 5em;
+}

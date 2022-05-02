@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
-import {Product} from "../../shared/product";
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Product} from "../dto/product";
 import {ProductsService} from '../products.service';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
@@ -12,6 +12,7 @@ import {MatSort} from "@angular/material/sort";
 export class ProductTableComponent implements OnChanges, AfterViewInit {
   @Input() products: Product[] = [];
   @Input() columnsToDisplay: string[] = ["name", "available", "price", "discount"]
+  @Output() productUpdated = new EventEmitter<Product>();
   @ViewChild(MatSort) sort?: MatSort;
   dataSet: MatTableDataSource<Product> = new MatTableDataSource<Product>();
 
@@ -19,7 +20,7 @@ export class ProductTableComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if(this.sort) this.dataSet.sort = this.sort;
+    if (this.sort) this.dataSet.sort = this.sort;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -27,11 +28,9 @@ export class ProductTableComponent implements OnChanges, AfterViewInit {
   }
 
   toggleAvailability(product: Product) {
-    product.available = !product.available;
     this.productService.toggleAvailability(product)
       .subscribe(newProduct => {
-        let id = this.products.indexOf(product);
-        this.products[id] = newProduct;
+        this.productUpdated.emit(newProduct);
       })
   }
 }

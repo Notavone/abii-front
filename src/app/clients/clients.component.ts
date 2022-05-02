@@ -1,9 +1,11 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {Client} from "../shared/client";
+import {Client} from "./dto/client";
 import {ClientsService} from "./clients.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
+import {ClientCreateDto} from "./dto/client-create.dto";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-clients',
@@ -13,10 +15,14 @@ import {MatSort} from "@angular/material/sort";
 export class ClientsComponent implements OnInit, AfterViewInit {
   @ViewChild("paginator") paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
+  client: ClientCreateDto = new ClientCreateDto();
   dataSet: MatTableDataSource<Client> = new MatTableDataSource<Client>();
   columnsToDisplay = ["name", "balance", "subscription"];
 
-  constructor(private clientService: ClientsService) {
+  constructor(
+    private clientService: ClientsService,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
@@ -29,7 +35,8 @@ export class ClientsComponent implements OnInit, AfterViewInit {
     if (this.paginator) this.dataSet.paginator = this.paginator;
   }
 
-  set filter(value: string) {
-    this.dataSet.filter = value;
+  save() {
+    this.clientService.addClient(this.client)
+      .subscribe(client => this.router.navigate([`/clients/${client.id}`]))
   }
 }

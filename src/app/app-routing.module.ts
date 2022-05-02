@@ -6,42 +6,44 @@ import {ClientsComponent} from "./clients/clients.component";
 import {ClientComponent} from "./clients/client/client.component";
 import {OrdersComponent} from "./orders/orders.component";
 import {OrderComponent} from "./orders/order/order.component";
-import {AuthComponent} from "./auth/auth.component"
+import {LoginComponent} from "./auth/login/login.component"
 import {HomepageComponent} from "./homepage/homepage.component";
-import {ClientBuyFormComponent} from "./clients/client/client-buy-form/client-buy-form.component";
-import {ClientHistoryComponent} from "./clients/client/client-history/client-history.component";
-import {ClientParamsComponent} from "./clients/client/client-params/client-params.component";
 import {ProductParamsComponent} from "./products/product/product-params/product-params.component";
 import {ProductHistoryComponent} from './products/product/product-history/product-history.component';
-import { OverviewComponent } from './overview/overview.component';
+import {AuthGuard} from "./auth/auth.guard";
+import {NotFoundComponent} from "./not-found/not-found.component";
+import {RegisterComponent} from "./auth/register/register.component";
+import {ConfirmComponent} from "./auth/confirm/confirm.component";
+import {UsersComponent} from "./users/users.component";
+import {UserComponent} from "./users/user/user.component";
+import {AbiiGuard} from "./auth/abii.guard";
 
 const routes: Routes = [
   {path: "", component: HomepageComponent},
-  {path: "login", component: AuthComponent},
+  {path: "login", component: LoginComponent},
+  {path: "register", component: RegisterComponent},
+  {path: "confirm", component: ConfirmComponent},
 
-  {path: "orders/:id", component: OrderComponent},
-  {path: "orders", component: OrdersComponent},
+  {path: "orders", component: OrdersComponent, canActivate: [AuthGuard, AbiiGuard]},
+  {path: "orders/:id", component: OrderComponent, canActivate: [AuthGuard]},
+
+  {path: "clients", component: ClientsComponent, canActivate: [AuthGuard, AbiiGuard]},
+  {path: "clients/:id", component: ClientComponent, canActivate: [AuthGuard]},
+
+  {path: "users", component: UsersComponent, canActivate: [AuthGuard, AbiiGuard]},
+  {path: "users/:id", component: UserComponent, canActivate: [AuthGuard]},
+  {path: "profile", component: UserComponent, canActivate: [AuthGuard]},
 
   {
-    path: "clients/:id", component: ClientComponent, children: [
-      {path: 'params', component: ClientParamsComponent},
-      {path: 'buy', component: ClientBuyFormComponent},
-      {path: 'history', component: ClientHistoryComponent}
-    ]
-  },
-  {path: "clients", component: ClientsComponent},
-
-  {
-    path: "products/:id", component: ProductComponent, children: [
+    path: "products/:id", component: ProductComponent, canActivate: [AuthGuard, AbiiGuard], children: [
       {path: "params", component: ProductParamsComponent},
       {path: "history", component: ProductHistoryComponent}
     ]
   },
-  {path: "products", component: ProductsComponent},
+  {path: "products", component: ProductsComponent, canActivate: [AuthGuard, AbiiGuard]},
 
-  {path: "overview", component: OverviewComponent},
-
-  {path: "**", pathMatch: "full", redirectTo: "/"}
+  {path: "404", component: NotFoundComponent},
+  {path: "**", pathMatch: "full", component: NotFoundComponent}
 ];
 
 @NgModule({

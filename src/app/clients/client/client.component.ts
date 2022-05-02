@@ -1,8 +1,22 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ClientsService} from "../clients.service";
-import {Client} from "../../shared/client";
-import {NavigationLink} from 'src/app/shared/navigation-link';
+import {Client} from "../dto/client";
+import {Status} from "../../shared/status";
+import {ClientUpdateDto} from "../dto/client-update.dto";
+import {Product} from "../../products/dto/product";
+import {ProductType} from "../../shared/product-type";
+import {ProductsService} from "../../products/products.service";
+import {MatListOption} from "@angular/material/list";
+import {CurrencyPipe, Location} from "@angular/common";
+import {OrdersService} from "../../orders/orders.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Order} from "../../orders/dto/order";
+import {OrderLineModel} from "../../shared/order-line.model";
+import {ConfirmService} from "../../features/confirm/confirm.service";
+import {AuthService} from "../../auth/auth.service";
+import {Authority} from "../../shared/authority";
+import {OrderCreateDto} from "../../orders/dto/order-create.dto";
 
 @Component({
   selector: 'app-client',
@@ -10,29 +24,156 @@ import {NavigationLink} from 'src/app/shared/navigation-link';
   styleUrls: ['./client.component.scss']
 })
 export class ClientComponent implements OnInit {
-  @Input() client?: Client;
-  links: NavigationLink[] = [];
-  activeLink: string = this.route.snapshot.url.join("/");
+  client!: Client;
+  updateDto!: ClientUpdateDto;
+  orders: Order[] = [];
+  status = Status;
+  id!: number;
 
-  constructor(private clientService: ClientsService, private route: ActivatedRoute, private router: Router) {
+  productType = ProductType;
+  products: Product[] = [];
+  selected: MatListOption[] = [];
+  lines: OrderLineModel[] = []
+  paymentIsAdditive: boolean = true;
+  _amount: number = 0;
+
+  constructor(
+    private clientService: ClientsService,
+    private ordersService: OrdersService,
+    private snackbar: MatSnackBar,
+    private productService: ProductsService,
+    private currencyPipe: CurrencyPipe,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
+    private confirmService: ConfirmService,
+    private location: Location,
+  ) {
   }
 
   ngOnInit() {
-    let id = "" + this.route.snapshot.paramMap.get("id");
+    this.route.params
+      .subscribe(params => {
+        if (params["id"]) {
+          this.clientService.getClient(params["id"])
+            .subscribe({
+              next: (client) => {
+                this.client = client;
 
-    this.clientService.getClient(id)
-      .subscribe(client => {
-        this.client = client;
-        let navigationLinks = [
-          {path: `/clients/${client._id}/params`, label: "Paramètres"},
-          {path: `/clients/${client._id}/buy`, label: "Achats"},
-          {path: `/clients/${client._id}/history`, label: "Historique"},
-        ];
-        this.links = navigationLinks;
-        if(!navigationLinks.map(l => l.path).includes(this.activeLink)) {
-          this.activeLink = navigationLinks[0].path;
-          this.router.navigate([navigationLinks[0].path]);
+                this.updateDto = {
+                  name: client.name,
+                  balance: client.balance,
+                  subscribedUntil: client.subscribedUntil,
+                }
+
+                this.ordersService.getOrders({clientId: client.id, allowIncomplete: true, allowRefunded: true})
+                  .subscribe(orders => this.orders = orders);
+              },
+              error: () => this.router.navigate(["/404"])
+            });
+        } else {
+          this.router.navigate(["/404"]).then();
         }
       });
+
+    this.productService.getProducts()
+      .subscribe(products => this.products = products);
+  }
+
+  get amount() {
+    return this._amount;
+  }
+
+  get amountPositive() {
+    return Math.abs(this._amount);
+  }
+
+  set amount(value: number) {
+    if (this.paymentIsAdditive) this._amount = Math.abs(value);
+    else this._amount = -Math.abs(value);
+  }
+
+  goBack() {
+    return this.location.back();
+  }
+
+  update() {
+    this.clientService.updateClient(this.id, this.updateDto)
+      .subscribe(() => this.goBack());
+  }
+
+  delete() {
+    this.confirmService.open({
+      title: "Supprimer le client",
+      message: "Êtes-vous sûr de vouloir supprimer ce client ?",
+      onConfirm: () => {
+        this.clientService.deleteClient(this.id)
+          .subscribe(_ => this.goBack());
+      }
+    })
+  }
+
+  get isSubscribed() {
+    return Date.now() < new Date(this.client.subscribedUntil).getTime();
+  }
+
+  updateBalance() {
+    this.confirmService.open({
+      title: "Modifier le solde",
+      onConfirm: () => {
+        this.clientService.updateBalance(this.client.id, this.client.balance + this.amount)
+          .subscribe(client => this.client = client);
+        this.amount = 0;
+      }
+    });
+  }
+
+  updateStatus(status: Status) {
+    this.confirmService.open({
+      title: "Mettre à jour l'adhésion d'un client",
+      onConfirm: () => {
+        this.clientService.updateStatus(this.client.id, new Date(Date.now() + status))
+          .subscribe({
+            next: (client) => this.client = {...client},
+            error: () => this.snackbar.open("Une erreur est survenue")
+          })
+      }
+    })
+  }
+
+  updatePaymentValue() {
+    this.paymentIsAdditive = !this.paymentIsAdditive;
+    if (this.paymentIsAdditive) this.amount = Math.abs(this.amount);
+    else this.amount = -Math.abs(this.amount);
+  }
+
+  isAbii() {
+    let currentUser = this.authService.getCurrentUser();
+    return currentUser?.authorities?.includes(Authority.USER_SELLER) || currentUser?.authorities?.includes(Authority.ADMIN);
+  }
+
+  confirm(orderCreateDto: OrderCreateDto) {
+    this.confirmService.open({
+      title: "Confirmer la commande",
+      message: "Êtes-vous sûr de vouloir confirmer cette commande ?",
+      onConfirm: () => {
+        this.ordersService.addOrder(orderCreateDto)
+          .subscribe({
+            next: (order) => {
+              this.orders.push(order);
+              this.ordersService.confirmOrder(order)
+                .subscribe({
+                  next: (confirmedOrder) => {
+                    this.client = {...this.client, balance: this.client.balance - order.total};
+                    this.orders.splice(this.orders.indexOf(order), 1, confirmedOrder);
+                    this.snackbar.open("Commande créée et confirmée");
+                  },
+                  error: () => this.snackbar.open("Une erreur s'est produite lors de la confirmation de la commande")
+                });
+            },
+            error: () => this.snackbar.open("Une erreur est survenue lors de la création de la commande")
+          });
+      }
+    })
   }
 }

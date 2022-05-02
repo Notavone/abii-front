@@ -12,30 +12,51 @@ import {RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
 import {FeaturesModule} from "../features/features.module";
 import {OrdersComponent} from "./orders.component";
+import { OrderTakingComponent } from './order-taking/order-taking.component';
+import {MatCardModule} from "@angular/material/card";
+import {MatListModule} from "@angular/material/list";
+import {FormsModule} from "@angular/forms";
+import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatSelectModule} from "@angular/material/select";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
   declarations: [
     OrdersComponent,
     OrderComponent,
-    OrdersTableComponent
+    OrdersTableComponent,
+    OrderTakingComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    HttpClientModule,
-    FeaturesModule,
-    MatTableModule,
-    MatExpansionModule,
-    MatButtonModule,
-    MatSortModule,
-    MatPaginatorModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        HttpClientModule,
+        FeaturesModule,
+        MatTableModule,
+        MatExpansionModule,
+        MatButtonModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatCardModule,
+        MatListModule,
+        FormsModule,
+        MatIconModule,
+        MatInputModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatCheckboxModule
+    ],
   providers: [
     OrdersService
   ],
   exports: [
-    OrdersTableComponent
+    OrdersTableComponent,
+    OrderTakingComponent
   ],
 })
 export class OrdersModule {

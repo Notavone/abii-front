@@ -1,15 +1,9 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {Order} from "../../shared/order";
+import {Order} from "../dto/order";
 import {MatTableDataSource} from "@angular/material/table";
-import {OrdersService} from '../orders.service';
-import {MatDialog} from "@angular/material/dialog";
-import {ConfirmComponent} from "../../dialog/confirm/confirm.component";
-import {OrderEvent} from "../order-event";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {ProductsService} from "../../products/products.service";
-import {ClientsService} from "../../clients/clients.service";
-import {map} from "rxjs";
+import {OrderLineDto} from "../dto/order-line.dto";
 
 @Component({
   selector: 'app-orders-table',
@@ -18,17 +12,17 @@ import {map} from "rxjs";
 })
 export class OrdersTableComponent implements OnChanges, AfterViewInit {
   @Input() orders: Order[] = [];
-  @Input() columnsToDisplay = ["id", "client", "total", "date", "lines"];
-  @Output() orderDeleted = new EventEmitter<OrderEvent>();
+  @Input() columnsToDisplay = ["id", "client", "total", "status", "date", "lines"];
+  @Output() orderDeleted = new EventEmitter<Order>();
   @ViewChild("paginator") paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
   dataSet: MatTableDataSource<Order> = new MatTableDataSource<Order>();
 
-  constructor(private orderService: OrdersService, private dialog: MatDialog, private productService: ProductsService, private clientsService: ClientsService) {
+  constructor(  ) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.dataSet.data = this.orders.sort((a, b) => a.date < b.date ? -1 : 1);
+    this.dataSet.data = this.orders.sort((a, b) => new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1);
   }
 
   ngAfterViewInit() {
@@ -36,33 +30,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
     if (this.paginator) this.dataSet.paginator = this.paginator;
   }
 
-  set filter(value: string) {
-    this.dataSet.filter = value;
-  }
-
-  deleteOrder(order: Order) {
-    this.dialog.open(ConfirmComponent, {
-      data: {
-        title: "Supprimer un achat",
-        text: "Êtes vous sûr de vouloir supprimer cet achat ?",
-        confirm: "Supprimer"
-      }
-    }).afterClosed()
-      .subscribe(result => {
-        if (result as unknown as boolean) {
-          this.orderService.deleteOrder(order)
-            .subscribe(response => {
-              this.orderDeleted.emit(response);
-            })
-        }
-      })
-  }
-
-  getProductName(product: string) {
-    return this.productService.getProduct(product).pipe(map(p => p.name));
-  }
-
-  getClientName(client: string) {
-    return this.clientsService.getClient(client).pipe(map(c => c.name));
+  ountProducts(orderLines: OrderLineDto[]) {
+    return orderLines.reduce((total, orderLine) => total + orderLine.quantity, 0);
   }
 }

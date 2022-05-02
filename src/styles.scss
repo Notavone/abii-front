@@ -12,3 +12,13 @@ body {
 .mat-table {
   width: 100%;
 }
+
+.mat-form-field {
+  ~ .mat-form-field, ~ .mat-checkbox {
+    margin-left: 1em;
+  }
+}
+
+.mat-raised-button ~ .mat-raised-button {
+  margin-left: 0.5em;
+}

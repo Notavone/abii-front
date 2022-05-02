@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Product} from "../../../shared/product";
 import {ProductsService} from '../../products.service';
-import {MatDialog} from "@angular/material/dialog";
 import {ProductType} from "../../../shared/product-type";
-import {ConfirmComponent} from "../../../dialog/confirm/confirm.component";
+import {ProductCreateDto} from "../../dto/product-create.dto";
+import {ConfirmService} from "../../../features/confirm/confirm.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-product-params',
@@ -12,50 +12,54 @@ import {ConfirmComponent} from "../../../dialog/confirm/confirm.component";
   styleUrls: ['./product-params.component.scss']
 })
 export class ProductParamsComponent implements OnInit {
-  @Input() product?: Product;
+  id!: number;
+  productDto!: ProductCreateDto;
   productType = ProductType;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private productService: ProductsService,
-    private dialog: MatDialog
+    private confirmService: ConfirmService,
+    private location: Location
   ) {
   }
 
   ngOnInit(): void {
-    let id = "" + this.route.parent?.snapshot.paramMap.get("id");
+    let id = this.route.parent?.snapshot.paramMap.get("id");
+    if (!id) {
+      return
+    }
 
-    this.productService.getProduct(id)
-      .subscribe(product => this.product = product);
+    this.productService.getProduct(+id)
+      .subscribe(product => {
+        this.id = product.id;
+        this.productDto = {
+          name: product.name,
+          type: product.type,
+          price: product.price,
+          price_red: product.price_red,
+          available: product.available,
+        }
+      });
   }
 
 
-  goBack(): void {
-    this.router.navigate(["/products"]);
+  goBack() {
+    return this.location.back();
   }
 
   update() {
-    if (!this.product) throw new Error("Should not happen.");
-    this.productService.updateProduct(this.product)
+    this.productService.updateProduct(this.id, this.productDto)
       .subscribe(_ => this.goBack());
   }
 
   delete() {
-    if (!this.product) throw new Error("Should not happen.");
-    this.dialog.open(ConfirmComponent, {
-      data: {
-        title: "Supprimer un produit",
-        text: `Êtes-vous sûr de vouloir supprimer le produit "${this.product.name}" ?`,
-        confirm: "Supprimer"
-      }
-    }).afterClosed()
-      .subscribe(response => {
-        if (response as unknown as boolean) {
-          if (!this.product) throw new Error("Should not happen.");
-          this.productService.deleteProduct(this.product)
-            .subscribe(_ => this.goBack());
-        }
-      });
+    this.confirmService.open({
+      title: "Supprimer un produit",
+      message: "Êtes-vous sûr de vouloir supprimer ce produit ?",
+      onConfirm: () => this.productService.deleteProduct(this.id)
+        .subscribe(_ => this.goBack())
+    })
   }
 }

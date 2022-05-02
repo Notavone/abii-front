@@ -1,24 +1,21 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, Observable, of, tap} from "rxjs";
-import {Order} from "../shared/order";
-import {Response} from "../shared/response";
+import {catchError, Observable, of} from "rxjs";
+import {Order} from "./dto/order";
 import {QueryService} from "../features/query.service";
 import {AuthService} from "../auth/auth.service";
-import {Client} from "../shared/client";
-import {OrderLine} from "../shared/order-line";
-import {OrderEvent} from "./order-event";
 import {LoggingService} from "../features/logging.service";
 import {ClientsService} from "../clients/clients.service";
-import {environment} from "../../environments/environment";
+import {OrderCreateDto} from "./dto/order-create.dto";
+import {OrderQueryDto} from "./dto/order-query.dto";
+import {OrderUpdateDto} from "./dto/order-update.dto";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
-  private baseUrl = environment.url + "/api//orders";
+  private baseUrl = "/api/orders";
   private provider = "OrdersService";
-  private cache: Map<string, Order> = new Map();
 
   constructor(
     private http: HttpClient,
@@ -29,16 +26,6 @@ export class OrdersService {
   ) {
   }
 
-  set(order: Order) {
-    this.loggingService.log(this.provider, `set cache for id=${order._id}`);
-    this.cache.set(order._id, order);
-  }
-
-  delete(order: Order) {
-    this.loggingService.log(this.provider, `delete cache for id=${order._id}`);
-    this.cache.set(order._id, order);
-  }
-
   private handleError<T>(result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
@@ -46,53 +33,56 @@ export class OrdersService {
     };
   }
 
-  getOrders(query?: Object): Observable<Order[]> {
-    let url = `${this.baseUrl}${this.queryService.encode(query ?? {})}`;
-    return this.http.get<Response<Order[]>>(url)
+  getOrders(query?: OrderQueryDto): Observable<Order[]> {
+    let url = `${this.baseUrl}`;
+    if (query) url += this.queryService.encode(query);
+
+    return this.http.get<Order[]>(url)
       .pipe(
-        map(r => r.data.map(o => this.cache.has(o._id) ? this.cache.get(o._id)! : o)),
-        tap(orders => {
-          for (let order of orders) {
-            if(!this.cache.has(order._id)) this.set(order);
-          }
-        }),
         catchError(this.handleError<Order[]>([]))
       );
   }
 
-  getOrder(id: string): Observable<Order> {
-    let existing = this.cache.get(id);
-    if (existing) return of(existing);
-
+  getOrder(id: number): Observable<Order> {
     let url = `${this.baseUrl}/${id}`;
-    return this.http.get<Response<Order[]>>(url)
+    return this.http.get<Order[]>(url)
       .pipe(
-        map(r => r.data),
         catchError(this.handleError<any>())
       );
   }
 
-  addOrder(client: Client, lines: OrderLine[]): Observable<OrderEvent> {
-    return this.http.post<Response<OrderEvent>>(this.baseUrl, {lines, client: client._id})
+  addOrder(order: OrderCreateDto): Observable<Order> {
+    return this.http.post<Order>(this.baseUrl, order)
       .pipe(
-        map(r => r.data),
-        tap(response => {
-          this.set(response.order);
-          this.clientService.set(response.client);
-        }),
         catchError(this.handleError<any>())
       );
   }
 
-  deleteOrder(order: Order): Observable<OrderEvent> {
-    let url = `${this.baseUrl}/${order._id}`;
-    return this.http.delete<Response<OrderEvent>>(url)
+  updateOrder(order: OrderUpdateDto): Observable<Order> {
+    return this.http.patch<Order>(`${this.baseUrl}/${order.id}`, {orderLines: order.orderLines})
       .pipe(
-        map(r => r.data),
-        tap(response => {
-          this.delete(response.order);
-          this.clientService.set(response.client);
-        }),
+        catchError(this.handleError<any>())
+      );
+  }
+
+  confirmOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(`${this.baseUrl}/${order.id}/confirm`, {})
+      .pipe(
+        catchError(this.handleError<any>())
+      );
+  }
+
+  refundOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(`${this.baseUrl}/${order.id}/refund`, {})
+      .pipe(
+        catchError(this.handleError<any>())
+      );
+  }
+
+  deleteOrder(id: number): Observable<Order> {
+    let url = `${this.baseUrl}/${id}`;
+    return this.http.delete<Order>(url)
+      .pipe(
         catchError(this.handleError<any>())
       );
   }

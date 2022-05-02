@@ -1,6 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Order} from "../shared/order";
+import {Order} from "./dto/order";
 import {OrdersService} from './orders.service';
+import {Client} from "../clients/dto/client";
+import {Product} from "../products/dto/product";
+import {ClientsService} from "../clients/clients.service";
+import {ProductsService} from "../products/products.service";
+import {OrderQueryDto} from "./dto/order-query.dto";
 
 @Component({
   selector: 'app-orders',
@@ -9,13 +14,47 @@ import {OrdersService} from './orders.service';
 })
 export class OrdersComponent implements OnInit {
   orders: Order[] = [];
+  clients: Client[] = [];
+  products: Product[] = []
+  total = 0;
 
-  constructor(private orderService: OrdersService) {
+  start?: Date;
+  end?: Date;
+  selectedClient?: Client;
+  selectedProduct?: Product;
+  allowRefunded: boolean = false;
+  allowIncomplete: boolean = false;
+
+  constructor(private orderService: OrdersService, private clientService: ClientsService, private productService: ProductsService) {
   }
 
   ngOnInit(): void {
+    this.clientService.getClients()
+      .subscribe(clients => this.clients = clients);
+
     this.orderService.getOrders()
       .subscribe(orders => this.orders = orders);
+
+    this.productService.getProducts()
+      .subscribe(products => this.products = products);
   }
 
+  update() {
+    const query = new OrderQueryDto();
+    let startTime = this.start?.getTime();
+    let endTime = this.end?.getTime();
+
+    if (startTime) query.fromTimestamp = startTime;
+    if (endTime) query.toTimestamp = endTime;
+    if (this.selectedClient) query.clientId = this.selectedClient.id;
+    if (this.selectedProduct) query.productId = this.selectedProduct.id;
+    if (this.allowRefunded) query.allowRefunded = this.allowRefunded;
+    if (this.allowIncomplete) query.allowIncomplete = this.allowIncomplete;
+
+    this.orderService.getOrders(query)
+      .subscribe(orders => {
+        this.orders = orders;
+        this.total = orders.reduce((acc, cur) => acc + +cur.total, 0);
+      });
+  }
 }

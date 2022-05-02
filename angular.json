@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": "node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -69,10 +69,14 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "abii-front:build:production"
+              "browserTarget": "abii-front:build:production",
+              "proxyConfig": "config/proxy.conf.prod.json",
+              "open": true
             },
             "development": {
-              "browserTarget": "abii-front:build:development"
+              "browserTarget": "abii-front:build:development",
+              "proxyConfig": "config/proxy.conf.dev.json",
+              "open": true
             }
           },
           "defaultConfiguration": "development"

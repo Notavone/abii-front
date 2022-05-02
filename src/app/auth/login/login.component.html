@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-title>Se connecter</mat-card-title>
+  <mat-card-content>
+    <form (submit)="login($event)">
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input type="email" matNativeControl [(ngModel)]="loginDto.email" name="email" placeholder="Email" autocomplete="username">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input type="password" matNativeControl [(ngModel)]="loginDto.password" name="password" placeholder="Mot de passe" autocomplete="current-password">
+      </mat-form-field>
+
+      <div>
+        <button mat-raised-button color="primary" type="submit">Connexion</button>
+        <button mat-button color="accent" routerLink="/register" type="button">Créer un compte</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

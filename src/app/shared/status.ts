@@ -1,6 +1,5 @@
 export enum Status {
-  NONE,
-  SEMESTER,
-  ANNUAL,
-  CUSTOM
+  NONE = 0,
+  SEMESTER = 7889238000,
+  ANNUAL = 21037968000,
 }

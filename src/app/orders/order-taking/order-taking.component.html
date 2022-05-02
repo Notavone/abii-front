@@ -1,0 +1,35 @@
+<ng-container *ngIf="client">
+  <mat-card-title>Prise de commande</mat-card-title>
+  <mat-expansion-panel *ngIf="selected.length">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Produit(s) sélectionné(s)</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div *ngFor="let product of selected" class="flex line">
+      <span>{{product.name}} - ({{totalForLine(product) | currency}})</span>
+      <div class="line-buttons">
+        <button mat-mini-fab color="accent" (click)="decrementLine(product)"><mat-icon>remove</mat-icon></button>
+        <button mat-flat-button (click)="resetLine(product)">{{quantityForLine(product)}}</button>
+        <button mat-mini-fab color="primary" (click)="incrementLine(product)"><mat-icon>add</mat-icon></button>
+      </div>
+    </div>
+    <mat-action-row>
+      <button mat-button color="primary" (click)="confirm()">Confirmer un total de {{total() | currency}}</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+  <mat-selection-list [(ngModel)]="selected">
+    <ng-template #productList let-type="type" let-header="header">
+      <h3 matSubheader>{{header}}</h3>
+      <mat-list-option *ngFor="let product of orderBy(type)" [value]="product">
+        <div class="flex">
+          <span>{{ product.name }}</span>
+          <span>{{(isSubscribed() ? product.price_red : product.price) | currency }}</span>
+        </div>
+      </mat-list-option>
+    </ng-template>
+    <ng-container *ngTemplateOutlet="productList; context: {header: 'Produits', type: productType.PRODUCT_FOOD}"></ng-container>
+    <mat-divider></mat-divider>
+    <ng-container *ngTemplateOutlet="productList; context: {header: 'Extra', type: productType.PRODUCT_EXTRA}"></ng-container>
+    <mat-divider></mat-divider>
+    <ng-container *ngTemplateOutlet="productList; context: {header: 'Adhésions', type: productType.SUBSCRIPTION}"></ng-container>
+  </mat-selection-list>
+</ng-container>

@@ -1,0 +1,21 @@
+.line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  div > button ~ button {
+      margin-left: 0.4em;
+  }
+
+  & ~ .line {
+    margin-top: 0.4em;
+  }
+}
+
+.mat-form-field ~ .mat-slide-toggle {
+  margin-left: 1em;
+}
+
+form ~ form {
+  margin-top: 1em;
+}

@@ -1,0 +1,14 @@
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.line ~ .line {
+  margin-top: 0.5rem;
+}
+
+.line-buttons button {
+  ~ button {
+    margin-left: 0.5rem;
+  }
+}

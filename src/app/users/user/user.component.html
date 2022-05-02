@@ -1,0 +1,65 @@
+<mat-tab-group *ngIf="user">
+  <mat-tab label="Paramètres">
+    <mat-card>
+      <mat-card-title>Profil de {{user?.name}}</mat-card-title>
+      <form (submit)="save()">
+        <div>
+          <mat-form-field>
+            <mat-label>Prénom</mat-label>
+            <input type="text" matInput [(ngModel)]="userUpdateDto.firstName" placeholder="Prénom" name="firstName">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Nom</mat-label>
+            <input type="text" matInput [(ngModel)]="userUpdateDto.lastName" placeholder="Nom" name="lastName">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input type="text" matInput [(ngModel)]="userUpdateDto.email" placeholder="Email" name="email">
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="canUpdateAdmin()">
+          <mat-form-field>
+            <mat-label>Permissions</mat-label>
+            <mat-select name="authorities" [(ngModel)]="userUpdateDto.authorities" multiple>
+              <mat-option *ngFor="let authority of authorities | keyvalue" [value]="authority.value">
+                {{authority.key}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-checkbox name="activated" [(ngModel)]="userUpdateDto.activated">Autoriser la connexion</mat-checkbox>
+        </div>
+
+        <div>
+          <mat-form-field *ngIf="canUpdateClient() && user && !user.clientId">
+            <mat-label>Client</mat-label>
+            <mat-select name="client" [(ngModel)]="userUpdateDto.client">
+              <mat-option *ngFor="let client of availableClients" [value]="client">
+                {{client.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
+          <button mat-raised-button color="primary" type="submit">Sauvegarder</button>
+          <button *ngIf="user && user.clientId" mat-button color="primary" [routerLink]="'/clients/' + user.clientId">Voir le client associé</button>
+          <button mat-button *ngIf="canUpdateClient() && user && user.clientId" (click)="unlink()">Dé-lier</button>
+        </div>
+      </form>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Passer commande" *ngIf="user.clientId">
+    <mat-card>
+      <app-order-taking [clientId]="user.clientId" (onConfirm)="createOrder($event)"></app-order-taking>
+    </mat-card>
+  </mat-tab>
+  <mat-tab *ngIf="orders.length" label="Historique">
+    <app-orders-table [orders]="orders"></app-orders-table>
+  </mat-tab>
+</mat-tab-group>
+

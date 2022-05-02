@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {ProductComponent} from "./product/product.component";
 import {ProductsComponent} from "./products.component";
 import {ProductTableComponent} from "./product-table/product-table.component";
-import {ProductCreateFormComponent} from "./product-create-form/product-create-form.component";
 import {ProductsService} from "./products.service";
 import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
@@ -29,7 +28,6 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     ProductsComponent,
     ProductComponent,
     ProductTableComponent,
-    ProductCreateFormComponent,
     ProductParamsComponent,
     ProductHistoryComponent
   ],

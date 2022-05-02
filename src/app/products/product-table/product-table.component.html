@@ -2,7 +2,7 @@
 
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header="">Nom</th>
-    <td mat-cell *matCellDef="let product"><a routerLink="/products/{{product._id}}" mat-button>{{product.name}}</a></td>
+    <td mat-cell *matCellDef="let product"><a routerLink="/products/{{product.id}}" mat-button>{{product.name}}</a></td>
   </ng-container>
 
   <ng-container matColumnDef="price">
@@ -17,7 +17,11 @@
 
   <ng-container matColumnDef="available">
     <th mat-header-cell *matHeaderCellDef mat-sort-header="">Disponibilité</th>
-    <td mat-cell *matCellDef="let product"><button mat-icon-button (click)="toggleAvailability(product)"><mat-icon>{{product.available ? "check_box" : "check_box_outline_blank"}}</mat-icon></button></td>
+    <td mat-cell *matCellDef="let product">
+      <button mat-icon-button (click)="toggleAvailability(product)">
+        <mat-icon>{{product.available ? "check_box" : "check_box_outline_blank"}}</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

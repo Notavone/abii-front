@@ -1,18 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule, CurrencyPipe} from '@angular/common';
 import {ClientsComponent} from "./clients.component";
 import {ClientComponent} from "./client/client.component";
-import {ClientCreateFormComponent} from "./client-create-form/client-create-form.component";
 import {ClientsService} from "./clients.service";
 import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
-import {ClientBalanceFormComponent} from "./client/client-balance-form/client-balance-form.component";
-import {ClientBuyFormComponent} from "./client/client-buy-form/client-buy-form.component";
-import {ClientHistoryComponent} from "./client/client-history/client-history.component";
-import {ClientParamsComponent} from "./client/client-params/client-params.component";
-import {ClientStatusFormComponent} from "./client/client-status-form/client-status-form.component";
 import {MatTabsModule} from "@angular/material/tabs";
 import {RouterModule} from "@angular/router";
 import {MatSelectModule} from "@angular/material/select";
@@ -26,19 +20,14 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {HttpClientModule} from "@angular/common/http";
 import {FeaturesModule} from "../features/features.module";
 import {MatSnackBar} from "@angular/material/snack-bar";
-
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 
 @NgModule({
   declarations: [
     ClientsComponent,
     ClientComponent,
-    ClientCreateFormComponent,
-    ClientBalanceFormComponent,
-    ClientBuyFormComponent,
-    ClientHistoryComponent,
-    ClientParamsComponent,
-    ClientStatusFormComponent
   ],
   imports: [
     CommonModule,
@@ -58,10 +47,14 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     HttpClientModule,
     FeaturesModule,
     MatPaginatorModule,
+    MatSlideToggleModule,
+    MatDatepickerModule,
   ],
   providers: [
     ClientsService,
-    MatSnackBar
+    MatSnackBar,
+    CurrencyPipe,
   ]
 })
-export class ClientsModule { }
+export class ClientsModule {
+}

@@ -1,0 +1,46 @@
+<mat-card>
+  <mat-card-title>Créer un compte</mat-card-title>
+  <mat-card-content>
+    <form (submit)="register($event)">
+      <div class="input-row">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input type="email" matNativeControl [(ngModel)]="userCreateDto.email" name="email" placeholder="Email" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Nom d'utilisateur</mat-label>
+          <input type="text" matNativeControl [(ngModel)]="userCreateDto.username" name="username" placeholder="Identifiant de connexion" required>
+        </mat-form-field>
+      </div>
+
+      <div class="input-row">
+        <mat-form-field>
+          <mat-label>Prénom</mat-label>
+          <input type="text" matNativeControl [(ngModel)]="userCreateDto.firstName" name="firstName" placeholder="John" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input type="text" matNativeControl [(ngModel)]="userCreateDto.lastName" name="lastName" placeholder="Doe" required>
+        </mat-form-field>
+      </div>
+
+      <div class="input-row">
+        <mat-form-field>
+          <mat-label>Mot de passe</mat-label>
+          <input type="password" matNativeControl [(ngModel)]="userCreateDto.password" name="password" placeholder="Mot de passe" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Confirmer le mot de passe</mat-label>
+          <input type="password" matNativeControl [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Confirmer le mot de passe" required>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button mat-raised-button color="primary" type="submit">Enregistrer</button>
+        <button mat-button color="accent" routerLink="/login" type="button">J'ai déjà un compte</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

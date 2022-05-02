@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AuthComponent} from "./auth.component";
+import {LoginComponent} from "./login/login.component";
 import {AuthService} from "./auth.service";
 import {AuthInterceptor} from "./auth.interceptor";
 import {MatCardModule} from "@angular/material/card";
@@ -10,11 +10,15 @@ import {MatButtonModule} from "@angular/material/button";
 import {HttpClientModule} from "@angular/common/http";
 import {FeaturesModule} from "../features/features.module";
 import {RouterModule} from "@angular/router";
+import { RegisterComponent } from './register/register.component';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 
 @NgModule({
   declarations: [
-    AuthComponent
+    LoginComponent,
+    RegisterComponent,
+    ConfirmComponent
   ],
   imports: [
     CommonModule,

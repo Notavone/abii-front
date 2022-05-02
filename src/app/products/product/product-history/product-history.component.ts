@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {OrderEvent} from "../../../orders/order-event";
-import {Order} from "../../../shared/order";
+import {Order} from "../../../orders/dto/order";
 import {ActivatedRoute} from "@angular/router";
-import {Product} from "../../../shared/product";
+import {Product} from "../../dto/product";
 import {ProductsService} from "../../products.service";
 import {OrdersService} from "../../../orders/orders.service";
 
@@ -19,17 +18,20 @@ export class ProductHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let id = "" + this.route.parent?.snapshot.paramMap.get("id");
+    let id = this.route.parent?.snapshot.paramMap.get("id");
+    if (!id) {
+      return;
+    }
 
-    this.productService.getProduct(id)
+    this.productService.getProduct(+id)
       .subscribe(product => {
         this.product = product;
-        this.orderService.getOrders({'lines.product': product._id})
+        this.orderService.getOrders({productId: product.id, allowRefunded: true, allowIncomplete: true})
           .subscribe(orders => this.orders = orders);
       })
   }
 
-  orderDeleted(event: OrderEvent) {
-      this.orders = this.orders.filter(o => o._id !== event.order._id);
+  orderDeleted(event: Order) {
+    this.orders = this.orders.filter(o => o.id !== event.id);
   }
 }
