@@ -13,7 +13,6 @@ import {OrderLineDto} from "../dto/order-line.dto";
 export class OrdersTableComponent implements OnChanges, AfterViewInit {
   @Input() orders: Order[] = [];
   @Input() columnsToDisplay = ["id", "client", "total", "status", "date", "lines"];
-  @Output() orderDeleted = new EventEmitter<Order>();
   @ViewChild("paginator") paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
   dataSet: MatTableDataSource<Order> = new MatTableDataSource<Order>();
@@ -30,7 +29,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
     if (this.paginator) this.dataSet.paginator = this.paginator;
   }
 
-  ountProducts(orderLines: OrderLineDto[]) {
+  countProducts(orderLines: OrderLineDto[]) {
     return orderLines.reduce((total, orderLine) => total + orderLine.quantity, 0);
   }
 }
