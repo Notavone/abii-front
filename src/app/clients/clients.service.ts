@@ -67,7 +67,7 @@ export class ClientsService {
   }
 
   deleteClient(id: number): Observable<Client> {
-    let url = `${this.baseUrl}/}`;
+    let url = `${this.baseUrl}/${id}`;
     return this.http.delete<Client>(url)
       .pipe(
         catchError(this.handleError<any>())

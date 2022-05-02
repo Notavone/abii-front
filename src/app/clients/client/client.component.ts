@@ -98,7 +98,7 @@ export class ClientComponent implements OnInit {
   }
 
   update() {
-    this.clientService.updateClient(this.id, this.updateDto)
+    this.clientService.updateClient(this.client.id, this.updateDto)
       .subscribe(() => this.goBack());
   }
 
@@ -107,7 +107,7 @@ export class ClientComponent implements OnInit {
       title: "Supprimer le client",
       message: "Êtes-vous sûr de vouloir supprimer ce client ?",
       onConfirm: () => {
-        this.clientService.deleteClient(this.id)
+        this.clientService.deleteClient(this.client.id)
           .subscribe(_ => this.goBack());
       }
     })
