@@ -21,7 +21,8 @@
         </mat-expansion-panel-header>
         <div *ngFor="let line of order.orderLines">
           {{line.quantity}}x
-          <a routerLink="/products/{{line.product.id}}" mat-button>{{ line.product.name }}</a>
+          <a *ngIf="!line.product" mat-button>??</a>
+          <a *ngIf="line.product" routerLink="/products/{{line.product.id}}" mat-button>{{ line.product.name }}</a>
         </div>
       </mat-expansion-panel>
     </td>
