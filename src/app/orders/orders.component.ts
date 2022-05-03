@@ -32,9 +32,6 @@ export class OrdersComponent implements OnInit {
     this.clientService.getClients()
       .subscribe(clients => this.clients = clients);
 
-    this.orderService.getOrders()
-      .subscribe(orders => this.orders = orders);
-
     this.productService.getProducts()
       .subscribe(products => this.products = products);
   }
