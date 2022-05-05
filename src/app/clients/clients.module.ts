@@ -22,6 +22,7 @@ import {FeaturesModule} from "../features/features.module";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -29,27 +30,28 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     ClientsComponent,
     ClientComponent,
   ],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MatTabsModule,
-    RouterModule,
-    MatSelectModule,
-    MatExpansionModule,
-    MatListModule,
-    MatIconModule,
-    OrdersModule,
-    MatTableModule,
-    MatSortModule,
-    HttpClientModule,
-    FeaturesModule,
-    MatPaginatorModule,
-    MatSlideToggleModule,
-    MatDatepickerModule,
-  ],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatInputModule,
+        FormsModule,
+        MatButtonModule,
+        MatTabsModule,
+        RouterModule,
+        MatSelectModule,
+        MatExpansionModule,
+        MatListModule,
+        MatIconModule,
+        OrdersModule,
+        MatTableModule,
+        MatSortModule,
+        HttpClientModule,
+        FeaturesModule,
+        MatPaginatorModule,
+        MatSlideToggleModule,
+        MatDatepickerModule,
+        MatTooltipModule,
+    ],
   providers: [
     ClientsService,
     MatSnackBar,

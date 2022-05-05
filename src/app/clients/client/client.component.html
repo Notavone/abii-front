@@ -3,9 +3,9 @@
     <mat-tab label="Paramètres">
       <ng-container [ngTemplateOutlet]="params"></ng-container>
     </mat-tab>
-      <mat-tab label="Achat" *ngIf="isAbii()">
-        <app-order-taking [clientId]="client.id" (onConfirm)="confirm($event)"></app-order-taking>
-      </mat-tab>
+    <mat-tab label="Achat" *ngIf="isAbii()">
+      <app-order-taking [clientId]="client.id" (onConfirm)="confirm($event)"></app-order-taking>
+    </mat-tab>
     <mat-tab label="Historique">
       <app-orders-table [orders]="orders"></app-orders-table>
     </mat-tab>
@@ -14,12 +14,13 @@
 
 <ng-template #params>
   <mat-card>
-    <mat-card-title>Mettre à jour "{{updateDto.name}}"</mat-card-title>
+    <mat-card-title>Mettre à jour "{{client.user?.name ?? client.name}}"</mat-card-title>
     <mat-card-content>
       <form>
-        <mat-form-field>
+        <mat-form-field matTooltip="Désactivé car hérité de l'utilisateur lié" [matTooltipDisabled]="!client.user">
           <mat-label>Nom</mat-label>
-          <input type="text" matNativeControl required placeholder="Nom" [(ngModel)]="updateDto.name" name="name">
+          <input type="text" matNativeControl *ngIf="!client.user" required placeholder="Nom" [(ngModel)]="updateDto.name" name="name">
+          <input type="text" matNativeControl *ngIf="client.user" required placeholder="Nom" disabled [ngModel]="client.user.name" name="name">
         </mat-form-field>
         <mat-form-field>
           <mat-label>Solde</mat-label>
@@ -66,5 +67,6 @@
     <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
     <button mat-raised-button color="primary" (click)="update()">Mettre à jour</button>
     <button mat-raised-button color="warn" *ngIf="isAbii()" (click)="delete()">Supprimer</button>
+    <button mat-button color="primary" *ngIf="client.user" [routerLink]="'/users/' + client.user.id">Voir l'utilisateur associé</button>
   </mat-card>
 </ng-template>

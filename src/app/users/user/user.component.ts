@@ -59,8 +59,8 @@ export class UserComponent implements OnInit {
               client: user.client
             };
 
-            if (user.clientId) {
-              this.ordersService.getOrders({clientId: user.clientId, allowIncomplete: true, allowRefunded: true})
+            if (user.client) {
+              this.ordersService.getOrders({clientId: user.client.id, allowIncomplete: true, allowRefunded: true})
                 .subscribe(orders => this.orders = orders);
             }
           },

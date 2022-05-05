@@ -7,7 +7,6 @@ import {ClientUpdateDto} from "../dto/client-update.dto";
 import {Product} from "../../products/dto/product";
 import {ProductType} from "../../shared/product-type";
 import {ProductsService} from "../../products/products.service";
-import {MatListOption} from "@angular/material/list";
 import {CurrencyPipe, Location} from "@angular/common";
 import {OrdersService} from "../../orders/orders.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -32,7 +31,6 @@ export class ClientComponent implements OnInit {
 
   productType = ProductType;
   products: Product[] = [];
-  selected: MatListOption[] = [];
   lines: OrderLineModel[] = []
   paymentIsAdditive: boolean = true;
   _amount: number = 0;
@@ -48,6 +46,7 @@ export class ClientComponent implements OnInit {
     private authService: AuthService,
     private confirmService: ConfirmService,
     private location: Location,
+    private snackBar: MatSnackBar,
   ) {
   }
 
@@ -99,7 +98,13 @@ export class ClientComponent implements OnInit {
 
   update() {
     this.clientService.updateClient(this.client.id, this.updateDto)
-      .subscribe(() => this.goBack());
+      .subscribe({
+        next: (client) => {
+          this.client = {...client};
+          this.snackbar.open("Client mis à jour");
+        },
+        error: () => this.snackbar.open("Impossible de mettre à jour ce client")
+      });
   }
 
   delete() {
@@ -108,7 +113,13 @@ export class ClientComponent implements OnInit {
       message: "Êtes-vous sûr de vouloir supprimer ce client ?",
       onConfirm: () => {
         this.clientService.deleteClient(this.client.id)
-          .subscribe(_ => this.goBack());
+          .subscribe({
+            next: () => {
+              this.snackbar.open("Client supprimé");
+              this.goBack();
+            },
+            error: () => this.snackbar.open("Impossible de supprimer ce client")
+          });
       }
     })
   }
@@ -122,7 +133,13 @@ export class ClientComponent implements OnInit {
       title: "Modifier le solde",
       onConfirm: () => {
         this.clientService.updateBalance(this.client.id, this.client.balance + this.amount)
-          .subscribe(client => this.client = client);
+          .subscribe({
+            next: (client) => {
+              this.client = {...client};
+              this.snackbar.open("Client mis à jour");
+            },
+            error: () => this.snackbar.open("Impossible de mettre à jour le solde")
+          });
         this.amount = 0;
       }
     });
@@ -134,8 +151,11 @@ export class ClientComponent implements OnInit {
       onConfirm: () => {
         this.clientService.updateStatus(this.client.id, new Date(Date.now() + status))
           .subscribe({
-            next: (client) => this.client = {...client},
-            error: () => this.snackbar.open("Une erreur est survenue")
+            next: (client) => {
+              this.client = {...client};
+              this.snackbar.open("Client mis à jour")
+            },
+            error: () => this.snackbar.open("Impossible de modifier le statut de ce client")
           })
       }
     })

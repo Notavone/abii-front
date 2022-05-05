@@ -34,7 +34,7 @@
         </div>
 
         <div>
-          <mat-form-field *ngIf="canUpdateClient() && user && !user.clientId">
+          <mat-form-field *ngIf="canUpdateClient() && user && !user.client">
             <mat-label>Client</mat-label>
             <mat-select name="client" [(ngModel)]="userUpdateDto.client">
               <mat-option *ngFor="let client of availableClients" [value]="client">
@@ -47,15 +47,15 @@
         <div>
           <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
           <button mat-raised-button color="primary" type="submit">Sauvegarder</button>
-          <button *ngIf="user && user.clientId" mat-button color="primary" [routerLink]="'/clients/' + user.clientId">Voir le client associé</button>
-          <button mat-button *ngIf="canUpdateClient() && user && user.clientId" (click)="unlink()">Dé-lier</button>
+          <button *ngIf="user.client" mat-button color="primary" [routerLink]="'/clients/' + user.client.id">Voir le client associé</button>
+          <button mat-button *ngIf="canUpdateClient() && user.client" (click)="unlink()">Dé-lier</button>
         </div>
       </form>
     </mat-card>
   </mat-tab>
-  <mat-tab label="Passer commande" *ngIf="user.clientId">
+  <mat-tab label="Passer commande" *ngIf="user.client">
     <mat-card>
-      <app-order-taking [clientId]="user.clientId" (onConfirm)="createOrder($event)"></app-order-taking>
+      <app-order-taking [clientId]="user.client.id" (onConfirm)="createOrder($event)"></app-order-taking>
     </mat-card>
   </mat-tab>
   <mat-tab *ngIf="orders.length" label="Historique">
