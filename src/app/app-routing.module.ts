@@ -8,8 +8,6 @@ import {OrdersComponent} from "./orders/orders.component";
 import {OrderComponent} from "./orders/order/order.component";
 import {LoginComponent} from "./auth/login/login.component"
 import {HomepageComponent} from "./homepage/homepage.component";
-import {ProductParamsComponent} from "./products/product/product-params/product-params.component";
-import {ProductHistoryComponent} from './products/product/product-history/product-history.component';
 import {AuthGuard} from "./auth/auth.guard";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {RegisterComponent} from "./auth/register/register.component";
@@ -34,13 +32,8 @@ const routes: Routes = [
   {path: "users/:id", component: UserComponent, canActivate: [AuthGuard]},
   {path: "profile", component: UserComponent, canActivate: [AuthGuard]},
 
-  {
-    path: "products/:id", component: ProductComponent, canActivate: [AuthGuard, AbiiGuard], children: [
-      {path: "params", component: ProductParamsComponent},
-      {path: "history", component: ProductHistoryComponent}
-    ]
-  },
   {path: "products", component: ProductsComponent, canActivate: [AuthGuard, AbiiGuard]},
+  {path: "products/:id", component: ProductComponent, canActivate: [AuthGuard, AbiiGuard]},
 
   {path: "404", component: NotFoundComponent},
   {path: "**", pathMatch: "full", component: NotFoundComponent}

@@ -17,8 +17,6 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {HttpClientModule} from "@angular/common/http";
 import {FeaturesModule} from "../features/features.module";
-import {ProductParamsComponent} from "./product/product-params/product-params.component";
-import {ProductHistoryComponent} from "./product/product-history/product-history.component";
 import {OrdersModule} from "../orders/orders.module";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 
@@ -28,8 +26,6 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     ProductsComponent,
     ProductComponent,
     ProductTableComponent,
-    ProductParamsComponent,
-    ProductHistoryComponent
   ],
   imports: [
     CommonModule,

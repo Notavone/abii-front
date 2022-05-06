@@ -1,8 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProductsService} from "../products.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Product} from "../dto/product";
-import {NavigationLink} from "../../shared/navigation-link";
+import {OrdersService} from "../../orders/orders.service";
+import {Order} from "../../orders/dto/order";
+import {Location} from "@angular/common";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {ProductCreateDto} from "../dto/product-create.dto";
+import {ProductType} from "../../shared/product-type";
+import {ConfirmService} from "../../features/confirm/confirm.service";
 
 @Component({
   selector: 'app-product',
@@ -10,35 +16,71 @@ import {NavigationLink} from "../../shared/navigation-link";
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  @Input() product?: Product;
-  links: NavigationLink[] = [];
-  activeLink: string = this.route.snapshot.url.join("/");
+  product!: Product;
+  orders?: Order[];
+  productDto!: ProductCreateDto;
+  productType = ProductType;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private ordersService: OrdersService,
+    private location: Location,
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
   ) {
   }
 
   ngOnInit(): void {
     let id = this.route.snapshot.paramMap.get("id");
-    if(!id) {
+    if (!id) {
       return;
     }
 
     this.productService.getProduct(+id)
       .subscribe(product => {
         this.product = product;
-        let navigationLinks = [
-          {path: `/products/${product.id}/params`, label: "Paramètres"},
-          {path: `/products/${product.id}/history`, label: "Historique"},
-        ];
-        this.links = navigationLinks;
-        if (!navigationLinks.map(l => l.path).includes(this.activeLink)) {
-          this.activeLink = navigationLinks[0].path;
-          this.router.navigate([navigationLinks[0].path]);
+
+        this.productDto = {
+          name: product.name,
+          type: product.type,
+          price: product.price,
+          price_red: product.price_red,
+          available: product.available,
         }
-      });
+
+        this.ordersService.getOrders({productId: product.id, allowRefunded: true, allowIncomplete: true})
+          .subscribe(orders => this.orders = orders);
+      })
+  }
+
+
+
+  goBack() {
+    return this.location.back();
+  }
+
+  update() {
+    this.productService.updateProduct(this.product.id, this.productDto)
+      .subscribe({
+        next: () => this.snackBar.open("Produit mis à jour"),
+        error: () => this.snackBar.open("Impossible de mettre à jour le produit")
+      })
+  }
+
+  delete() {
+    this.confirmService.open({
+      title: "Supprimer un produit",
+      message: "Êtes-vous sûr de vouloir supprimer ce produit ?",
+      onConfirm: () => this.productService.deleteProduct(this.product.id)
+        .subscribe({
+          next: () => {
+            this.snackBar.open("Produit supprimé");
+            this.goBack();
+          },
+          error: () => this.snackBar.open("Impossible de supprimer le produit")
+        })
+    })
   }
 }
