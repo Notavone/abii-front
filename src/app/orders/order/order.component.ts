@@ -35,7 +35,7 @@ export class OrderComponent implements OnInit {
         if (params['id']) {
           this.ordersService.getOrder(params['id'])
             .subscribe({
-              next: order => this.order = {...order},
+              next: order => this.order = order,
               error: () => this.router.navigate(['/404'])
             });
         } else {
@@ -52,7 +52,7 @@ export class OrderComponent implements OnInit {
         this.ordersService.updateOrder({orderLines: $event.orderLines, id: this.order.id})
           .subscribe({
             next: order => {
-              this.order = {...order};
+              this.order = order;
               this.snackBar.open('Commande mise à jour');
             },
             error: () => this.router.navigate(['/404'])
@@ -74,7 +74,7 @@ export class OrderComponent implements OnInit {
         this.ordersService.confirmOrder(this.order)
           .subscribe({
             next: order => {
-              this.order = {...order};
+              this.order = order;
               this.snackBar.open('Commande confirmée');
             },
             error: () => this.snackBar.open('Erreur lors de la confirmation de la commande')
@@ -95,7 +95,7 @@ export class OrderComponent implements OnInit {
         this.ordersService.refundOrder(this.order)
           .subscribe({
             next: order => {
-              this.order = {...order};
+              this.order = order;
               this.snackBar.open('Commande remboursée');
             },
             error: () => this.snackBar.open('Erreur lors du remboursement de la commande')

@@ -86,7 +86,7 @@ export class UserComponent implements OnInit {
       client: null
     }).subscribe({
       next: (user) => {
-        this.user = {...user};
+        this.user = user;
         this.snackBar.open("Utilisateur déconnecté");
       },
       error: () => this.snackBar.open("Impossible de délier l'utilisateur")
@@ -97,7 +97,7 @@ export class UserComponent implements OnInit {
     this.usersService.updateUser(this.user.id, this.userUpdateDto)
       .subscribe({
         next: (user) => {
-          this.user = {...user};
+          this.user = user;
           this.snackBar.open("Utilisateur mis à jour");
         },
         error: () => this.snackBar.open("Impossible de mettre à jour l'utilisateur")

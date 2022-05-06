@@ -100,7 +100,7 @@ export class ClientComponent implements OnInit {
     this.clientService.updateClient(this.client.id, this.updateDto)
       .subscribe({
         next: (client) => {
-          this.client = {...client};
+          this.client = client;
           this.snackbar.open("Client mis à jour");
         },
         error: () => this.snackbar.open("Impossible de mettre à jour ce client")
@@ -135,7 +135,7 @@ export class ClientComponent implements OnInit {
         this.clientService.updateBalance(this.client.id, this.client.balance + this.amount)
           .subscribe({
             next: (client) => {
-              this.client = {...client};
+              this.client = client;
               this.snackbar.open("Client mis à jour");
             },
             error: () => this.snackbar.open("Impossible de mettre à jour le solde")
@@ -152,7 +152,7 @@ export class ClientComponent implements OnInit {
         this.clientService.updateStatus(this.client.id, new Date(Date.now() + status))
           .subscribe({
             next: (client) => {
-              this.client = {...client};
+              this.client = client;
               this.snackbar.open("Client mis à jour")
             },
             error: () => this.snackbar.open("Impossible de modifier le statut de ce client")
