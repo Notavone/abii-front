@@ -13,7 +13,7 @@
     <mat-label>Filtrer par client</mat-label>
     <mat-select [(ngModel)]="selectedClient" (selectionChange)="update()">
       <mat-option>NE PAS FILTRER</mat-option>
-      <mat-option *ngFor="let client of clients" [value]="client">{{client.name}}</mat-option>
+      <mat-option *ngFor="let client of clients" [value]="client">{{client.user?.name ?? client.name}}</mat-option>
     </mat-select>
   </mat-form-field>
 
