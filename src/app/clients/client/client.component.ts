@@ -99,15 +99,21 @@ export class ClientComponent implements OnInit {
   }
 
   update() {
-    this.clientService.updateClient(this.client.id, this.updateDto)
-      .subscribe({
-        next: (client) => {
-          this.client = client;
-          this.updateDtoOriginal = {...this.updateDto};
-          this.snackbar.open("Client mis à jour");
-        },
-        error: () => this.snackbar.open("Impossible de mettre à jour ce client")
-      });
+    this.confirmService.open({
+      title: "Mettre à jour le client",
+      message: "Voulez-vous vraiment mettre à jour le client ?",
+      onConfirm: () => {
+        this.clientService.updateClient(this.client.id, this.updateDto)
+          .subscribe({
+            next: (client) => {
+              this.client = client;
+              this.updateDtoOriginal = {...this.updateDto};
+              this.snackbar.open("Client mis à jour");
+            },
+            error: () => this.snackbar.open("Impossible de mettre à jour ce client")
+          });
+      }
+    })
   }
 
   delete() {

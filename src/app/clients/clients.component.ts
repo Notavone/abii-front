@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Client} from "./dto/client";
 import {ClientsService} from "./clients.service";
 import {MatTableDataSource} from "@angular/material/table";
@@ -6,7 +6,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {ClientCreateDto} from "./dto/client-create.dto";
 import {Router} from "@angular/router";
-import {UsersService} from "../users/users.service";
+import {ConfirmService} from "../features/confirm/confirm.service";
 
 @Component({
   selector: 'app-clients',
@@ -23,6 +23,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
   constructor(
     private clientService: ClientsService,
     private router: Router,
+    private confirmService: ConfirmService,
   ) {
   }
 
@@ -37,7 +38,13 @@ export class ClientsComponent implements OnInit, AfterViewInit {
   }
 
   save() {
-    this.clientService.addClient(this.client)
-      .subscribe(client => this.router.navigate([`/clients/${client.id}`]))
+    this.confirmService.open({
+      title: "Ajouter un client",
+      message: "Voulez-vous ajouter un client ?",
+      onConfirm: () => {
+        this.clientService.addClient(this.client)
+          .subscribe(client => this.router.navigate([`/clients/${client.id}`]));
+      }
+    })
   }
 }

@@ -63,14 +63,20 @@ export class ProductComponent implements OnInit {
   }
 
   update() {
-    this.productService.updateProduct(this.product.id, this.productDto)
-      .subscribe({
-        next: () => {
-          this.snackBar.open("Produit mis à jour");
-          this.productDtoOriginal = {...this.productDto};
-        },
-        error: () => this.snackBar.open("Impossible de mettre à jour le produit")
-      })
+    this.confirmService.open({
+      title: "Mettre à jour le produit",
+      message: "Êtes-vous sûr de vouloir mettre à jour le produit ?",
+      onConfirm: () => {
+        this.productService.updateProduct(this.product.id, this.productDto)
+          .subscribe({
+            next: () => {
+              this.snackBar.open("Produit mis à jour");
+              this.productDtoOriginal = {...this.productDto};
+            },
+            error: () => this.snackBar.open("Impossible de mettre à jour le produit")
+          });
+      }
+    })
   }
 
   delete() {

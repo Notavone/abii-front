@@ -84,27 +84,39 @@ export class UserComponent implements OnInit {
   }
 
   unlink() {
-    this.usersService.updateUser(this.user.id, {
-      client: null
-    }).subscribe({
-      next: (user) => {
-        this.user = user;
-        this.snackBar.open("Utilisateur déconnecté");
-      },
-      error: () => this.snackBar.open("Impossible de délier l'utilisateur")
-    });
+    this.confirmService.open({
+      title: "Dé-lier l'utilisateur de son compte client",
+      message: "Voulez-vous dé-lier l'utilisateur de son compte client ?",
+      onConfirm: () => {
+        this.usersService.updateUser(this.user.id, {
+          client: null
+        }).subscribe({
+          next: (user) => {
+            this.user = user;
+            this.snackBar.open("Utilisateur déconnecté");
+          },
+          error: () => this.snackBar.open("Impossible de délier l'utilisateur")
+        });
+      }
+    })
   }
 
   save() {
-    this.usersService.updateUser(this.user.id, this.userUpdateDto)
-      .subscribe({
-        next: (user) => {
-          this.user = user;
-          this.snackBar.open("Utilisateur mis à jour");
-          this.userUpdateDtoOriginal = {...this.userUpdateDto};
-        },
-        error: () => this.snackBar.open("Impossible de mettre à jour l'utilisateur")
-      });
+    this.confirmService.open({
+      title: "Modifier l'utilisateur",
+      message: "Voulez-vous modifier l'utilisateur ?",
+      onConfirm: () => {
+        this.usersService.updateUser(this.user.id, this.userUpdateDto)
+          .subscribe({
+            next: (user) => {
+              this.user = user;
+              this.snackBar.open("Utilisateur mis à jour");
+              this.userUpdateDtoOriginal = {...this.userUpdateDto};
+            },
+            error: () => this.snackBar.open("Impossible de mettre à jour l'utilisateur")
+          });
+      }
+    })
   }
 
   createOrder($event: OrderCreateDto) {
