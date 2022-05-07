@@ -37,7 +37,7 @@ export class OrderTakingComponent implements OnInit {
         this.products = products;
         if (this.order) {
           this.order.orderLines.forEach(orderLine => {
-            const product = this.products.find(p => p.id === orderLine.product.id);
+            const product = this.products.find(p => p.id === orderLine.product?.id);
             if (product) {
               this._selected.push(product);
               this.orderLines.push({

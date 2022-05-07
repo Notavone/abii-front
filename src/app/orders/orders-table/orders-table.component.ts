@@ -3,7 +3,7 @@ import {Order} from "../dto/order";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {OrderLineDto} from "../dto/order-line.dto";
+import {OrderLine} from "../dto/order-line";
 
 @Component({
   selector: 'app-orders-table',
@@ -29,7 +29,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
     if (this.paginator) this.dataSet.paginator = this.paginator;
   }
 
-  countProducts(orderLines: OrderLineDto[]) {
+  countProducts(orderLines: OrderLine[]) {
     return orderLines.reduce((total, orderLine) => total + orderLine.quantity, 0);
   }
 }

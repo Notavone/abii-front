@@ -1,10 +1,10 @@
-import {OrderLineDto} from "./order-line.dto";
+import {OrderLine} from "./order-line";
 import {Client} from "../../clients/dto/client";
 import {User} from "../../users/dto/user";
 
 export class Order {
   readonly id!: number;
-  readonly orderLines!: OrderLineDto[];
+  readonly orderLines!: OrderLine[];
   readonly client?: Client;
   readonly seller?: User;
   readonly clientId?: number
