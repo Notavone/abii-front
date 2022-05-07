@@ -13,7 +13,10 @@
       </div>
     </div>
     <mat-action-row>
-      <button mat-button color="primary" (click)="confirm()">Confirmer un total de {{total() | currency}}</button>
+      <button mat-button color="primary"
+              matBadgeSize="small"
+              matBadge="&#8203;" matBadgeColor="warn" [matBadgeHidden]="!dtoHasChanged"
+              (click)="confirm()">Confirmer un total de {{total() | currency}}</button>
     </mat-action-row>
   </mat-expansion-panel>
   <mat-selection-list [(ngModel)]="selected">

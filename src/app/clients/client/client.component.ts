@@ -25,6 +25,7 @@ import {OrderCreateDto} from "../../orders/dto/order-create.dto";
 export class ClientComponent implements OnInit {
   client!: Client;
   updateDto!: ClientUpdateDto;
+  updateDtoOriginal!: ClientUpdateDto;
   orders: Order[] = [];
   status = Status;
   id!: number;
@@ -59,11 +60,8 @@ export class ClientComponent implements OnInit {
               next: (client) => {
                 this.client = client;
 
-                this.updateDto = {
-                  name: client.name,
-                  balance: client.balance,
-                  subscribedUntil: client.subscribedUntil,
-                }
+                this.updateDto = {name: client.name}
+                this.updateDtoOriginal = {...this.updateDto};
 
                 this.ordersService.getOrders({clientId: client.id, allowIncomplete: true, allowRefunded: true})
                   .subscribe(orders => this.orders = orders);
@@ -96,11 +94,16 @@ export class ClientComponent implements OnInit {
     return this.location.back();
   }
 
+  get dtoHasChanged() {
+    return JSON.stringify(this.updateDto) !== JSON.stringify(this.updateDtoOriginal);
+  }
+
   update() {
     this.clientService.updateClient(this.client.id, this.updateDto)
       .subscribe({
         next: (client) => {
           this.client = client;
+          this.updateDtoOriginal = {...this.updateDto};
           this.snackbar.open("Client mis à jour");
         },
         error: () => this.snackbar.open("Impossible de mettre à jour ce client")

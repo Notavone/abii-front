@@ -24,6 +24,7 @@ export class OrderTakingComponent implements OnInit {
   products: Product[] = [];
   _selected: Product[] = [];
   orderLines: OrderLineCreateDto[] = [];
+  orderLinesOriginal: OrderLineCreateDto[] = [];
 
   constructor(
     private productsService: ProductsService,
@@ -46,6 +47,7 @@ export class OrderTakingComponent implements OnInit {
               });
             }
           });
+          this.orderLinesOriginal = [...this.orderLines];
         }
       });
 
@@ -58,6 +60,11 @@ export class OrderTakingComponent implements OnInit {
       clientId: this.clientId,
       orderLines: this.orderLines
     });
+    this.orderLinesOriginal = [...this.orderLines];
+  }
+
+  get dtoHasChanged(): boolean {
+    return !!this.order && JSON.stringify(this.orderLines) !== JSON.stringify(this.orderLinesOriginal);
   }
 
   orderBy(productType: ProductType) {

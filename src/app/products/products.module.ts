@@ -19,6 +19,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FeaturesModule} from "../features/features.module";
 import {OrdersModule} from "../orders/orders.module";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatBadgeModule} from "@angular/material/badge";
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatTabsModule,
     MatExpansionModule,
     OrdersModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatBadgeModule
   ],
   providers: [
     ProductsService

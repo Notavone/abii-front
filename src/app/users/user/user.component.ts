@@ -21,7 +21,8 @@ import {Location} from "@angular/common";
 })
 export class UserComponent implements OnInit {
   user!: User;
-  userUpdateDto = new UserUpdateDto();
+  userUpdateDto!: UserUpdateDto
+  userUpdateDtoOriginal!: UserUpdateDto
   authorities = Authority;
   availableClients: Client[] = [];
   orders: Order[] = [];
@@ -58,6 +59,7 @@ export class UserComponent implements OnInit {
               activated: user.activated,
               client: user.client
             };
+            this.userUpdateDtoOriginal = {...this.userUpdateDto};
 
             if (user.client) {
               this.ordersService.getOrders({clientId: user.client.id, allowIncomplete: true, allowRefunded: true})
@@ -99,6 +101,7 @@ export class UserComponent implements OnInit {
         next: (user) => {
           this.user = user;
           this.snackBar.open("Utilisateur mis à jour");
+          this.userUpdateDtoOriginal = {...this.userUpdateDto};
         },
         error: () => this.snackBar.open("Impossible de mettre à jour l'utilisateur")
       });
@@ -123,5 +126,9 @@ export class UserComponent implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  get hasDtoChanged() {
+    return JSON.stringify(this.userUpdateDto) !== JSON.stringify(this.userUpdateDtoOriginal);
   }
 }

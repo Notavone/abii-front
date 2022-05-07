@@ -32,7 +32,10 @@
             <mat-checkbox [(ngModel)]="productDto.available" name="available">Disponible</mat-checkbox>
           </div>
 
-          <button mat-raised-button color="primary" type="submit" class="submit">Mettre à jour</button>
+          <button mat-raised-button color="primary" type="submit" class="submit"
+                  matBadge="&#8203;" [matBadgeHidden]="!hasDtoChanged" matBadgeSize="small"
+                  matBadgeColor="warn"
+          >Mettre à jour</button>
         </form>
 
 

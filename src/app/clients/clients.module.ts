@@ -23,6 +23,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatBadgeModule} from "@angular/material/badge";
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         MatSlideToggleModule,
         MatDatepickerModule,
         MatTooltipModule,
+        MatBadgeModule,
     ],
   providers: [
     ClientsService,

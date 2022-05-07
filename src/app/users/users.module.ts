@@ -15,6 +15,7 @@ import {OrdersModule} from "../orders/orders.module";
 import { UserTableComponent } from './user-table/user-table.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
+import {MatBadgeModule} from "@angular/material/badge";
 
 
 @NgModule({
@@ -23,22 +24,23 @@ import {MatSortModule} from "@angular/material/sort";
     UserComponent,
     UserTableComponent
   ],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatInputModule,
-    MatButtonModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    RouterModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatTabsModule,
-    OrdersModule,
-    MatTableModule,
-    MatSortModule,
-  ],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatInputModule,
+        MatButtonModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        RouterModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatTabsModule,
+        OrdersModule,
+        MatTableModule,
+        MatSortModule,
+        MatBadgeModule,
+    ],
 })
 export class UsersModule {
 }

@@ -20,6 +20,7 @@ export class ProductComponent implements OnInit {
   orders?: Order[];
   productDto!: ProductCreateDto;
   productType = ProductType;
+  productDtoOriginal!: ProductCreateDto;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,12 +50,12 @@ export class ProductComponent implements OnInit {
           price_red: product.price_red,
           available: product.available,
         }
+        this.productDtoOriginal = {...this.productDto};
 
         this.ordersService.getOrders({productId: product.id, allowRefunded: true, allowIncomplete: true})
           .subscribe(orders => this.orders = orders);
       })
   }
-
 
 
   goBack() {
@@ -64,7 +65,10 @@ export class ProductComponent implements OnInit {
   update() {
     this.productService.updateProduct(this.product.id, this.productDto)
       .subscribe({
-        next: () => this.snackBar.open("Produit mis à jour"),
+        next: () => {
+          this.snackBar.open("Produit mis à jour");
+          this.productDtoOriginal = {...this.productDto};
+        },
         error: () => this.snackBar.open("Impossible de mettre à jour le produit")
       })
   }
@@ -82,5 +86,9 @@ export class ProductComponent implements OnInit {
           error: () => this.snackBar.open("Impossible de supprimer le produit")
         })
     })
+  }
+
+  get hasDtoChanged() {
+    return JSON.stringify(this.productDto) !== JSON.stringify(this.productDtoOriginal);
   }
 }
