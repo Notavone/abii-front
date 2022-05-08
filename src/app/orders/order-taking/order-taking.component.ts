@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Client} from "../../clients/dto/client";
 import {Product} from "../../products/dto/product";
 import {ProductsService} from "../../products/products.service";
@@ -7,6 +7,7 @@ import {ClientsService} from "../../clients/clients.service";
 import {OrderLineCreateDto} from "../dto/order-line-create.dto";
 import {OrderCreateDto} from "../dto/order-create.dto";
 import {Order} from "../dto/order";
+import {MatExpansionPanel} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-order-taking',
@@ -14,6 +15,7 @@ import {Order} from "../dto/order";
   styleUrls: ['./order-taking.component.scss']
 })
 export class OrderTakingComponent implements OnInit {
+  @ViewChild("expansionPanel") expansionPanel?: MatExpansionPanel;
   @Input() clientId!: number;
   @Input() order?: Order;
   @Output() onConfirm = new EventEmitter<OrderCreateDto>();
@@ -81,6 +83,10 @@ export class OrderTakingComponent implements OnInit {
 
   set selected(products: Product[]) {
     this._selected = products;
+    if(this.expansionPanel && !this.selected.length) {
+      this.expansionPanel.close();
+    }
+
     this.orderLines = this.orderLines.filter(orderLine => this.selected.map(product => product.id).includes(orderLine.productId));
     for (const p of products.filter(product => !this.orderLines.map(orderLine => orderLine.productId).includes(product.id))) {
       this.orderLines.push({
@@ -108,7 +114,7 @@ export class OrderTakingComponent implements OnInit {
     const line = this.orderLines.find(orderLine => orderLine.productId === product.id);
     if (line) {
       line.quantity++;
-    } else this.selected.push(product);
+    } else this.selected = [...this.selected, product];
   }
 
   decrementLine(product: Product) {
@@ -124,5 +130,15 @@ export class OrderTakingComponent implements OnInit {
     if (line) {
       line.quantity = 1;
     }
+  }
+
+  toggleProductSelection(product: Product) {
+    if (this.selected.includes(product)) {
+      this.selected = this.selected.filter(p => p.id !== product.id);
+    } else this.selected = [...this.selected, product];
+  }
+
+  isProductSelected(product: Product) {
+    return this.selected.includes(product);
   }
 }

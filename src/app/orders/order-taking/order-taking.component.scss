@@ -12,3 +12,34 @@
     margin-left: 0.5rem;
   }
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  grid-gap: 1rem;
+
+  & ~ .grid-container {
+    margin-top: 1rem;
+  }
+}
+
+.product-card .mat-card-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.product-card .mat-card-title:hover,
+.product-card img:hover,
+.product-card .mat-card-content:hover {
+  cursor: pointer;
+}
+
+.mat-progress-bar {
+  position: absolute;
+  bottom: 0;
+}
+
+.mat-expansion-panel {
+  margin-bottom: 1em;
+}

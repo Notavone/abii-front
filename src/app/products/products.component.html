@@ -58,6 +58,8 @@
           </mat-select>
         </mat-form-field>
 
+        <app-file-upload [(fileString)]="product.image"></app-file-upload>
+
         <div>
           <button mat-raised-button color="primary" type="submit">Ajouter ce produit</button>
         </div>

@@ -20,6 +20,8 @@ import {FeaturesModule} from "../features/features.module";
 import {OrdersModule} from "../orders/orders.module";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatBadgeModule} from "@angular/material/badge";
+import {FileUploadModule} from "../features/file-upload/file-upload.module";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -45,13 +47,15 @@ import {MatBadgeModule} from "@angular/material/badge";
     MatExpansionModule,
     OrdersModule,
     MatCheckboxModule,
-    MatBadgeModule
+    MatBadgeModule,
+    FileUploadModule,
+    MatTooltipModule
   ],
   providers: [
     ProductsService
   ],
   exports: [
-    ProductTableComponent
+    ProductTableComponent,
   ]
 })
 export class ProductsModule {

@@ -28,14 +28,21 @@
             </mat-select>
           </mat-form-field>
 
-          <div>
-            <mat-checkbox [(ngModel)]="productDto.available" name="available">Disponible</mat-checkbox>
+          <mat-checkbox [(ngModel)]="productDto.available" name="available">Disponible</mat-checkbox>
+
+          <app-file-upload [(fileString)]="productDto.image"></app-file-upload>
+
+          <div *ngIf="product.image">
+            <h3>Image actuelle</h3>
+            <img [src]="product.image" alt="Image actuelle du produit"
+                 (click)="removeProductImage()" matTooltip="Cliquer pour supprimer">
           </div>
 
           <button mat-raised-button color="primary" type="submit" class="submit"
                   matBadge="&#8203;" [matBadgeHidden]="!hasDtoChanged" matBadgeSize="small"
                   matBadgeColor="warn"
-          >Mettre à jour</button>
+          >Mettre à jour
+          </button>
         </form>
 
 

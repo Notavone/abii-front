@@ -1,0 +1,15 @@
+<div>
+  <input type="file" hidden #input (change)="handleFileChange()" accept="image/*" name="file">
+  <mat-form-field>
+    <mat-label>Image du produit</mat-label>
+    <input type="text" disabled matNativeControl placeholder="Image du produit" [ngModel]="getFileName() ?? ''" name="file">
+    <div matSuffix>
+      <button [disabled]="!fileString" mat-icon-button color="warn" type="button" (click)="clearFile()">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" type="button" (click)="openFileDialog()">
+        <mat-icon>add_photo_alternate</mat-icon>
+      </button>
+    </div>
+  </mat-form-field>
+</div>

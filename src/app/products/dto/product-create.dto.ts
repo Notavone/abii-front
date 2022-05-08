@@ -6,4 +6,5 @@ export class ProductCreateDto {
   price_red!: number;
   type!: ProductType;
   available!: boolean;
+  image?: string;
 }

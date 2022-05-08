@@ -4,7 +4,9 @@
       <ng-container [ngTemplateOutlet]="params"></ng-container>
     </mat-tab>
     <mat-tab label="Achat" *ngIf="isAbii()">
-      <app-order-taking [clientId]="client.id" (onConfirm)="confirm($event)"></app-order-taking>
+      <mat-card>
+        <app-order-taking [clientId]="client.id" (onConfirm)="confirm($event)"></app-order-taking>
+      </mat-card>
     </mat-tab>
     <mat-tab label="Historique">
       <app-orders-table [orders]="orders"></app-orders-table>

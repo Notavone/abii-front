@@ -69,9 +69,10 @@ export class ProductComponent implements OnInit {
       onConfirm: () => {
         this.productService.updateProduct(this.product.id, this.productDto)
           .subscribe({
-            next: () => {
-              this.snackBar.open("Produit mis à jour");
+            next: (product) => {
+              this.product = product;
               this.productDtoOriginal = {...this.productDto};
+              this.snackBar.open("Produit mis à jour");
             },
             error: () => this.snackBar.open("Impossible de mettre à jour le produit")
           });
@@ -96,5 +97,22 @@ export class ProductComponent implements OnInit {
 
   get hasDtoChanged() {
     return JSON.stringify(this.productDto) !== JSON.stringify(this.productDtoOriginal);
+  }
+
+  removeProductImage() {
+    this.confirmService.open({
+      title: "Supprimer l'image",
+      message: "Êtes-vous sûr de vouloir supprimer cette image ?",
+      onConfirm: () => {
+        this.productService.updateProduct(this.product.id, {image: ""})
+          .subscribe({
+            next: (product) => {
+              this.product = product;
+              this.snackBar.open("Image supprimée");
+            },
+            error: () => this.snackBar.open("Impossible de supprimer l'image")
+          });
+      }
+    });
   }
 }

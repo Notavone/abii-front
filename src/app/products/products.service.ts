@@ -52,7 +52,7 @@ export class ProductsService {
       );
   }
 
-  updateProduct(id: number, product: ProductCreateDto): Observable<Product> {
+  updateProduct(id: number, product: ProductUpdateDto): Observable<Product> {
     let url = `${this.baseUrl}/${id}`;
     return this.http.patch<Product>(url, product)
       .pipe(
