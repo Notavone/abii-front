@@ -1,8 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AuthService} from "./auth/auth.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Authority} from "./shared/authority";
+import {MediaMatcher} from "@angular/cdk/layout";
+
+type NavLink = {
+  href: string;
+  conditions?: unknown[];
+};
 
 @Component({
   selector: 'app-root',
@@ -10,12 +16,19 @@ import {Authority} from "./shared/authority";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  mobileQuery?: MediaQueryList;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
+    private changeDetectorRef: ChangeDetectorRef,
+    private mediaMatcher: MediaMatcher,
   ) {
+    this.mobileQuery = mediaMatcher.matchMedia('(max-width: 600px)');
+    this.mobileQuery.addEventListener('change', () => {
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   logout() {
@@ -31,6 +44,10 @@ export class AppComponent implements OnInit {
 
   isLoggedIn() {
     return this.authService.isLoggedIn;
+  }
+
+  isLoggedOut() {
+    return !this.isLoggedIn();
   }
 
   hasManageRights() {

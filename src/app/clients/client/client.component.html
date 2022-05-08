@@ -19,60 +19,65 @@
     <mat-card-title>Mettre à jour "{{client.user?.name ?? client.name}}"</mat-card-title>
     <mat-card-content>
       <form>
-        <mat-form-field matTooltip="Désactivé car hérité de l'utilisateur lié" [matTooltipDisabled]="!client.user">
-          <mat-label>Nom</mat-label>
-          <input type="text" matNativeControl *ngIf="!client.user" required placeholder="Nom" [(ngModel)]="updateDto.name" name="name">
-          <input type="text" matNativeControl *ngIf="client.user" required placeholder="Nom" disabled [ngModel]="client.user.name" name="name">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Solde</mat-label>
-          <input type="text" matNativeControl placeholder="Solde" disabled [value]="client.balance | currency" name="balance">
-        </mat-form-field>
+        <div>
+          <mat-form-field matTooltip="Désactivé car hérité de l'utilisateur lié" [matTooltipDisabled]="!client.user">
+            <mat-label>Nom</mat-label>
+            <input type="text" matNativeControl *ngIf="!client.user" required placeholder="Nom" [(ngModel)]="updateDto.name" name="name">
+            <input type="text" matNativeControl *ngIf="client.user" required placeholder="Nom" disabled [ngModel]="client.user.name" name="name">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Solde</mat-label>
+            <input type="text" matNativeControl placeholder="Solde" disabled [value]="client.balance | currency" name="balance">
+          </mat-form-field>
 
+          <mat-form-field *ngIf="isSubscribed">
+            <mat-label>Adhérent jusqu'au</mat-label>
+            <input type="datetime" matInput label="Adhérent jusqu'au" disabled [ngModel]="client.subscribedUntil" [matDatepicker]="picker" name="subscribedUntil">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
 
-        <mat-form-field *ngIf="isSubscribed">
-          <mat-label>Adhérent jusqu'au</mat-label>
-          <input type="datetime" matInput label="Adhérent jusqu'au" disabled [ngModel]="client.subscribedUntil" [matDatepicker]="picker" name="subscribedUntil">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field *ngIf="!isSubscribed">
-          <mat-label>Adhérent jusqu'au</mat-label>
-          <input *ngIf="!isSubscribed" type="text" disabled matInput value="N/A" name="subscriberUntil">
-        </mat-form-field>
+          <mat-form-field *ngIf="!isSubscribed">
+            <mat-label>Adhérent jusqu'au</mat-label>
+            <input *ngIf="!isSubscribed" type="text" disabled matInput value="N/A" name="subscriberUntil">
+          </mat-form-field>
+        </div>
       </form>
 
       <ng-container *ngIf="isAbii()">
         <form (submit)="updateBalance()">
-          <mat-form-field>
-            <mat-label>Somme à {{paymentIsAdditive ? "ajouter" : "retirer "}}</mat-label>
-            <input type="number" matNativeControl required [(ngModel)]="amount" placeholder="Ajuster le solde" name="amount">
-          </mat-form-field>
-          <mat-slide-toggle [checked]="paymentIsAdditive" color="primary" (toggleChange)="updatePaymentValue()">{{paymentIsAdditive ? 'Ajouter' : 'Retirer'}}</mat-slide-toggle>
+          <div>
+            <mat-form-field>
+              <mat-label>Somme à {{paymentIsAdditive ? "ajouter" : "retirer "}}</mat-label>
+              <input type="number" matNativeControl required [(ngModel)]="amount" placeholder="Ajuster le solde" name="amount">
+            </mat-form-field>
+            <mat-slide-toggle [checked]="paymentIsAdditive" color="primary" (toggleChange)="updatePaymentValue()">{{paymentIsAdditive ? 'Ajouter' : 'Retirer'}}</mat-slide-toggle>
+          </div>
           <div>
             <button *ngIf="amount" mat-raised-button color="primary" type="submit">{{paymentIsAdditive ? "Ajouter" : "Retirer"}} {{amountPositive | currency}}</button>
           </div>
         </form>
 
         <form>
-          <ng-container *ngIf="!isSubscribed">
+          <div *ngIf="!isSubscribed">
             <button mat-raised-button color="primary" (click)="updateStatus(status.SEMESTER)">Adhésion 1 semestre</button>
             <button mat-raised-button color="primary" (click)="updateStatus(status.ANNUAL)">Adhésion 1 année</button>
-          </ng-container>
-          <ng-container *ngIf="isSubscribed">
+          </div>
+          <div *ngIf="isSubscribed">
             <button mat-raised-button color="warn" (click)="updateStatus(status.NONE)">Retirer l'adhésion</button>
-          </ng-container>
+          </div>
         </form>
       </ng-container>
     </mat-card-content>
-    <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
-    <button mat-raised-button color="primary" (click)="update()"
-            matBadgeSize="small"
-            matBadge="&#8203;" matBadgeColor="warn" [matBadgeHidden]="!dtoHasChanged">
-      Mettre à jour
-    </button>
-    <button mat-raised-button color="warn" *ngIf="isAbii()" (click)="delete()">Supprimer</button>
-    <button mat-button color="primary" *ngIf="client.user" [routerLink]="'/users/' + client.user.id">Voir l'utilisateur associé</button>
+    <div class="space">
+      <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
+      <button mat-raised-button color="primary" (click)="update()"
+              matBadgeSize="small"
+              matBadge="&#8203;" matBadgeColor="warn" [matBadgeHidden]="!dtoHasChanged">
+        Mettre à jour
+      </button>
+      <button mat-raised-button color="warn" *ngIf="isAbii()" (click)="delete()">Supprimer</button>
+      <button mat-button color="primary" *ngIf="client.user" [routerLink]="'/users/' + client.user.id">Voir l'utilisateur associé</button>
+    </div>
   </mat-card>
 </ng-template>

@@ -1,7 +1,10 @@
 @use '@angular/material' as mat;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html, body {
-  height: 100%;
+  min-height: 100vh;
 }
 
 body {
@@ -9,16 +12,21 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.mat-sidenav-container {
+  min-height: 100vh;
+}
+
 .mat-table {
   width: 100%;
 }
 
-.mat-form-field {
-  ~ .mat-form-field, ~ .mat-checkbox {
-    margin-left: 1em;
-  }
-}
+form > div, .space {
+  display: flex;
+  flex-flow: wrap;
+  align-items: baseline;
+  gap: 1rem;
 
-.mat-raised-button ~ .mat-raised-button {
-  margin-left: 0.5em;
+  & > * {
+    flex: 0 0 auto;
+  }
 }

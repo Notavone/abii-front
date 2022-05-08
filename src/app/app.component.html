@@ -1,25 +1,65 @@
-<mat-toolbar role="heading" color="primary">
-  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Accueil</a>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav [class.w-screen]="mobileQuery?.matches" class="px-5">
+    <mat-nav-list>
+      <button mat-list-item (click)="sidenav.toggle()">
+        <mat-icon mat-list-icon>menu</mat-icon>
+        <span mat-line>Fermer le menu</span>
+      </button>
 
-  <ng-container *ngIf="isLoggedIn() && hasManageRights()">
-    <a mat-button routerLink="/clients" routerLinkActive="active">Clients</a>
-    <a mat-button routerLink="/products" routerLinkActive="active">Produits</a>
-    <a mat-button routerLink="/users" routerLinkActive="active">Utilisateurs</a>
-    <a mat-button routerLink="/orders" routerLinkActive="active">Commandes</a>
-  </ng-container>
+      <a (click)="sidenav.close()"
+         mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <mat-icon mat-list-icon>home</mat-icon>
+        <span mat-line>Accueil</span>
+      </a>
 
-  <span class="spacer"></span>
+      <a *ngIf="isLoggedIn() && hasManageRights()" (click)="sidenav.close()"
+         mat-list-item routerLink="/clients" routerLinkActive="active">
+        <mat-icon mat-list-icon>supervised_user_circle</mat-icon>
+        <span mat-line>Clients</span>
+      </a>
 
-  <ng-container *ngIf="isLoggedIn();then loggedIn; else loggedOut"></ng-container>
-</mat-toolbar>
+      <a *ngIf="isLoggedIn() && hasManageRights()" (click)="sidenav.close()"
+         mat-list-item routerLink="/users" routerLinkActive="active">
+        <mat-icon mat-list-icon>account_circle</mat-icon>
+        <span mat-line>Utilisateurs</span>
+      </a>
 
-<router-outlet></router-outlet>
+      <a *ngIf="isLoggedIn() && hasManageRights()" (click)="sidenav.close()"
+         mat-list-item routerLink="/products" routerLinkActive="active">
+        <mat-icon mat-list-icon>fastfood</mat-icon>
+        <span mat-line>Produits</span>
+      </a>
 
-<ng-template #loggedIn>
-  <a mat-button routerLink="/profile" routerLinkActive="active">Profil</a>
-  <button mat-button (click)="logout()">Déconnexion</button>
-</ng-template>
+      <a *ngIf="isLoggedIn() && hasManageRights()" (click)="sidenav.close()"
+         mat-list-item routerLink="/orders" routerLinkActive="active">
+        <mat-icon mat-list-icon>bookmark_order</mat-icon>
+        <span mat-line>Commandes</span>
+      </a>
 
-<ng-template #loggedOut>
-  <a mat-button routerLink="/login" routerLinkActive="active">Connexion</a>
-</ng-template>
+      <a *ngIf="isLoggedIn()" (click)="sidenav.close()"
+         mat-list-item routerLink="/profile" routerLinkActive="active">
+        <mat-icon mat-list-icon>account_box</mat-icon>
+        <span mat-line>Profil</span>
+      </a>
+
+      <a *ngIf="isLoggedIn()" (click)="logout(); sidenav.close()" mat-list-item>
+        <mat-icon mat-list-icon>directions_run</mat-icon>
+        <span mat-line>Déconnexion</span>
+      </a>
+
+      <a *ngIf="!isLoggedIn()" (click)="sidenav.close()"
+         mat-list-item routerLink="/login" routerLinkActive="active">
+        <mat-icon mat-list-icon>directions_run</mat-icon>
+        <span mat-line>Connexion</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar role="heading" color="primary">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

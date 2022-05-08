@@ -1,7 +1,8 @@
 <mat-card>
   <ng-container *ngIf="order">
     <ng-container *ngIf="order.editable">
-      <div *ngIf="canManageOrder()" class="manage-buttons">
+      <div *ngIf="canManageOrder()" class="mb-3 space">
+        <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
         <button mat-raised-button color="primary" (click)="confirm()">
           Confirmer le paiement
         </button>
@@ -12,10 +13,13 @@
       <mat-card-title>
         Commande n°{{order.id}} du {{order.updatedAt | date: 'dd/mm/yyyy'}}
       </mat-card-title>
-      <button mat-raised-button color="warn" *ngIf="canManageOrder() && !order.editable && !order.refunded" (click)="refund()">
-        Rembourser
-      </button>
-      <a mat-button color="primary" [routerLink]="'/clients/' + order.client?.id">Voir le client concerné</a>
+      <div class="space">
+        <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
+        <button mat-raised-button color="warn" *ngIf="canManageOrder() && !order.editable && !order.refunded" (click)="refund()">
+          Rembourser
+        </button>
+        <a mat-button color="primary" [routerLink]="'/clients/' + order.client?.id">Voir le client concerné</a>
+      </div>
 
       <mat-list>
         <mat-list-item *ngFor="let line of order.orderLines">{{line.quantity}}x {{line.product?.name}}</mat-list-item>
@@ -23,5 +27,4 @@
       </mat-list>
     </ng-container>
   </ng-container>
-  <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
 </mat-card>

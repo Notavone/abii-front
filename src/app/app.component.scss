@@ -1,9 +1,7 @@
-.active {
-  border-bottom: 2px solid black;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+.mat-list-item ~ .mat-list-item {
+  @apply mt-2;
 }
 
-.spacer {
-  flex: 1 1 auto;
+.active {
+  border-bottom: #000000 solid 2px;
 }

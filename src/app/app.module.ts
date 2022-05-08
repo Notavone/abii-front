@@ -22,6 +22,9 @@ import {ConfirmModule} from "./features/confirm/confirm.module";
 import {NotFoundComponent} from './not-found/not-found.component';
 import {MatCardModule} from "@angular/material/card";
 import {UsersModule} from "./users/users.module";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatIconModule} from "@angular/material/icon";
+import {MatListModule} from "@angular/material/list";
 
 registerLocaleData(localeFr);
 
@@ -50,7 +53,10 @@ if (environment.production) {
     ClientsModule,
     ProductsModule,
     OrdersModule,
-    UsersModule
+    UsersModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
