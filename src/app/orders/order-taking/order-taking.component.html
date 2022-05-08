@@ -43,7 +43,8 @@
     <div class="grid-container">
       <mat-card class="product-card" *ngFor="let product of orderBy(type)">
         <mat-card-title (click)="toggleProductSelection(product)">{{ product.name }}</mat-card-title>
-        <img mat-card-image [src]="product.image" alt="" (click)="toggleProductSelection(product)">
+        <img mat-card-image class="max-w-none"
+             [src]="product.image" alt="" (click)="toggleProductSelection(product)">
         <mat-card-content (click)="toggleProductSelection(product)">
           <div class="flex">
             <span>{{(isSubscribed() ? product.price_red : product.price) | currency }}</span>
