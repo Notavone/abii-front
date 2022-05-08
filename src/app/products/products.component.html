@@ -33,32 +33,33 @@
     <mat-card-title>Ajouter un produit</mat-card-title>
     <mat-card-content>
       <form (submit)="save()">
-        <mat-form-field>
-          <mat-label>Nom du produit</mat-label>
-          <input type="text" matNativeControl required placeholder="Nom du produit" [(ngModel)]="product.name" name="name">
-        </mat-form-field>
+        <div>
+          <mat-form-field>
+            <mat-label>Nom du produit</mat-label>
+            <input type="text" matNativeControl required placeholder="Nom du produit" [(ngModel)]="product.name" name="name">
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Prix de base</mat-label>
-          <input type="number" min="0" matNativeControl required placeholder="Prix de base" [(ngModel)]="product.price" name="price">
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Prix de base</mat-label>
+            <input type="number" min="0" matNativeControl required placeholder="Prix de base" [(ngModel)]="product.price" name="price">
+          </mat-form-field>
 
-        <mat-form-field>
+          <mat-form-field>
+            <mat-label>Prix adhérent</mat-label>
+            <input type="number" min="0" matNativeControl required placeholder="Prix adhérent" [(ngModel)]="product.price_red" name="discount">
+          </mat-form-field>
 
-          <mat-label>Prix adhérent</mat-label>
-          <input type="number" min="0" matNativeControl required placeholder="Prix adhérent" [(ngModel)]="product.price_red" name="discount">
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Type de produit</mat-label>
+            <mat-select [(ngModel)]="product.type" required name="type">
+              <mat-option [value]="productTypes.PRODUCT_FOOD">Nourriture / Boisson</mat-option>
+              <mat-option [value]="productTypes.PRODUCT_EXTRA">Extra</mat-option>
+              <mat-option [value]="productTypes.SUBSCRIPTION">Adhésion</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Type de produit</mat-label>
-          <mat-select [(ngModel)]="product.type" required name="type">
-            <mat-option [value]="productTypes.PRODUCT_FOOD">Nourriture / Boisson</mat-option>
-            <mat-option [value]="productTypes.PRODUCT_EXTRA">Extra</mat-option>
-            <mat-option [value]="productTypes.SUBSCRIPTION">Adhésion</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <app-file-upload [(fileString)]="product.image"></app-file-upload>
+          <app-file-upload [(fileString)]="product.image"></app-file-upload>
+        </div>
 
         <div>
           <button mat-raised-button color="primary" type="submit">Ajouter ce produit</button>

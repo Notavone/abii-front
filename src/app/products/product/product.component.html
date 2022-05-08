@@ -4,51 +4,52 @@
       <mat-card-title>Mettre à jour "{{productDto.name}}"</mat-card-title>
       <mat-card-content>
         <form (submit)="update()">
-          <mat-form-field>
-            <mat-label>Nom du produit</mat-label>
-            <input type="text" matNativeControl required placeholder="Nom du produit" [(ngModel)]="productDto.name" name="name">
-          </mat-form-field>
+          <div>
+            <mat-form-field>
+              <mat-label>Nom du produit</mat-label>
+              <input type="text" matNativeControl required placeholder="Nom du produit" [(ngModel)]="productDto.name" name="name">
+            </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Prix de base</mat-label>
-            <input type="number" min="0" matNativeControl required placeholder="Prix de base" [(ngModel)]="productDto.price" name="price">
-          </mat-form-field>
+            <mat-form-field>
+              <mat-label>Prix de base</mat-label>
+              <input type="number" min="0" matNativeControl required placeholder="Prix de base" [(ngModel)]="productDto.price" name="price">
+            </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Prix adhérents</mat-label>
-            <input type="number" min="0" matNativeControl required placeholder="Prix adhérent" [(ngModel)]="productDto.price_red" name="discount">
-          </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Type de produit</mat-label>
-            <mat-select [(ngModel)]="productDto.type" required name="type">
-              <mat-option [value]="productType.PRODUCT_FOOD">Nourriture / Boisson</mat-option>
-              <mat-option [value]="productType.PRODUCT_EXTRA">Extra</mat-option>
-              <mat-option [value]="productType.SUBSCRIPTION">Adhésion</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field>
+              <mat-label>Prix adhérents</mat-label>
+              <input type="number" min="0" matNativeControl required placeholder="Prix adhérent" [(ngModel)]="productDto.price_red" name="discount">
+            </mat-form-field>
 
-          <mat-checkbox [(ngModel)]="productDto.available" name="available">Disponible</mat-checkbox>
+            <mat-form-field>
+              <mat-label>Type de produit</mat-label>
+              <mat-select [(ngModel)]="productDto.type" required name="type">
+                <mat-option [value]="productType.PRODUCT_FOOD">Nourriture / Boisson</mat-option>
+                <mat-option [value]="productType.PRODUCT_EXTRA">Extra</mat-option>
+                <mat-option [value]="productType.SUBSCRIPTION">Adhésion</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-          <app-file-upload [(fileString)]="productDto.image"></app-file-upload>
+            <mat-checkbox [(ngModel)]="productDto.available" name="available">Disponible</mat-checkbox>
 
-          <div *ngIf="product.image">
-            <h3>Image actuelle</h3>
-            <img [src]="product.image" alt="Image actuelle du produit"
-                 (click)="removeProductImage()" matTooltip="Cliquer pour supprimer">
+            <app-file-upload [(fileString)]="productDto.image"></app-file-upload>
           </div>
 
-          <button mat-raised-button color="primary" type="submit" class="submit"
-                  matBadge="&#8203;" [matBadgeHidden]="!hasDtoChanged" matBadgeSize="small"
-                  matBadgeColor="warn"
-          >Mettre à jour
-          </button>
+          <h3 *ngIf="product.image">Image actuelle</h3>
+          <img [src]="product.image" alt="Image actuelle du produit"
+               (click)="removeProductImage()" matTooltip="Cliquer pour supprimer">
+
+          <div class="mt-3">
+            <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
+            <button mat-raised-button color="primary" type="submit"
+                    matBadge="&#8203;" [matBadgeHidden]="!hasDtoChanged" matBadgeSize="small"
+                    matBadgeColor="warn"
+            >Mettre à jour
+            </button>
+            <button mat-raised-button color="warn" (click)="delete()">Supprimer</button>
+          </div>
         </form>
-
-
       </mat-card-content>
-      <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
-      <button mat-raised-button color="warn" (click)="delete()">Supprimer</button>
     </mat-card>
   </mat-tab>
   <mat-tab label="Historique" *ngIf="orders">
