@@ -1,11 +1,12 @@
+<mat-toolbar role="heading" color="primary">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="truncate">Association Belfortaine des Informaticiens de l'IUT</span>
+</mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav #sidenav [class.w-screen]="mobileQuery?.matches" class="px-5">
     <mat-nav-list>
-      <button mat-list-item (click)="sidenav.toggle()">
-        <mat-icon mat-list-icon>menu</mat-icon>
-        <span mat-line>Fermer le menu</span>
-      </button>
-
       <a (click)="sidenav.close()"
          mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
         <mat-icon mat-list-icon>home</mat-icon>
@@ -55,11 +56,6 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar role="heading" color="primary">
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-    </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

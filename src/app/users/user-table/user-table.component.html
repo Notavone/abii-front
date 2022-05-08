@@ -2,22 +2,26 @@
 
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header="">Nom</th>
-      <td mat-cell *matCellDef="let user"><a routerLink="/users/{{user.id}}" mat-button>{{user.name}}</a></td>
+    <td mat-cell *matCellDef="let user"><a routerLink="/users/{{user.id}}" mat-button>{{user.name}}</a></td>
   </ng-container>
 
   <ng-container matColumnDef="email">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Email</th>
-    <td mat-cell *matCellDef="let user">{{user.email}}</td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="" class="hide-on-mobile">Email</th>
+    <td mat-cell *matCellDef="let user" class="hide-on-mobile">{{user.email}}</td>
   </ng-container>
 
   <ng-container matColumnDef="client">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Lié a un client</th>
-    <td mat-cell *matCellDef="let user"><mat-checkbox disabled [ngModel]="!!user.client"></mat-checkbox></td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="" class="hide-on-mobile">Lié a un client</th>
+    <td mat-cell *matCellDef="let user" class="hide-on-mobile">
+      <mat-checkbox disabled [ngModel]="!!user.client"></mat-checkbox>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="activated">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Compte activé</th>
-    <td mat-cell *matCellDef="let user"><mat-checkbox disabled [ngModel]="user.activated"></mat-checkbox></td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="" class="hide-on-mobile">Compte activé</th>
+    <td mat-cell *matCellDef="let user" class="hide-on-mobile">
+      <mat-checkbox disabled [ngModel]="user.activated"></mat-checkbox>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

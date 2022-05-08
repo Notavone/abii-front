@@ -3,5 +3,11 @@
 }
 
 .active {
-  border-bottom: #000000 solid 2px;
+  @apply border-b-zinc-200 border-b-2;
+}
+
+.mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
