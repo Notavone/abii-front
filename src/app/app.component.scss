@@ -11,3 +11,7 @@
   top: 0;
   z-index: 10;
 }
+
+.sidenav::ng-deep > div {
+  overflow: visible;
+}

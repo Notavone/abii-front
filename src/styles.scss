@@ -4,17 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  min-height: 100vh;
+html, body, .material-app, .mat-sidenav-container {
+  height: 100%;
+  width: 100%;
 }
 
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.mat-sidenav-container {
-  min-height: 100vh;
 }
 
 .mat-table {
@@ -26,7 +23,10 @@ body {
     display: none;
   }
 
-  .mat-form-field {
+  .mat-form-field,
+  .space .mat-form-field,
+  .space button,
+  form > div > button:not(.mat-button) {
     flex-grow: 1;
   }
 }
