@@ -19,6 +19,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
   client: ClientCreateDto = new ClientCreateDto();
   dataSet: MatTableDataSource<Client> = new MatTableDataSource<Client>();
   columnsToDisplay = ["name", "balance", "subscription"];
+  isLoading: boolean = true;
 
   constructor(
     private clientService: ClientsService,
@@ -29,7 +30,10 @@ export class ClientsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.clientService.getClients()
-      .subscribe(clients => this.dataSet.data = clients);
+      .subscribe(clients => {
+        this.dataSet.data = clients;
+        this.isLoading = false;
+      });
   }
 
   ngAfterViewInit() {

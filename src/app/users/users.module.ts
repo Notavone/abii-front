@@ -16,6 +16,7 @@ import { UserTableComponent } from './user-table/user-table.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatBadgeModule} from "@angular/material/badge";
+import {LoadingModule} from "../features/loading/loading.module";
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {MatBadgeModule} from "@angular/material/badge";
         MatTableModule,
         MatSortModule,
         MatBadgeModule,
+        LoadingModule,
     ],
 })
 export class UsersModule {

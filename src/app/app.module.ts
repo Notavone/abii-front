@@ -25,6 +25,7 @@ import {UsersModule} from "./users/users.module";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
+import {LoadingModule} from "./features/loading/loading.module";
 
 registerLocaleData(localeFr);
 
@@ -56,7 +57,8 @@ if (environment.production) {
     UsersModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    LoadingModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

@@ -6,6 +6,7 @@ import {Product} from "../products/dto/product";
 import {ClientsService} from "../clients/clients.service";
 import {ProductsService} from "../products/products.service";
 import {OrderQueryDto} from "./dto/order-query.dto";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-orders',
@@ -24,16 +25,21 @@ export class OrdersComponent implements OnInit {
   selectedProduct?: Product;
   allowRefunded: boolean = false;
   allowIncomplete: boolean = false;
+  isLoading: boolean = true;
 
   constructor(private orderService: OrdersService, private clientService: ClientsService, private productService: ProductsService) {
   }
 
   ngOnInit(): void {
-    this.clientService.getClients()
-      .subscribe(clients => this.clients = clients);
-
-    this.productService.getProducts()
-      .subscribe(products => this.products = products);
+    forkJoin({
+      orders: this.orderService.getOrders(),
+      clients: this.clientService.getClients(),
+    })
+      .subscribe(({orders, clients}) => {
+        this.orders = orders;
+        this.clients = clients;
+        this.isLoading = false;
+      });
   }
 
   update() {

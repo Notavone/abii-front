@@ -22,6 +22,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatBadgeModule} from "@angular/material/badge";
 import {FileUploadModule} from "../features/file-upload/file-upload.module";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {LoadingModule} from "../features/loading/loading.module";
 
 
 @NgModule({
@@ -30,27 +31,28 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     ProductComponent,
     ProductTableComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatCardModule,
-    MatInputModule,
-    FormsModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatTableModule,
-    MatSortModule,
-    MatIconModule,
-    HttpClientModule,
-    FeaturesModule,
-    MatTabsModule,
-    MatExpansionModule,
-    OrdersModule,
-    MatCheckboxModule,
-    MatBadgeModule,
-    FileUploadModule,
-    MatTooltipModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatCardModule,
+        MatInputModule,
+        FormsModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatTableModule,
+        MatSortModule,
+        MatIconModule,
+        HttpClientModule,
+        FeaturesModule,
+        MatTabsModule,
+        MatExpansionModule,
+        OrdersModule,
+        MatCheckboxModule,
+        MatBadgeModule,
+        FileUploadModule,
+        MatTooltipModule,
+        LoadingModule
+    ],
   providers: [
     ProductsService
   ],

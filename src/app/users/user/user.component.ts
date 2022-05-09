@@ -13,6 +13,7 @@ import {OrdersService} from "../../orders/orders.service";
 import {Order} from "../../orders/dto/order";
 import {ConfirmService} from "../../features/confirm/confirm.service";
 import {Location} from "@angular/common";
+import {forkJoin, of} from "rxjs";
 
 @Component({
   selector: 'app-user',
@@ -26,6 +27,7 @@ export class UserComponent implements OnInit {
   authorities = Authority;
   availableClients: Client[] = [];
   orders: Order[] = [];
+  isLoading: boolean = true;
 
   constructor(
     private usersService: UsersService,
@@ -41,9 +43,6 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clientsService.getClients({userId: null})
-      .subscribe(clients => this.availableClients = clients);
-
     this.route.params
       .subscribe(params => {
         const call = params["id"] ? this.usersService.getUser(params["id"]) : this.usersService.getMe();
@@ -61,10 +60,17 @@ export class UserComponent implements OnInit {
             };
             this.userUpdateDtoOriginal = {...this.userUpdateDto};
 
-            if (user.client) {
-              this.ordersService.getOrders({clientId: user.client.id, allowIncomplete: true, allowRefunded: true})
-                .subscribe(orders => this.orders = orders);
-            }
+            forkJoin({
+              clients: this.clientsService.getClients({userId: null}),
+              orders: user.client ?
+                this.ordersService.getOrders({clientId: user.client.id, allowIncomplete: true, allowRefunded: true}) :
+                of([])
+            })
+              .subscribe(({clients, orders}) => {
+                this.availableClients = clients;
+                this.orders = orders;
+                this.isLoading = false;
+              });
           },
           error: () => {
             this.router.navigate(["/404"])

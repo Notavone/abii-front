@@ -16,6 +16,7 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [];
   productTypes = ProductType;
   product: ProductCreateDto = new ProductCreateDto();
+  isLoading: boolean = true;
 
   constructor(
     private productService: ProductsService,
@@ -26,7 +27,10 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.productService.getProducts()
-      .subscribe(products => this.products = products);
+      .subscribe(products => {
+        this.products = products;
+        this.isLoading = false;
+      });
 
     this.product = {
       ...this.product,

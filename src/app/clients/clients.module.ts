@@ -24,6 +24,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatBadgeModule} from "@angular/material/badge";
+import {LoadingModule} from "../features/loading/loading.module";
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import {MatBadgeModule} from "@angular/material/badge";
         MatDatepickerModule,
         MatTooltipModule,
         MatBadgeModule,
+        LoadingModule,
     ],
   providers: [
     ClientsService,

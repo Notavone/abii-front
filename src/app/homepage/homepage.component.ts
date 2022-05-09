@@ -9,13 +9,17 @@ import {ProductType} from "../shared/product-type";
   styleUrls: ['./homepage.component.scss']
 })
 export class HomepageComponent implements OnInit {
-  products: Product[] = []
+  products: Product[] = [];
+  isLoading: boolean = true;
 
   constructor(private productService: ProductsService) { }
 
   ngOnInit(): void {
     this.productService.getProducts()
-      .subscribe(products => this.products = products.filter(p => p.type === ProductType.PRODUCT_FOOD && p.available));
+      .subscribe(products => {
+        this.products = products.filter(p => p.type === ProductType.PRODUCT_FOOD && p.available);
+        this.isLoading = false;
+      });
   }
 
 }

@@ -26,6 +26,7 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {ProductsModule} from "../products/products.module";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {LoadingModule} from "../features/loading/loading.module";
 
 
 @NgModule({
@@ -35,29 +36,30 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     OrdersTableComponent,
     OrderTakingComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    HttpClientModule,
-    FeaturesModule,
-    MatTableModule,
-    MatExpansionModule,
-    MatButtonModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatCardModule,
-    MatListModule,
-    FormsModule,
-    MatIconModule,
-    MatInputModule,
-    MatNativeDateModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatBadgeModule,
-    MatGridListModule,
-    MatProgressBarModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        HttpClientModule,
+        FeaturesModule,
+        MatTableModule,
+        MatExpansionModule,
+        MatButtonModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatCardModule,
+        MatListModule,
+        FormsModule,
+        MatIconModule,
+        MatInputModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatBadgeModule,
+        MatGridListModule,
+        MatProgressBarModule,
+        LoadingModule,
+    ],
   providers: [
     OrdersService
   ],

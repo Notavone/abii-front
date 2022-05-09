@@ -16,6 +16,7 @@ import {CurrencyPipe, Location} from "@angular/common";
 })
 export class OrderComponent implements OnInit {
   order!: Order;
+  isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,17 +31,18 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params
+    this.route.paramMap
       .subscribe(params => {
-        if (params['id']) {
-          this.ordersService.getOrder(params['id'])
-            .subscribe({
-              next: order => this.order = order,
-              error: () => this.router.navigate(['/404'])
-            });
-        } else {
-          this.router.navigate(['/404']).then();
-        }
+        if (!params.has('id')) this.router.navigate(['/404']);
+        const id = params.get('id')!;
+        this.ordersService.getOrder(+id)
+          .subscribe({
+            next: order => {
+              this.order = order;
+              this.isLoading = false;
+            },
+            error: () => this.router.navigate(['/404'])
+          });
       });
   }
 

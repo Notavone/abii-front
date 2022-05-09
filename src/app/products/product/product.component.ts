@@ -21,6 +21,7 @@ export class ProductComponent implements OnInit {
   productDto!: ProductCreateDto;
   productType = ProductType;
   productDtoOriginal!: ProductCreateDto;
+  isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,27 +35,28 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let id = this.route.snapshot.paramMap.get("id");
-    if (!id) {
-      return;
-    }
+    this.route.paramMap.subscribe((params) => {
+      if(!params.has('id')) this.router.navigate(['/404']);
+      const id = params.get('id')!;
+      this.productService.getProduct(+id)
+        .subscribe(product => {
+          this.product = product;
+          this.productDto = {
+            name: product.name,
+            type: product.type,
+            price: product.price,
+            price_red: product.price_red,
+            available: product.available,
+          }
+          this.productDtoOriginal = {...this.productDto};
 
-    this.productService.getProduct(+id)
-      .subscribe(product => {
-        this.product = product;
-
-        this.productDto = {
-          name: product.name,
-          type: product.type,
-          price: product.price,
-          price_red: product.price_red,
-          available: product.available,
-        }
-        this.productDtoOriginal = {...this.productDto};
-
-        this.ordersService.getOrders({productId: product.id, allowRefunded: true, allowIncomplete: true})
-          .subscribe(orders => this.orders = orders);
-      })
+          this.ordersService.getOrders({productId: product.id, allowRefunded: true, allowIncomplete: true})
+            .subscribe(orders => {
+              this.orders = orders;
+              this.isLoading = false;
+            });
+        })
+    })
   }
 
 

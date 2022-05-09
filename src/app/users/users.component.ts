@@ -9,6 +9,7 @@ import {User} from "./dto/user";
 })
 export class UsersComponent implements OnInit {
   users: User[] = []
+  isLoading: boolean = true;
 
   constructor(
     private usersService: UsersService,
@@ -16,7 +17,8 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.usersService.getUsers().subscribe(users => {
-      this.users = users
+      this.users = users;
+      this.isLoading = false;
     })
   }
 }

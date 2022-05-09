@@ -35,6 +35,7 @@ export class ClientComponent implements OnInit {
   lines: OrderLineModel[] = []
   paymentIsAdditive: boolean = true;
   _amount: number = 0;
+  isLoading: boolean = true;
 
   constructor(
     private clientService: ClientsService,
@@ -52,25 +53,26 @@ export class ClientComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params
-      .subscribe(params => {
-        if (params["id"]) {
-          this.clientService.getClient(params["id"])
-            .subscribe({
-              next: (client) => {
-                this.client = client;
+    this.route.paramMap
+      .subscribe((params) => {
+        if (!params.has('id')) this.router.navigate(['/404']);
+        const id = +params.get('id')!;
+        this.clientService.getClient(+id)
+          .subscribe({
+            next: (client) => {
+              this.client = client;
 
-                this.updateDto = {name: client.name}
-                this.updateDtoOriginal = {...this.updateDto};
+              this.updateDto = {name: client.name}
+              this.updateDtoOriginal = {...this.updateDto};
 
-                this.ordersService.getOrders({clientId: client.id, allowIncomplete: true, allowRefunded: true})
-                  .subscribe(orders => this.orders = orders);
-              },
-              error: () => this.router.navigate(["/404"])
-            });
-        } else {
-          this.router.navigate(["/404"]).then();
-        }
+              this.ordersService.getOrders({clientId: client.id, allowIncomplete: true, allowRefunded: true})
+                .subscribe(orders => {
+                  this.orders = orders
+                  this.isLoading = false;
+                });
+            },
+            error: () => this.router.navigate(["/404"])
+          });
       });
 
     this.productService.getProducts()
