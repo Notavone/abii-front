@@ -11,10 +11,9 @@ import {UserConfirmDto} from "./dto/user-confirm.dto";
 })
 export class UsersService {
   private baseUrl = "/api/users";
-  private provider = "ProductsService";
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ) {
   }
 
