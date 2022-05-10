@@ -26,7 +26,7 @@ body {
   .mat-form-field,
   .space .mat-form-field,
   .space button,
-  form > div > button:not(.mat-button) {
+  form > div > button {
     flex-grow: 1;
   }
 }

@@ -9,6 +9,8 @@ import {FileUploadService} from "./file-upload.service";
 export class FileUploadComponent implements OnInit {
   @ViewChild("input") input?: ElementRef<HTMLInputElement>;
 
+  @Input() label: string = "";
+
   private _fileString?: string;
   @Output("fileStringChange") fileStringChange: EventEmitter<string> = new EventEmitter();
 

@@ -31,9 +31,9 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-checkbox [(ngModel)]="productDto.available" name="available">Disponible</mat-checkbox>
+            <app-file-upload [(fileString)]="productDto.image" label="Image du produit"></app-file-upload>
 
-            <app-file-upload [(fileString)]="productDto.image"></app-file-upload>
+            <mat-checkbox [(ngModel)]="productDto.available" name="available">Disponible</mat-checkbox>
           </div>
 
           <h3 *ngIf="product.image">Image actuelle</h3>
