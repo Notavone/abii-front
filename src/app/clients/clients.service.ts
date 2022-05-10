@@ -9,6 +9,7 @@ import {ClientCreateDto} from "./dto/client-create.dto";
 import {ProductUpdateDto} from "../products/dto/product-update.dto";
 import {ClientQueryDto} from "./dto/client-query.dto";
 import {QueryService} from "../features/query.service";
+import {User} from "../users/dto/user";
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +64,9 @@ export class ClientsService {
       balance: newBalance
     }
     return this.http.patch<Client>(url, dto);
+  }
+
+  getUnlinked(): Observable<Client[]> {
+    return this.http.get<Client[]>(this.baseUrl + "/unlinked");
   }
 }

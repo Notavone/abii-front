@@ -17,6 +17,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatBadgeModule} from "@angular/material/badge";
 import {LoadingModule} from "../features/loading/loading.module";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import {LoadingModule} from "../features/loading/loading.module";
         MatSortModule,
         MatBadgeModule,
         LoadingModule,
+        MatTooltipModule,
     ],
 })
 export class UsersModule {
