@@ -34,6 +34,8 @@
             <app-file-upload [(fileString)]="productDto.image" label="Image du produit"></app-file-upload>
 
             <mat-checkbox [(ngModel)]="productDto.available" name="available">Disponible</mat-checkbox>
+
+            <mat-checkbox [(ngModel)]="productDto.useStock" name="use_stock">Gestion stock</mat-checkbox>
           </div>
 
           <h3 *ngIf="product.image">Image actuelle</h3>

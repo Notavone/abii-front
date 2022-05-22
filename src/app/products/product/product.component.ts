@@ -6,9 +6,9 @@ import {OrdersService} from "../../orders/orders.service";
 import {Order} from "../../orders/dto/order";
 import {Location} from "@angular/common";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ProductCreateDto} from "../dto/product-create.dto";
 import {ProductType} from "../../shared/product-type";
 import {ConfirmService} from "../../features/confirm/confirm.service";
+import {ProductUpdateDto} from "../dto/product-update.dto";
 
 @Component({
   selector: 'app-product',
@@ -18,9 +18,9 @@ import {ConfirmService} from "../../features/confirm/confirm.service";
 export class ProductComponent implements OnInit {
   product!: Product;
   orders?: Order[];
-  productDto!: ProductCreateDto;
+  productDto!: ProductUpdateDto;
   productType = ProductType;
-  productDtoOriginal!: ProductCreateDto;
+  productDtoOriginal!: ProductUpdateDto;
   isLoading: boolean = true;
 
   constructor(
@@ -36,7 +36,7 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      if(!params.has('id')) this.router.navigate(['/404']);
+      if (!params.has('id')) this.router.navigate(['/404']);
       const id = params.get('id')!;
       this.productService.getProduct(+id)
         .subscribe(product => {
@@ -47,6 +47,8 @@ export class ProductComponent implements OnInit {
             price: product.price,
             price_red: product.price_red,
             available: product.available,
+            stock: product.stock,
+            useStock: product.useStock,
           }
           this.productDtoOriginal = {...this.productDto};
 

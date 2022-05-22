@@ -1,11 +1,10 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProductsService} from './products.service';
 import {Product} from "./dto/product";
 import {ProductType} from "../shared/product-type";
 import {ProductCreateDto} from "./dto/product-create.dto";
 import {Router} from "@angular/router";
 import {ConfirmService} from "../features/confirm/confirm.service";
-import {FileUploadService} from "../features/file-upload/file-upload.service";
 
 @Component({
   selector: 'app-products',

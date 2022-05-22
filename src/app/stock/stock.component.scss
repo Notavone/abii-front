@@ -1,0 +1,34 @@
+.alert {
+  @apply bg-red-200 rounded;
+
+  &:hover {
+    @apply bg-opacity-50;
+  }
+}
+
+.unavailable {
+  @apply bg-gray-300 rounded;
+
+  &:hover {
+    @apply bg-opacity-50;
+  }
+}
+
+.out-of-stock {
+  @apply bg-red-300 bg-opacity-50 rounded;
+  animation: fade 0.5s infinite alternate-reverse ease-in-out;
+}
+
+@keyframes fade {
+  0% {@apply bg-opacity-100;}
+  10% {@apply bg-opacity-90;}
+  20% {@apply bg-opacity-80;}
+  30% {@apply bg-opacity-70;}
+  40% {@apply bg-opacity-60;}
+  50% {@apply bg-opacity-50;}
+  60% {@apply bg-opacity-40;}
+  70% {@apply bg-opacity-30;}
+  80% {@apply bg-opacity-20;}
+  90% {@apply bg-opacity-10;}
+  100% {@apply bg-opacity-0;}
+}

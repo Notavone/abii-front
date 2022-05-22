@@ -10,4 +10,8 @@ export class Product {
   readonly createdAt!: Date;
   readonly updatedAt!: Date;
   readonly image?: string;
+  readonly stock!: number;
+  readonly alert!: number;
+  readonly useStock!: boolean;
+  readonly sellable!: boolean;
 }

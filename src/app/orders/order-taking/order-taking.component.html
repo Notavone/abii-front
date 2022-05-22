@@ -5,13 +5,16 @@
       </mat-expansion-panel-header>
       <div class="flex flex-col gap-3">
         <div *ngFor="let product of selected" class="flex flex-nowrap gap-2 items-center justify-between">
-          <span class="truncate">{{product.name}} - ({{totalForLine(product) | currency}})</span>
+          <div class="flex items-center gap-1 truncate">
+            <mat-icon color="warn" *ngIf="isLineOutOfStock(product)">warning</mat-icon>
+            <span>{{product.name}} - ({{totalForLine(product) | currency}})</span>
+          </div>
           <div class="flex flex-nowrap gap-2">
             <button mat-mini-fab color="accent" (click)="decrementLine(product)">
               <mat-icon>remove</mat-icon>
             </button>
             <button mat-flat-button (click)="resetLine(product)">{{quantityForLine(product)}}</button>
-            <button mat-mini-fab color="primary" (click)="incrementLine(product)">
+            <button mat-mini-fab color="primary" [disabled]="isLineOutOfStock(product)" (click)="incrementLine(product)">
               <mat-icon>add</mat-icon>
             </button>
           </div>
@@ -32,7 +35,7 @@
         <img mat-card-image class="max-w-none"
              [src]="product.image" alt="" (click)="toggleProductSelection(product)">
         <mat-card-content (click)="toggleProductSelection(product)">
-          <div class="flex">
+          <div class="flex justify-between">
             <span>{{(isSubscribed() ? product.price_red : product.price) | currency }}</span>
             <strong *ngIf="totalForLine(product) > 0">Total: {{totalForLine(product) | currency}}</strong>
           </div>

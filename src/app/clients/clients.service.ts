@@ -6,10 +6,8 @@ import {AuthService} from "../auth/auth.service";
 import {LoggingService} from "../features/logging.service";
 import {ClientUpdateDto} from "./dto/client-update.dto";
 import {ClientCreateDto} from "./dto/client-create.dto";
-import {ProductUpdateDto} from "../products/dto/product-update.dto";
 import {ClientQueryDto} from "./dto/client-query.dto";
 import {QueryService} from "../features/query.service";
-import {User} from "../users/dto/user";
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +50,7 @@ export class ClientsService {
 
   updateStatus(id: number, newDate: Date): Observable<Client> {
     let url = `${this.baseUrl}/${id}/`
-    const dto: ProductUpdateDto = {
+    const dto: ClientUpdateDto = {
       subscribedUntil: newDate
     }
     return this.http.patch<Client>(url, dto);

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {Order} from "../dto/order";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -17,7 +17,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatSort) sort?: MatSort;
   dataSet: MatTableDataSource<Order> = new MatTableDataSource<Order>();
 
-  constructor(  ) {
+  constructor() {
   }
 
   ngOnChanges(changes: SimpleChanges): void {

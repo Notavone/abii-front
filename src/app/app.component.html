@@ -39,6 +39,12 @@
           <span mat-line>Commandes</span>
         </a>
 
+        <a *ngIf="isLoggedIn() && hasManageRights()" (click)="sidenav.close()"
+        mat-list-item routerLink="/stock" routerLinkActive="active">
+          <mat-icon mat-list-icon>remove_shopping_cart</mat-icon>
+          <span mat-line>Gestion Stock</span>
+        </a>
+
         <a *ngIf="isLoggedIn()" (click)="sidenav.close()"
            mat-list-item routerLink="/profile" routerLinkActive="active">
           <mat-icon mat-list-icon>account_box</mat-icon>

@@ -12,7 +12,7 @@ import {RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
 import {FeaturesModule} from "../features/features.module";
 import {OrdersComponent} from "./orders.component";
-import { OrderTakingComponent } from './order-taking/order-taking.component';
+import {OrderTakingComponent} from './order-taking/order-taking.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatListModule} from "@angular/material/list";
 import {FormsModule} from "@angular/forms";
@@ -23,7 +23,6 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatBadgeModule} from "@angular/material/badge";
-import {ProductsModule} from "../products/products.module";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {LoadingModule} from "../features/loading/loading.module";
@@ -36,30 +35,30 @@ import {LoadingModule} from "../features/loading/loading.module";
     OrdersTableComponent,
     OrderTakingComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        HttpClientModule,
-        FeaturesModule,
-        MatTableModule,
-        MatExpansionModule,
-        MatButtonModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatCardModule,
-        MatListModule,
-        FormsModule,
-        MatIconModule,
-        MatInputModule,
-        MatNativeDateModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatCheckboxModule,
-        MatBadgeModule,
-        MatGridListModule,
-        MatProgressBarModule,
-        LoadingModule,
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    HttpClientModule,
+    FeaturesModule,
+    MatTableModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatCardModule,
+    MatListModule,
+    FormsModule,
+    MatIconModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatBadgeModule,
+    MatGridListModule,
+    MatProgressBarModule,
+    LoadingModule,
+  ],
   providers: [
     OrdersService
   ],

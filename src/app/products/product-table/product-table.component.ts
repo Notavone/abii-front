@@ -11,7 +11,7 @@ import {MatSort} from "@angular/material/sort";
 })
 export class ProductTableComponent implements OnChanges, AfterViewInit {
   @Input() products: Product[] = [];
-  @Input() columnsToDisplay: string[] = ["name", "available", "price", "discount"]
+  @Input() columnsToDisplay: string[] = ["name", "available", "sellable", "price", "discount"]
   @Output() productUpdated = new EventEmitter<Product>();
   @ViewChild(MatSort) sort?: MatSort;
   dataSet: MatTableDataSource<Product> = new MatTableDataSource<Product>();

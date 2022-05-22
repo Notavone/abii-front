@@ -31,11 +31,11 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    forkJoin({
-      orders: this.orderService.getOrders(),
-      clients: this.clientService.getClients(),
-    })
-      .subscribe(({orders, clients}) => {
+    forkJoin([
+      this.orderService.getOrders(),
+      this.clientService.getClients(),
+    ])
+      .subscribe(([orders, clients]) => {
         this.orders = orders;
         this.clients = clients;
         this.isLoading = false;

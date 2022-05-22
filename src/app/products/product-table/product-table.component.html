@@ -15,11 +15,16 @@
   </ng-container>
 
   <ng-container matColumnDef="available">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="" class="hide-on-mobile">Disponibilité</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="" class="hide-on-mobile">Disponible</th>
     <td mat-cell *matCellDef="let product" class="hide-on-mobile">
-      <button mat-icon-button (click)="toggleAvailability(product)">
-        <mat-icon>{{product.available ? "check_box" : "check_box_outline_blank"}}</mat-icon>
-      </button>
+      <mat-checkbox [checked]="product.available" disabled></mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="sellable">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="">En vente</th>
+    <td mat-cell *matCellDef="let product">
+      <mat-checkbox [checked]="product.sellable" disabled></mat-checkbox>
     </td>
   </ng-container>
 

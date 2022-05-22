@@ -36,6 +36,9 @@ const routes: Routes = [
   {path: "products/:id", component: ProductComponent, canActivate: [AuthGuard, AbiiGuard]},
 
   {path: "404", component: NotFoundComponent},
+
+  { path: 'stock', loadChildren: () => import('./stock/stock.module').then(m => m.StockModule) },
+
   {path: "**", pathMatch: "full", component: NotFoundComponent}
 ];
 

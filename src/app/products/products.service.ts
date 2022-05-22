@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
-import {catchError, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {Product} from "./dto/product";
 import {HttpClient} from "@angular/common/http";
-import {ProductType} from "../shared/product-type";
 import {ProductCreateDto} from "./dto/product-create.dto";
 import {ProductUpdateDto} from "./dto/product-update.dto";
+import {ProductBulkUpdateDto} from "./dto/product-bulk-update.dto";
+import {ProductQueryDto} from "./dto/product-query.dto";
+import {QueryService} from "../features/query.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +16,15 @@ export class ProductsService {
 
   constructor(
     private http: HttpClient,
+    private queryService: QueryService,
   ) {
   }
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseUrl);
+  getProducts(query?: ProductQueryDto): Observable<Product[]> {
+    let url = `${this.baseUrl}`;
+    if (query) url += this.queryService.encode(query);
+
+    return this.http.get<Product[]>(url);
   }
 
   getProduct(id: number): Observable<Product> {
@@ -32,8 +38,7 @@ export class ProductsService {
   }
 
   addProduct(product: ProductCreateDto): Observable<Product> {
-    let url = `${this.baseUrl}/`;
-    return this.http.post<Product>(url, product);
+    return this.http.post<Product>(this.baseUrl, product);
   }
 
   deleteProduct(id: number): Observable<Product> {
@@ -45,5 +50,10 @@ export class ProductsService {
     let url = `${this.baseUrl}/${product.id}`;
     const dto: ProductUpdateDto = {available: !product.available};
     return this.http.patch<Product>(url, dto);
+  }
+
+  updateBulk(productBulkUpdateDto: ProductBulkUpdateDto): Observable<Product[]> {
+    const url = `${this.baseUrl}/bulk`;
+    return this.http.patch<Product[]>(url, productBulkUpdateDto);
   }
 }

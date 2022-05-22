@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Client} from "../../clients/dto/client";
 import {Product} from "../../products/dto/product";
 import {ProductsService} from "../../products/products.service";
@@ -27,6 +27,7 @@ export class OrderTakingComponent implements OnInit {
   _selected: Product[] = [];
   orderLines: OrderLineCreateDto[] = [];
   orderLinesOriginal: OrderLineCreateDto[] = [];
+  productsWhichLineQuantityAreOverStock: number[] = [];
 
   constructor(
     private productsService: ProductsService,
@@ -43,10 +44,12 @@ export class OrderTakingComponent implements OnInit {
             const product = this.products.find(p => p.id === orderLine.product?.id);
             if (product) {
               this._selected.push(product);
-              this.orderLines.push({
+              let line = {
                 productId: product.id,
                 quantity: orderLine.quantity
-              });
+              };
+              this.orderLines.push(line);
+              this.updateOutOfStockStatus(line, product);
             }
           });
           this.orderLinesOriginal = [...this.orderLines];
@@ -70,7 +73,7 @@ export class OrderTakingComponent implements OnInit {
   }
 
   orderBy(productType: ProductType) {
-    return this.products.filter(product => product.type === productType);
+    return this.products.filter(product => product.type === productType && product.sellable);
   }
 
   isSubscribed() {
@@ -83,16 +86,18 @@ export class OrderTakingComponent implements OnInit {
 
   set selected(products: Product[]) {
     this._selected = products;
-    if(this.expansionPanel && !this.selected.length) {
+    if (this.expansionPanel && !this.selected.length) {
       this.expansionPanel.close();
     }
 
     this.orderLines = this.orderLines.filter(orderLine => this.selected.map(product => product.id).includes(orderLine.productId));
     for (const p of products.filter(product => !this.orderLines.map(orderLine => orderLine.productId).includes(product.id))) {
-      this.orderLines.push({
+      let line = {
         productId: p.id,
         quantity: 1
-      });
+      };
+      this.orderLines.push(line);
+      this.updateOutOfStockStatus(line, p);
     }
   }
 
@@ -114,6 +119,7 @@ export class OrderTakingComponent implements OnInit {
     const line = this.orderLines.find(orderLine => orderLine.productId === product.id);
     if (line) {
       line.quantity++;
+      this.updateOutOfStockStatus(line, product);
     } else this.selected = [...this.selected, product];
   }
 
@@ -122,14 +128,25 @@ export class OrderTakingComponent implements OnInit {
     if (line) {
       line.quantity--;
       if (line.quantity === 0) this.selected = this.selected.filter(p => p.id !== product.id);
+      this.updateOutOfStockStatus(line, product);
     }
+  }
+
+  updateOutOfStockStatus(line: OrderLineCreateDto, product: Product) {
+    if (line.quantity > product.stock) this.productsWhichLineQuantityAreOverStock = [...new Set([...this.productsWhichLineQuantityAreOverStock, product.id])];
+    else this.productsWhichLineQuantityAreOverStock = this.productsWhichLineQuantityAreOverStock.filter(id => id !== product.id);
   }
 
   resetLine(product: Product) {
     const line = this.orderLines.find(orderLine => orderLine.productId === product.id);
     if (line) {
       line.quantity = 1;
+      this.updateOutOfStockStatus(line, product);
     }
+  }
+
+  isLineOutOfStock(product: Product) {
+    return this.productsWhichLineQuantityAreOverStock.includes(product.id);
   }
 
   toggleProductSelection(product: Product) {

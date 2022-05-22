@@ -60,13 +60,13 @@ export class UserComponent implements OnInit {
             };
             this.userUpdateDtoOriginal = {...this.userUpdateDto};
 
-            forkJoin({
-              clients: this.clientsService.getUnlinked(),
-              orders: user.client ?
+            forkJoin([
+              this.clientsService.getUnlinked(),
+              user.client ?
                 this.ordersService.getOrders({clientId: user.client.id, allowIncomplete: true, allowRefunded: true}) :
                 of([])
-            })
-              .subscribe(({clients, orders}) => {
+            ])
+              .subscribe(([clients, orders]) => {
                 this.availableClients = clients;
                 this.orders = orders;
                 this.isLoading = false;
