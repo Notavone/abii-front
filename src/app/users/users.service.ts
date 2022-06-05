@@ -5,6 +5,8 @@ import {Observable} from "rxjs";
 import {UserCreateDto} from "./dto/user-create.dto";
 import {UserUpdateDto} from "./dto/user-update.dto";
 import {UserConfirmDto} from "./dto/user-confirm.dto";
+import {InitPasswordResetDto} from "../auth/dto/init-password-reset.dto";
+import {FinishPasswordResetDto} from "../auth/dto/finish-password-reset.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +45,13 @@ export class UsersService {
 
   deleteUser(id: number): Observable<User> {
     return this.http.delete<User>(`${this.baseUrl}/${id}`)
+  }
+
+  initPasswordReset(initPasswordResetDto: InitPasswordResetDto) {
+    return this.http.post(this.baseUrl + "/reset", initPasswordResetDto);
+  }
+
+  finishPasswordReset(finishPasswordResetDto: FinishPasswordResetDto) {
+    return this.http.put(this.baseUrl + "/reset", finishPasswordResetDto);
   }
 }

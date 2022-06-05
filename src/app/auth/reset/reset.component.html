@@ -1,0 +1,39 @@
+<mat-card>
+  <mat-card-title>Réinitialiser votre mot de passe</mat-card-title>
+  <ng-container [ngSwitch]="activeView">
+    <mat-card-content *ngSwitchCase="View.INIT">
+      <form (submit)="initPasswordReset($event)">
+        <div>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input type="email" name="email" matNativeControl [(ngModel)]="initPasswordResetDto.email" label="Email">
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-raised-button color="primary" type="submit">Réinitialiser</button>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-content *ngSwitchCase="View.AFTER_INIT">
+      <p>Un email vous a été envoyé pour réinitialiser votre mot de passe.</p>
+    </mat-card-content>
+    <mat-card-content *ngSwitchCase="View.FINISH">
+      <form (submit)="finishPasswordReset($event)">
+        <div>
+          <mat-form-field>
+            <mat-label>Mot de passe</mat-label>
+            <input type="password" name="password" matNativeControl [(ngModel)]="finishPasswordResetDto.password" label="Mot de passe">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Confirmer le mot de passe</mat-label>
+            <input type="password" name="password" matNativeControl [(ngModel)]="confirmPassword" label="Confirmer le mot de passe">
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-raised-button color="primary" type="submit">Réinitialiser</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </ng-container>
+</mat-card>

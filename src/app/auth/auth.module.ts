@@ -12,13 +12,15 @@ import {FeaturesModule} from "../features/features.module";
 import {RouterModule} from "@angular/router";
 import { RegisterComponent } from './register/register.component';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { ResetComponent } from './reset/reset.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    ResetComponent
   ],
   imports: [
     CommonModule,

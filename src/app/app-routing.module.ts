@@ -15,12 +15,14 @@ import {ConfirmComponent} from "./auth/confirm/confirm.component";
 import {UsersComponent} from "./users/users.component";
 import {UserComponent} from "./users/user/user.component";
 import {AbiiGuard} from "./auth/abii.guard";
+import {ResetComponent} from "./auth/reset/reset.component";
 
 const routes: Routes = [
   {path: "", component: HomepageComponent},
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
   {path: "confirm", component: ConfirmComponent},
+  {path: "reset", component: ResetComponent},
 
   {path: "orders", component: OrdersComponent, canActivate: [AuthGuard, AbiiGuard]},
   {path: "orders/:id", component: OrderComponent, canActivate: [AuthGuard]},
@@ -37,7 +39,7 @@ const routes: Routes = [
 
   {path: "404", component: NotFoundComponent},
 
-  { path: 'stock', loadChildren: () => import('./stock/stock.module').then(m => m.StockModule) },
+  {path: 'stock', loadChildren: () => import('./stock/stock.module').then(m => m.StockModule)},
 
   {path: "**", pathMatch: "full", component: NotFoundComponent}
 ];
