@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {InitPasswordResetDto} from "../dto/init-password-reset.dto";
-import {FinishPasswordResetDto} from "../dto/finish-password-reset.dto";
-import {ActivatedRoute, Router} from "@angular/router";
-import {UsersService} from "../../users/users.service";
+import { Component, OnInit } from "@angular/core";
+import { InitPasswordResetDto } from "../dto/init-password-reset.dto";
+import { FinishPasswordResetDto } from "../dto/finish-password-reset.dto";
+import { ActivatedRoute, Router } from "@angular/router";
+import { UsersService } from "../../users/users.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 enum View {
   INIT,
@@ -11,31 +12,30 @@ enum View {
 }
 
 @Component({
-  selector: 'app-reset',
-  templateUrl: './reset.component.html',
-  styleUrls: ['./reset.component.scss']
+  selector: "app-reset",
+  templateUrl: "./reset.component.html",
+  styleUrls: ["./reset.component.scss"],
 })
 export class ResetComponent implements OnInit {
   View = View;
   activeView: View = View.INIT;
-  initPasswordResetDto: InitPasswordResetDto
-  finishPasswordResetDto: FinishPasswordResetDto
-  confirmPassword: string;
+  initPasswordResetDto: InitPasswordResetDto = new InitPasswordResetDto();
+  finishPasswordResetDto: FinishPasswordResetDto = new FinishPasswordResetDto();
+  confirmPassword: string = "";
+  isLoading: boolean = false;
 
   constructor(
     private usersService: UsersService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private snackBar: MatSnackBar,
   ) {
-    this.initPasswordResetDto = new InitPasswordResetDto();
-    this.finishPasswordResetDto = new FinishPasswordResetDto();
-    this.confirmPassword = "";
   }
 
   ngOnInit(): void {
     this.activatedRoute.queryParamMap
       .subscribe((params) => {
-        if(params.get("resetKey")) {
+        if (params.get("resetKey")) {
           this.finishPasswordResetDto.resetKey = params.get("resetKey")!;
           this.activeView = View.FINISH;
         }
@@ -44,13 +44,34 @@ export class ResetComponent implements OnInit {
 
   initPasswordReset($event: SubmitEvent) {
     $event.preventDefault();
+    this.isLoading = true;
     this.usersService.initPasswordReset(this.initPasswordResetDto)
-      .subscribe(() => this.activeView = View.AFTER_INIT);
+      .subscribe(() => {
+        this.activeView = View.AFTER_INIT;
+        this.isLoading = false;
+      });
   }
 
   finishPasswordReset($event: SubmitEvent) {
     $event.preventDefault();
+
+    if (this.finishPasswordResetDto.password !== this.confirmPassword) {
+      this.snackBar.open("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    this.isLoading = true;
     this.usersService.finishPasswordReset(this.finishPasswordResetDto)
-      .subscribe(() => this.router.navigate(["/login"]))
+      .subscribe({
+        next: () => {
+          this.snackBar.open("Votre mot de passe à été réinitialisé.");
+          this.isLoading = false;
+          this.router.navigate(["/login"]);
+        },
+        error: () => {
+          this.isLoading = false;
+          this.snackBar.open("Impossible de modifier votre mot de passe.");
+        },
+      });
   }
 }

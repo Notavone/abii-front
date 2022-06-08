@@ -13,6 +13,7 @@ import {RouterModule} from "@angular/router";
 import { RegisterComponent } from './register/register.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { ResetComponent } from './reset/reset.component';
+import { LoadingModule } from "../features/loading/loading.module";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ResetComponent } from './reset/reset.component';
     MatButtonModule,
     HttpClientModule,
     RouterModule,
-    FeaturesModule
+    FeaturesModule,
+    LoadingModule,
   ], providers: [
     AuthService,
     AuthInterceptor

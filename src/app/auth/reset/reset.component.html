@@ -1,5 +1,7 @@
+<app-loading *ngIf="isLoading"></app-loading>
+
 <mat-card>
-  <mat-card-title>Réinitialiser votre mot de passe</mat-card-title>
+  <mat-card-title>Réinitialiser mon mot de passe</mat-card-title>
   <ng-container [ngSwitch]="activeView">
     <mat-card-content *ngSwitchCase="View.INIT">
       <form (submit)="initPasswordReset($event)">
@@ -10,7 +12,7 @@
           </mat-form-field>
         </div>
         <div>
-          <button mat-raised-button color="primary" type="submit">Réinitialiser</button>
+          <button mat-raised-button color="primary" type="submit">Réinitialiser mon mot de passe</button>
         </div>
       </form>
     </mat-card-content>
