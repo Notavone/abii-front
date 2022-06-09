@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import {Order} from "./dto/order";
 import {OrdersService} from './orders.service';
 import {Client} from "../clients/dto/client";
@@ -17,7 +17,6 @@ export class OrdersComponent implements OnInit {
   orders: Order[] = [];
   clients: Client[] = [];
   products: Product[] = []
-  total = 0;
 
   start?: Date;
   end?: Date;
@@ -42,6 +41,10 @@ export class OrdersComponent implements OnInit {
       });
   }
 
+  get total() {
+    return this.orders.reduce((total, order) => total + +order.total, 0);
+  }
+
   update() {
     const query = new OrderQueryDto();
     let startTime = this.start?.getTime();
@@ -55,9 +58,6 @@ export class OrdersComponent implements OnInit {
     if (this.allowIncomplete) query.allowIncomplete = this.allowIncomplete;
 
     this.orderService.getOrders(query)
-      .subscribe(orders => {
-        this.orders = orders;
-        this.total = orders.reduce((acc, cur) => acc + +cur.total, 0);
-      });
+      .subscribe(orders => this.orders = orders);
   }
 }
