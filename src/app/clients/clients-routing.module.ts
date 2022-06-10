@@ -6,7 +6,7 @@ import { AbiiGuard } from "../auth/abii.guard";
 
 const routes: Routes = [
   { path: "", component: ClientsComponent, canActivate: [AbiiGuard] },
-  { path: "/:id", component: ClientComponent },
+  { path: ":id", component: ClientComponent },
 ];
 
 @NgModule({
