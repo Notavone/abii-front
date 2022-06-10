@@ -11,7 +11,6 @@ import {RouterModule} from "@angular/router";
 import {MatButtonModule} from "@angular/material/button";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {AuthModule} from "./auth/auth.module";
-import {ClientsModule} from "./clients/clients.module";
 import {ProductsModule} from "./products/products.module";
 import {OrdersModule} from "./orders/orders.module";
 import {BrowserModule} from "@angular/platform-browser";
@@ -52,7 +51,6 @@ if (environment.production) {
     MatToolbarModule,
     CommonModule,
     AuthModule,
-    ClientsModule,
     ProductsModule,
     OrdersModule,
     UsersModule,
