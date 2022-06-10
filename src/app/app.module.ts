@@ -4,7 +4,7 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import localeFr from "@angular/common/locales/fr";
 import {CommonModule, registerLocaleData} from "@angular/common";
-import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from "@angular/material/snack-bar";
 import {AuthInterceptor} from "./auth/auth.interceptor";
 import {environment} from "../environments/environment";
 import {RouterModule} from "@angular/router";
@@ -20,7 +20,6 @@ import {HomepageComponent} from "./homepage/homepage.component";
 import {ConfirmModule} from "./features/confirm/confirm.module";
 import {NotFoundComponent} from './not-found/not-found.component';
 import {MatCardModule} from "@angular/material/card";
-import {UsersModule} from "./users/users.module";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
@@ -53,8 +52,8 @@ if (environment.production) {
     AuthModule,
     ProductsModule,
     OrdersModule,
-    UsersModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatIconModule,
     MatListModule,
     LoadingModule,

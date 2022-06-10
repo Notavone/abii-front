@@ -32,6 +32,10 @@ export class AppComponent implements OnInit {
     return this.authService.isLoggedIn;
   }
 
+  get userId() {
+    return this.authService.getCurrentUser()?.id;
+  }
+
   hasManageRights() {
     let currentUser = this.authService.getCurrentUser();
     return currentUser?.authorities?.includes(Authority.ADMIN) || currentUser?.authorities?.includes(Authority.USER_SELLER);

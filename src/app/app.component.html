@@ -46,7 +46,7 @@
         </a>
 
         <a *ngIf="isLoggedIn()" (click)="sidenav.close()"
-           mat-list-item routerLink="/profile" routerLinkActive="active">
+           mat-list-item [routerLink]="'/users/' + userId" routerLinkActive="active">
           <mat-icon mat-list-icon>account_box</mat-icon>
           <span mat-line>Profil</span>
         </a>

@@ -10,8 +10,6 @@ import { AuthGuard } from "./auth/auth.guard";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { RegisterComponent } from "./auth/register/register.component";
 import { ConfirmComponent } from "./auth/confirm/confirm.component";
-import { UsersComponent } from "./users/users.component";
-import { UserComponent } from "./users/user/user.component";
 import { AbiiGuard } from "./auth/abii.guard";
 import { ResetComponent } from "./auth/reset/reset.component";
 
@@ -25,10 +23,6 @@ const routes: Routes = [
   { path: "orders", component: OrdersComponent, canActivate: [AuthGuard, AbiiGuard] },
   { path: "orders/:id", component: OrderComponent, canActivate: [AuthGuard] },
 
-  { path: "users", component: UsersComponent, canActivate: [AuthGuard, AbiiGuard] },
-  { path: "users/:id", component: UserComponent, canActivate: [AuthGuard] },
-  { path: "profile", component: UserComponent, canActivate: [AuthGuard] },
-
   { path: "products", component: ProductsComponent, canActivate: [AuthGuard, AbiiGuard] },
   { path: "products/:id", component: ProductComponent, canActivate: [AuthGuard, AbiiGuard] },
 
@@ -36,6 +30,7 @@ const routes: Routes = [
 
   { path: "stock", loadChildren: () => import("./stock/stock.module").then(m => m.StockModule) },
   { path: "clients", loadChildren: () => import("./clients/clients.module").then(m => m.ClientsModule), canActivate: [AuthGuard] },
+  { path: "users", loadChildren: () => import("./users/users.module").then(m => m.UsersModule), canActivate: [AuthGuard] },
 
   { path: "**", pathMatch: "full", component: NotFoundComponent },
 ];
