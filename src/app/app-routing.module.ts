@@ -4,29 +4,18 @@ import { ProductsComponent } from "./business/products/products.component";
 import { ProductComponent } from "./business/products/product/product.component";
 import { OrdersComponent } from "./business/orders/orders.component";
 import { OrderComponent } from "./business/orders/order/order.component";
-import { LoginComponent } from "./business/auth/login/login.component";
 import { AuthGuard } from "./business/auth/auth.guard";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
-import { RegisterComponent } from "./business/auth/register/register.component";
-import { ConfirmComponent } from "./business/auth/confirm/confirm.component";
 import { AbiiGuard } from "./business/auth/abii.guard";
-import { ResetComponent } from "./business/auth/reset/reset.component";
 
 const routes: Routes = [
   { path: "", loadChildren: () => import("./pages/pages.module").then(m => m.PagesModule) },
-
-  { path: "login", component: LoginComponent },
-  { path: "register", component: RegisterComponent },
-  { path: "confirm", component: ConfirmComponent },
-  { path: "reset", component: ResetComponent },
 
   { path: "orders", component: OrdersComponent, canActivate: [AuthGuard, AbiiGuard] },
   { path: "orders/:id", component: OrderComponent, canActivate: [AuthGuard] },
 
   { path: "products", component: ProductsComponent, canActivate: [AuthGuard, AbiiGuard] },
   { path: "products/:id", component: ProductComponent, canActivate: [AuthGuard, AbiiGuard] },
-
-  { path: "404", component: NotFoundComponent },
 
   { path: "stock", loadChildren: () => import("./business/stock/stock.module").then(m => m.StockModule) },
   { path: "clients", loadChildren: () => import("./business/clients/clients.module").then(m => m.ClientsModule), canActivate: [AuthGuard] },

@@ -38,7 +38,6 @@ if (environment.production) {
   ],
   imports: [
     RouterModule,
-    ProductsModule,
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {AuthService} from '../auth.service';
+import {AuthService} from '../../business/auth/auth.service';
 import {Router} from "@angular/router";
-import {LoginDto} from "../dto/login.dto";
+import {LoginDto} from "../../business/auth/dto/login.dto";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({

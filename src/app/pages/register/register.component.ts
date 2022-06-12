@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {UserCreateDto} from "../../users/dto/user-create.dto";
-import {UsersService} from "../../users/users.service";
+import {UserCreateDto} from "../../business/users/dto/user-create.dto";
+import {UsersService} from "../../business/users/users.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 

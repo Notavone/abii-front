@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { InitPasswordResetDto } from "../dto/init-password-reset.dto";
-import { FinishPasswordResetDto } from "../dto/finish-password-reset.dto";
+import { InitPasswordResetDto } from "../../business/auth/dto/init-password-reset.dto";
+import { FinishPasswordResetDto } from "../../business/auth/dto/finish-password-reset.dto";
 import { ActivatedRoute, Router } from "@angular/router";
-import { UsersService } from "../../users/users.service";
+import { UsersService } from "../../business/users/users.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 enum View {
