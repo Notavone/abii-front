@@ -5,7 +5,6 @@ import { ProductComponent } from "./business/products/product/product.component"
 import { OrdersComponent } from "./business/orders/orders.component";
 import { OrderComponent } from "./business/orders/order/order.component";
 import { LoginComponent } from "./business/auth/login/login.component";
-import { HomepageComponent } from "./pages/homepage/homepage.component";
 import { AuthGuard } from "./business/auth/auth.guard";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
 import { RegisterComponent } from "./business/auth/register/register.component";
@@ -14,7 +13,8 @@ import { AbiiGuard } from "./business/auth/abii.guard";
 import { ResetComponent } from "./business/auth/reset/reset.component";
 
 const routes: Routes = [
-  { path: "", component: HomepageComponent },
+  { path: "", loadChildren: () => import("./pages/pages.module").then(m => m.PagesModule) },
+
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   { path: "confirm", component: ConfirmComponent },

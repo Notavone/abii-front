@@ -35,8 +35,6 @@ if (environment.production) {
 @NgModule({
   declarations: [
     AppComponent,
-    HomepageComponent,
-    NotFoundComponent
   ],
   imports: [
     RouterModule,
@@ -45,18 +43,15 @@ if (environment.production) {
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatCardModule,
     ConfirmModule,
     MatToolbarModule,
     CommonModule,
     AuthModule,
-    ProductsModule,
     OrdersModule,
     MatSidenavModule,
     MatSnackBarModule,
     MatIconModule,
     MatListModule,
-    LoadingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
