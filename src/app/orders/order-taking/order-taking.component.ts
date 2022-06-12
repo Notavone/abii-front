@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {Client} from "../../clients/dto/client";
 import {Product} from "../../products/dto/product";
 import {ProductsService} from "../../products/products.service";
-import {ProductType} from "../../shared/product-type";
+import {ProductType} from "../../products/product-type";
 import {ClientsService} from "../../clients/clients.service";
 import {OrderLineCreateDto} from "../dto/order-line-create.dto";
 import {OrderCreateDto} from "../dto/order-create.dto";

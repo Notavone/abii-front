@@ -1,4 +1,4 @@
-import {Authority} from "../../shared/authority";
+import {Authority} from "../../auth/authority";
 import {Client} from "../../clients/dto/client";
 
 export class User {

@@ -5,7 +5,7 @@ import {OrdersService} from "../orders.service";
 import {AuthService} from "../../auth/auth.service";
 import {OrderCreateDto} from "../dto/order-create.dto";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Authority} from "../../shared/authority";
+import {Authority} from "../../auth/authority";
 import {ConfirmService} from "../../features/confirm/confirm.service";
 import {CurrencyPipe, Location} from "@angular/common";
 

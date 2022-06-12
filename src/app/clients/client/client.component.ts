@@ -2,19 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ClientsService} from "../clients.service";
 import {Client} from "../dto/client";
-import {Status} from "../../shared/status";
+import {Status} from "../status";
 import {ClientUpdateDto} from "../dto/client-update.dto";
 import {Product} from "../../products/dto/product";
-import {ProductType} from "../../shared/product-type";
+import {ProductType} from "../../products/product-type";
 import {ProductsService} from "../../products/products.service";
 import {CurrencyPipe, Location} from "@angular/common";
 import {OrdersService} from "../../orders/orders.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Order} from "../../orders/dto/order";
-import {OrderLineModel} from "../../shared/order-line.model";
 import {ConfirmService} from "../../features/confirm/confirm.service";
 import {AuthService} from "../../auth/auth.service";
-import {Authority} from "../../shared/authority";
+import {Authority} from "../../auth/authority";
 import {OrderCreateDto} from "../../orders/dto/order-create.dto";
 
 @Component({
@@ -32,7 +31,6 @@ export class ClientComponent implements OnInit {
 
   productType = ProductType;
   products: Product[] = [];
-  lines: OrderLineModel[] = []
   paymentIsAdditive: boolean = true;
   _amount: number = 0;
   isLoading: boolean = true;

@@ -1,5 +1,5 @@
 import {ProductCreateDto} from "./product-create.dto";
-import {ProductType} from "../../shared/product-type";
+import {ProductType} from "../product-type";
 
 export class ProductUpdateDto implements Partial<ProductCreateDto> {
   name?: string;

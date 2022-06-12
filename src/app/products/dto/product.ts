@@ -1,4 +1,4 @@
-import {ProductType} from "../../shared/product-type";
+import {ProductType} from "../product-type";
 
 export class Product {
   readonly id!: number;

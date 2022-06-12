@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {UsersService} from "../users.service";
 import {User} from "../dto/user";
 import {UserUpdateDto} from "../dto/user-update.dto";
-import {Authority} from "../../shared/authority";
+import {Authority} from "../../auth/authority";
 import {AuthService} from "../../auth/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ClientsService} from "../../clients/clients.service";
