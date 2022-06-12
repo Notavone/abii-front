@@ -6,7 +6,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {ClientCreateDto} from "./dto/client-create.dto";
 import {Router} from "@angular/router";
-import {ConfirmService} from "../features/confirm/confirm.service";
+import {ConfirmService} from "../../features/confirm/confirm.service";
 
 @Component({
   selector: 'app-clients',

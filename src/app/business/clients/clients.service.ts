@@ -3,11 +3,11 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Client} from "./dto/client";
 import {AuthService} from "../auth/auth.service";
-import {LoggingService} from "../features/logging.service";
+import {LoggingService} from "../../features/logging.service";
 import {ClientUpdateDto} from "./dto/client-update.dto";
 import {ClientCreateDto} from "./dto/client-create.dto";
 import {ClientQueryDto} from "./dto/client-query.dto";
-import {QueryService} from "../features/query.service";
+import {QueryService} from "../../features/query.service";
 
 @Injectable({
   providedIn: 'root'

@@ -10,7 +10,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
-import {FeaturesModule} from "../features/features.module";
+import {FeaturesModule} from "../../features/features.module";
 import {OrdersComponent} from "./orders.component";
 import {OrderTakingComponent} from './order-taking/order-taking.component';
 import {MatCardModule} from "@angular/material/card";
@@ -25,7 +25,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {LoadingModule} from "../features/loading/loading.module";
+import {LoadingModule} from "../../features/loading/loading.module";
 
 
 @NgModule({

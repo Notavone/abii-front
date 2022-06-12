@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Order} from "./dto/order";
-import {QueryService} from "../features/query.service";
+import {QueryService} from "../../features/query.service";
 import {OrderCreateDto} from "./dto/order-create.dto";
 import {OrderQueryDto} from "./dto/order-query.dto";
 import {OrderUpdateDto} from "./dto/order-update.dto";

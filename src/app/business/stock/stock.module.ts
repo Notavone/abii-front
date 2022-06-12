@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StockRoutingModule } from './stock-routing.module';
 import { StockComponent } from './stock.component';
-import {LoadingModule} from "../features/loading/loading.module";
+import {LoadingModule} from "../../features/loading/loading.module";
 import {MatCardModule} from "@angular/material/card";
 import {MatListModule} from "@angular/material/list";
 import {MatInputModule} from "@angular/material/input";

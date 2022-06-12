@@ -4,7 +4,7 @@ import {Product} from "./dto/product";
 import {ProductType} from "./product-type";
 import {ProductCreateDto} from "./dto/product-create.dto";
 import {Router} from "@angular/router";
-import {ConfirmService} from "../features/confirm/confirm.service";
+import {ConfirmService} from "../../features/confirm/confirm.service";
 
 @Component({
   selector: 'app-products',

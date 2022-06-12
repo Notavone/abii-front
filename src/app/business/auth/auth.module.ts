@@ -8,12 +8,12 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {HttpClientModule} from "@angular/common/http";
-import {FeaturesModule} from "../features/features.module";
+import {FeaturesModule} from "../../features/features.module";
 import {RouterModule} from "@angular/router";
 import { RegisterComponent } from './register/register.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { ResetComponent } from './reset/reset.component';
-import { LoadingModule } from "../features/loading/loading.module";
+import { LoadingModule } from "../../features/loading/loading.module";
 
 
 @NgModule({

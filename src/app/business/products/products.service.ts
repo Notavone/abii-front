@@ -6,7 +6,7 @@ import {ProductCreateDto} from "./dto/product-create.dto";
 import {ProductUpdateDto} from "./dto/product-update.dto";
 import {ProductBulkUpdateDto} from "./dto/product-bulk-update.dto";
 import {ProductQueryDto} from "./dto/product-query.dto";
-import {QueryService} from "../features/query.service";
+import {QueryService} from "../../features/query.service";
 
 @Injectable({
   providedIn: 'root'

@@ -17,13 +17,13 @@ import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { HttpClientModule } from "@angular/common/http";
-import { FeaturesModule } from "../features/features.module";
+import { FeaturesModule } from "../../features/features.module";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatBadgeModule } from "@angular/material/badge";
-import { LoadingModule } from "../features/loading/loading.module";
+import { LoadingModule } from "../../features/loading/loading.module";
 import { ClientsRoutingModule } from "./clients-routing.module";
 
 

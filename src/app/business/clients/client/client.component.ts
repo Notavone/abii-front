@@ -11,7 +11,7 @@ import {CurrencyPipe, Location} from "@angular/common";
 import {OrdersService} from "../../orders/orders.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Order} from "../../orders/dto/order";
-import {ConfirmService} from "../../features/confirm/confirm.service";
+import {ConfirmService} from "../../../features/confirm/confirm.service";
 import {AuthService} from "../../auth/auth.service";
 import {Authority} from "../../auth/authority";
 import {OrderCreateDto} from "../../orders/dto/order-create.dto";

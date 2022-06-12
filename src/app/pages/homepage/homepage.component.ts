@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductsService} from '../../products/products.service';
-import {Product} from "../../products/dto/product";
-import {ProductType} from "../../products/product-type";
+import {ProductsService} from '../../business/products/products.service';
+import {Product} from "../../business/products/dto/product";
+import {ProductType} from "../../business/products/product-type";
 
 @Component({
   selector: 'app-homepage',

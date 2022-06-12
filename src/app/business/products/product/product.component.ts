@@ -7,7 +7,7 @@ import {Order} from "../../orders/dto/order";
 import {Location} from "@angular/common";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ProductType} from "../product-type";
-import {ConfirmService} from "../../features/confirm/confirm.service";
+import {ConfirmService} from "../../../features/confirm/confirm.service";
 import {ProductUpdateDto} from "../dto/product-update.dto";
 
 @Component({

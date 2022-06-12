@@ -16,13 +16,13 @@ import {RouterModule} from "@angular/router";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {HttpClientModule} from "@angular/common/http";
-import {FeaturesModule} from "../features/features.module";
+import {FeaturesModule} from "../../features/features.module";
 import {OrdersModule} from "../orders/orders.module";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatBadgeModule} from "@angular/material/badge";
-import {FileUploadModule} from "../features/file-upload/file-upload.module";
+import {FileUploadModule} from "../../features/file-upload/file-upload.module";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {LoadingModule} from "../features/loading/loading.module";
+import {LoadingModule} from "../../features/loading/loading.module";
 
 
 @NgModule({

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "./auth/auth.service";
+import {AuthService} from "./business/auth/auth.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Authority} from "./auth/authority";
+import {Authority} from "./business/auth/authority";
 
 @Component({
   selector: 'app-root',

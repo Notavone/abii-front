@@ -1,17 +1,17 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ProductsComponent } from "./products/products.component";
-import { ProductComponent } from "./products/product/product.component";
-import { OrdersComponent } from "./orders/orders.component";
-import { OrderComponent } from "./orders/order/order.component";
-import { LoginComponent } from "./auth/login/login.component";
+import { ProductsComponent } from "./business/products/products.component";
+import { ProductComponent } from "./business/products/product/product.component";
+import { OrdersComponent } from "./business/orders/orders.component";
+import { OrderComponent } from "./business/orders/order/order.component";
+import { LoginComponent } from "./business/auth/login/login.component";
 import { HomepageComponent } from "./pages/homepage/homepage.component";
-import { AuthGuard } from "./auth/auth.guard";
+import { AuthGuard } from "./business/auth/auth.guard";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
-import { RegisterComponent } from "./auth/register/register.component";
-import { ConfirmComponent } from "./auth/confirm/confirm.component";
-import { AbiiGuard } from "./auth/abii.guard";
-import { ResetComponent } from "./auth/reset/reset.component";
+import { RegisterComponent } from "./business/auth/register/register.component";
+import { ConfirmComponent } from "./business/auth/confirm/confirm.component";
+import { AbiiGuard } from "./business/auth/abii.guard";
+import { ResetComponent } from "./business/auth/reset/reset.component";
 
 const routes: Routes = [
   { path: "", component: HomepageComponent },
@@ -28,9 +28,9 @@ const routes: Routes = [
 
   { path: "404", component: NotFoundComponent },
 
-  { path: "stock", loadChildren: () => import("./stock/stock.module").then(m => m.StockModule) },
-  { path: "clients", loadChildren: () => import("./clients/clients.module").then(m => m.ClientsModule), canActivate: [AuthGuard] },
-  { path: "users", loadChildren: () => import("./users/users.module").then(m => m.UsersModule), canActivate: [AuthGuard] },
+  { path: "stock", loadChildren: () => import("./business/stock/stock.module").then(m => m.StockModule) },
+  { path: "clients", loadChildren: () => import("./business/clients/clients.module").then(m => m.ClientsModule), canActivate: [AuthGuard] },
+  { path: "users", loadChildren: () => import("./business/users/users.module").then(m => m.UsersModule), canActivate: [AuthGuard] },
 
   { path: "**", pathMatch: "full", component: NotFoundComponent },
 ];

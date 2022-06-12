@@ -11,7 +11,7 @@ import {Client} from "../../clients/dto/client";
 import {OrderCreateDto} from "../../orders/dto/order-create.dto";
 import {OrdersService} from "../../orders/orders.service";
 import {Order} from "../../orders/dto/order";
-import {ConfirmService} from "../../features/confirm/confirm.service";
+import {ConfirmService} from "../../../features/confirm/confirm.service";
 import {Location} from "@angular/common";
 import {forkJoin, of} from "rxjs";
 
