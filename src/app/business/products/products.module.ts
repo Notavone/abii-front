@@ -19,9 +19,7 @@ import { FeaturesModule } from "../../features/features.module";
 import { OrdersModule } from "../orders/orders.module";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatBadgeModule } from "@angular/material/badge";
-import { FileUploadModule } from "../../features/file-upload/file-upload.module";
 import { MatTooltipModule } from "@angular/material/tooltip";
-import { LoadingModule } from "../../features/loading/loading.module";
 import { ProductsRoutingModule } from "./products-routing.module";
 
 
@@ -49,9 +47,7 @@ import { ProductsRoutingModule } from "./products-routing.module";
     OrdersModule,
     MatCheckboxModule,
     MatBadgeModule,
-    FileUploadModule,
     MatTooltipModule,
-    LoadingModule,
   ],
   providers: [
     ProductsService,

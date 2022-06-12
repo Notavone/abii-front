@@ -24,7 +24,6 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { LoadingModule } from "../../features/loading/loading.module";
 import { OrdersRoutingModule } from "./orders-routing.module";
 
 
@@ -57,7 +56,6 @@ import { OrdersRoutingModule } from "./orders-routing.module";
     MatBadgeModule,
     MatGridListModule,
     MatProgressBarModule,
-    LoadingModule,
   ],
   providers: [
     OrdersService,

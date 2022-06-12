@@ -14,11 +14,11 @@ import { AuthModule } from "./business/auth/auth.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
-import { ConfirmModule } from "./features/confirm/confirm.module";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { ServiceWorkerModule } from "@angular/service-worker";
+import { FeaturesModule } from "./features/features.module";
 
 registerLocaleData(localeFr);
 
@@ -36,8 +36,8 @@ if (environment.production) {
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    ConfirmModule,
     MatToolbarModule,
+    FeaturesModule,
     CommonModule,
     AuthModule,
     MatSidenavModule,

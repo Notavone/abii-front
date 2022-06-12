@@ -16,9 +16,9 @@ import { UserTableComponent } from "./user-table/user-table.component";
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatBadgeModule } from "@angular/material/badge";
-import { LoadingModule } from "../../features/loading/loading.module";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { UsersRoutingModule } from "./users-routing.module";
+import { FeaturesModule } from "../../features/features.module";
 
 
 @NgModule({
@@ -44,8 +44,8 @@ import { UsersRoutingModule } from "./users-routing.module";
     MatTableModule,
     MatSortModule,
     MatBadgeModule,
-    LoadingModule,
     MatTooltipModule,
+    FeaturesModule,
   ],
 })
 export class UsersModule {
