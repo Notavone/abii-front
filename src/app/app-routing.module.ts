@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: "products", component: ProductsComponent, canActivate: [AuthGuard, AbiiGuard] },
   { path: "products/:id", component: ProductComponent, canActivate: [AuthGuard, AbiiGuard] },
 
-  { path: "stock", loadChildren: () => import("./business/stock/stock.module").then(m => m.StockModule) },
+  { path: "stock", loadChildren: () => import("./business/stock/stock.module").then(m => m.StockModule), canActivate: [AuthGuard] },
   { path: "clients", loadChildren: () => import("./business/clients/clients.module").then(m => m.ClientsModule), canActivate: [AuthGuard] },
   { path: "users", loadChildren: () => import("./business/users/users.module").then(m => m.UsersModule), canActivate: [AuthGuard] },
 
