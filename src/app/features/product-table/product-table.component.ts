@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {Product} from "../dto/product";
-import {ProductsService} from '../products.service';
+import {Product} from "../../business/products/dto/product";
+import {ProductsService} from '../../business/products/products.service';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 

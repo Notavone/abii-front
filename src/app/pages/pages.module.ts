@@ -5,7 +5,6 @@ import { PagesRoutingModule } from "./pages-routing.module";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { MatCardModule } from "@angular/material/card";
-import { ProductsModule } from "../business/products/products.module";
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { ConfirmComponent } from "./confirm/confirm.component";
@@ -29,7 +28,6 @@ import { FeaturesModule } from "../features/features.module";
     CommonModule,
     PagesRoutingModule,
     MatCardModule,
-    ProductsModule,
     MatInputModule,
     FormsModule,
     MatButtonModule,

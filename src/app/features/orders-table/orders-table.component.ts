@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
-import {Order} from "../dto/order";
+import {Order} from "../../business/orders/dto/order";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {OrderLine} from "../dto/order-line";
+import {OrderLine} from "../../business/orders/dto/order-line";
 
 @Component({
   selector: 'app-orders-table',

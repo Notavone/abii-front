@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Client} from "../../clients/dto/client";
-import {Product} from "../../products/dto/product";
-import {ProductsService} from "../../products/products.service";
-import {ProductType} from "../../products/product-type";
-import {ClientsService} from "../../clients/clients.service";
-import {OrderLineCreateDto} from "../dto/order-line-create.dto";
-import {OrderCreateDto} from "../dto/order-create.dto";
-import {Order} from "../dto/order";
+import {Client} from "../../business/clients/dto/client";
+import {Product} from "../../business/products/dto/product";
+import {ProductsService} from "../../business/products/products.service";
+import {ProductType} from "../../business/products/product-type";
+import {ClientsService} from "../../business/clients/clients.service";
+import {OrderLineCreateDto} from "../../business/orders/dto/order-line-create.dto";
+import {OrderCreateDto} from "../../business/orders/dto/order-create.dto";
+import {Order} from "../../business/orders/dto/order";
 import {MatExpansionPanel} from "@angular/material/expansion";
 
 @Component({
