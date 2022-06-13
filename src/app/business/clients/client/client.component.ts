@@ -15,6 +15,7 @@ import {ConfirmService} from "../../../features/confirm/confirm.service";
 import {AuthService} from "../../auth/auth.service";
 import {Authority} from "../../auth/authority";
 import {OrderCreateDto} from "../../orders/dto/order-create.dto";
+import { tap } from "rxjs";
 
 @Component({
   selector: 'app-client',
@@ -103,7 +104,9 @@ export class ClientComponent implements OnInit {
       title: "Mettre à jour le client",
       message: "Voulez-vous vraiment mettre à jour le client ?",
       onConfirm: () => {
+        this.isLoading = true;
         this.clientService.updateClient(this.client.id, this.updateDto)
+          .pipe(tap(() => this.isLoading = false))
           .subscribe({
             next: (client) => {
               this.client = client;
@@ -121,7 +124,9 @@ export class ClientComponent implements OnInit {
       title: "Supprimer le client",
       message: "Êtes-vous sûr de vouloir supprimer ce client ?",
       onConfirm: () => {
+        this.isLoading = true;
         this.clientService.deleteClient(this.client.id)
+          .pipe(tap(() => this.isLoading = false))
           .subscribe({
             next: () => {
               this.snackbar.open("Client supprimé");
@@ -141,7 +146,9 @@ export class ClientComponent implements OnInit {
     this.confirmService.open({
       title: "Modifier le solde",
       onConfirm: () => {
+        this.isLoading = true;
         this.clientService.updateBalance(this.client.id, this.client.balance + this.amount)
+          .pipe(tap(() => this.isLoading = false))
           .subscribe({
             next: (client) => {
               this.client = client;
@@ -158,7 +165,9 @@ export class ClientComponent implements OnInit {
     this.confirmService.open({
       title: "Mettre à jour l'adhésion d'un client",
       onConfirm: () => {
+        this.isLoading = true;
         this.clientService.updateStatus(this.client.id, new Date(Date.now() + status))
+          .pipe(tap(() => this.isLoading = false))
           .subscribe({
             next: (client) => {
               this.client = client;
@@ -186,11 +195,13 @@ export class ClientComponent implements OnInit {
       title: "Confirmer la commande",
       message: "Êtes-vous sûr de vouloir confirmer cette commande ?",
       onConfirm: () => {
+        this.isLoading = true;
         this.ordersService.addOrder(orderCreateDto)
           .subscribe({
             next: (order) => {
               this.orders.push(order);
               this.ordersService.confirmOrder(order)
+                .pipe(tap(() => this.isLoading = false))
                 .subscribe({
                   next: (confirmedOrder) => {
                     this.client = {...this.client, balance: this.client.balance - order.total};

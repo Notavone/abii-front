@@ -1,19 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {ProductsService} from "../products.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Product} from "../dto/product";
-import {OrdersService} from "../../orders/orders.service";
-import {Order} from "../../orders/dto/order";
-import {Location} from "@angular/common";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {ProductType} from "../product-type";
-import {ConfirmService} from "../../../features/confirm/confirm.service";
-import {ProductUpdateDto} from "../dto/product-update.dto";
+import { Component, OnInit } from "@angular/core";
+import { ProductsService } from "../products.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Product } from "../dto/product";
+import { OrdersService } from "../../orders/orders.service";
+import { Order } from "../../orders/dto/order";
+import { Location } from "@angular/common";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ProductType } from "../product-type";
+import { ConfirmService } from "../../../features/confirm/confirm.service";
+import { ProductUpdateDto } from "../dto/product-update.dto";
+import { tap } from "rxjs";
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  selector: "app-product",
+  templateUrl: "./product.component.html",
+  styleUrls: ["./product.component.scss"],
 })
 export class ProductComponent implements OnInit {
   product!: Product;
@@ -36,8 +37,8 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      if (!params.has('id')) this.router.navigate(['/404']);
-      const id = params.get('id')!;
+      if (!params.has("id")) this.router.navigate(["/404"]);
+      const id = params.get("id")!;
       this.productService.getProduct(+id)
         .subscribe(product => {
           this.product = product;
@@ -49,16 +50,16 @@ export class ProductComponent implements OnInit {
             available: product.available,
             stock: product.stock,
             useStock: product.useStock,
-          }
-          this.productDtoOriginal = {...this.productDto};
+          };
+          this.productDtoOriginal = { ...this.productDto };
 
-          this.ordersService.getOrders({productId: product.id, allowRefunded: true, allowIncomplete: true})
+          this.ordersService.getOrders({ productId: product.id, allowRefunded: true, allowIncomplete: true })
             .subscribe(orders => {
               this.orders = orders;
               this.isLoading = false;
             });
-        })
-    })
+        });
+    });
   }
 
 
@@ -71,32 +72,38 @@ export class ProductComponent implements OnInit {
       title: "Mettre à jour le produit",
       message: "Êtes-vous sûr de vouloir mettre à jour le produit ?",
       onConfirm: () => {
+        this.isLoading = true;
         this.productService.updateProduct(this.product.id, this.productDto)
+          .pipe(tap(() => this.isLoading = false))
           .subscribe({
             next: (product) => {
               this.product = product;
-              this.productDtoOriginal = {...this.productDto};
+              this.productDtoOriginal = { ...this.productDto };
               this.snackBar.open("Produit mis à jour");
             },
-            error: () => this.snackBar.open("Impossible de mettre à jour le produit")
+            error: () => this.snackBar.open("Impossible de mettre à jour le produit"),
           });
-      }
-    })
+      },
+    });
   }
 
   delete() {
     this.confirmService.open({
       title: "Supprimer un produit",
       message: "Êtes-vous sûr de vouloir supprimer ce produit ?",
-      onConfirm: () => this.productService.deleteProduct(this.product.id)
-        .subscribe({
-          next: () => {
-            this.snackBar.open("Produit supprimé");
-            this.goBack();
-          },
-          error: () => this.snackBar.open("Impossible de supprimer le produit")
-        })
-    })
+      onConfirm: () => {
+        this.isLoading = true;
+        this.productService.deleteProduct(this.product.id)
+          .pipe(tap(() => this.isLoading = false))
+          .subscribe({
+            next: () => {
+              this.snackBar.open("Produit supprimé");
+              this.goBack();
+            },
+            error: () => this.snackBar.open("Impossible de supprimer le produit"),
+          });
+      },
+    });
   }
 
   get hasDtoChanged() {
@@ -108,15 +115,17 @@ export class ProductComponent implements OnInit {
       title: "Supprimer l'image",
       message: "Êtes-vous sûr de vouloir supprimer cette image ?",
       onConfirm: () => {
-        this.productService.updateProduct(this.product.id, {image: ""})
+        this.isLoading = true;
+        this.productService.updateProduct(this.product.id, { image: "" })
+          .pipe(tap(() => this.isLoading = false))
           .subscribe({
             next: (product) => {
               this.product = product;
               this.snackBar.open("Image supprimée");
             },
-            error: () => this.snackBar.open("Impossible de supprimer l'image")
+            error: () => this.snackBar.open("Impossible de supprimer l'image"),
           });
-      }
+      },
     });
   }
 }

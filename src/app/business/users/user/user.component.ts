@@ -13,7 +13,7 @@ import {OrdersService} from "../../orders/orders.service";
 import {Order} from "../../orders/dto/order";
 import {ConfirmService} from "../../../features/confirm/confirm.service";
 import {Location} from "@angular/common";
-import {forkJoin, of} from "rxjs";
+import { forkJoin, of, tap } from "rxjs";
 
 @Component({
   selector: 'app-user',
@@ -94,9 +94,12 @@ export class UserComponent implements OnInit {
       title: "Dé-lier l'utilisateur de son compte client",
       message: "Voulez-vous dé-lier l'utilisateur de son compte client ?",
       onConfirm: () => {
+        this.isLoading = true;
         this.usersService.updateUser(this.user.id, {
           client: null
-        }).subscribe({
+        })
+          .pipe(tap(() => this.isLoading = false))
+          .subscribe({
           next: (user) => {
             this.user = user;
             this.snackBar.open("Utilisateur déconnecté");
@@ -112,7 +115,9 @@ export class UserComponent implements OnInit {
       title: "Modifier l'utilisateur",
       message: "Voulez-vous modifier l'utilisateur ?",
       onConfirm: () => {
+        this.isLoading = true;
         this.usersService.updateUser(this.user.id, this.userUpdateDto)
+          .pipe(tap(() => this.isLoading = false))
           .subscribe({
             next: (user) => {
               this.user = user;
@@ -130,7 +135,9 @@ export class UserComponent implements OnInit {
       title: "Souhaitez-vous créer une commande ?",
       message: "Cette action n'entrainera pas un débit de votre solde.",
       onConfirm: () => {
+        this.isLoading = true;
         this.ordersService.addOrder($event)
+          .pipe(tap(() => this.isLoading = false))
           .subscribe({
             next: (order) => {
               this.router.navigate(["/orders", order.id])

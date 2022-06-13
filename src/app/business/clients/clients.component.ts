@@ -7,6 +7,7 @@ import {MatSort} from "@angular/material/sort";
 import {ClientCreateDto} from "./dto/client-create.dto";
 import {Router} from "@angular/router";
 import {ConfirmService} from "../../features/confirm/confirm.service";
+import { tap } from "rxjs";
 
 @Component({
   selector: 'app-clients',
@@ -46,7 +47,9 @@ export class ClientsComponent implements OnInit, AfterViewInit {
       title: "Ajouter un client",
       message: "Voulez-vous ajouter un client ?",
       onConfirm: () => {
+        this.isLoading = true;
         this.clientService.addClient(this.client)
+          .pipe(tap(() => this.isLoading = false))
           .subscribe(client => this.router.navigate([`/clients/${client.id}`]));
       }
     })
