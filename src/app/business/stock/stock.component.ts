@@ -3,6 +3,8 @@ import {ProductsService} from "../products/products.service";
 import {Location} from "@angular/common";
 import {StockLine} from "./stock-line";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { ConfirmService } from "../../features/confirm/confirm.service";
+import { tap } from "rxjs";
 
 @Component({
   selector: 'app-stock',
@@ -17,6 +19,7 @@ export class StockComponent implements OnInit {
     private productsService: ProductsService,
     private location: Location,
     private snackBar: MatSnackBar,
+    private confirmService: ConfirmService,
   ) {
   }
 
@@ -35,22 +38,30 @@ export class StockComponent implements OnInit {
   }
 
   update() {
-    const lines = this.lines.filter((line) => line.alert !== undefined || line.stock !== undefined);
-    this.productsService.updateBulk({
-      products: lines.map((l) => ({id: l.product.id, alert: l.alert, stock: l.stock})),
-      useTransaction: true
+    this.confirmService.open({
+      title: "Mise à jour du stock",
+      message: "Voulez-vous mettre à jour les stocks ?",
+      onConfirm: () => {
+        this.isLoading = true;
+        const lines = this.lines.filter((line) => line.alert !== undefined || line.stock !== undefined);
+        this.productsService.updateBulk({
+          products: lines.map((l) => ({id: l.product.id, alert: l.alert, stock: l.stock})),
+          useTransaction: true
+        })
+          .pipe(tap(() => this.isLoading = false))
+          .subscribe({
+            next: (products) => {
+              this.snackBar.open("Stock mis à jour");
+              this.lines.forEach((line) => {
+                let product = products.find((p) => p.id === line.product.id);
+                if (product) line.product = product;
+                line.alert = undefined;
+                line.stock = undefined;
+              });
+            }
+          })
+      }
     })
-      .subscribe({
-        next: (products) => {
-          this.snackBar.open("Stock mis à jour");
-          this.lines.forEach((line) => {
-            let product = products.find((p) => p.id === line.product.id);
-            if (product) line.product = product;
-            line.alert = undefined;
-            line.stock = undefined;
-          });
-        }
-      })
   }
 
   isLineOutOfStock(line: StockLine) {
