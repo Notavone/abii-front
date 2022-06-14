@@ -1,9 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ProductsComponent } from "./business/products/products.component";
-import { ProductComponent } from "./business/products/product/product.component";
-import { OrdersComponent } from "./business/orders/orders.component";
-import { OrderComponent } from "./business/orders/order/order.component";
 import { AuthGuard } from "./business/auth/auth.guard";
 import { NotFoundComponent } from "./pages/not-found/not-found.component";
 import { AbiiGuard } from "./business/auth/abii.guard";
@@ -16,7 +12,7 @@ const routes: Routes = [
   { path: "orders", loadChildren: () => import("./business/orders/orders.module").then(m => m.OrdersModule), canActivate: [AuthGuard] },
   { path: "clients", loadChildren: () => import("./business/clients/clients.module").then(m => m.ClientsModule), canActivate: [AuthGuard] },
   { path: "users", loadChildren: () => import("./business/users/users.module").then(m => m.UsersModule), canActivate: [AuthGuard] },
-  { path: 'testing', loadChildren: () => import('./testing/testing.module').then(m => m.TestingModule) },
+  { path: "testing", loadChildren: () => import("./testing/testing.module").then(m => m.TestingModule), canActivate: [AuthGuard, AbiiGuard] },
 
   { path: "**", pathMatch: "full", component: NotFoundComponent },
 ];
