@@ -3,6 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { TestingRoutingModule } from './testing-routing.module';
 import { TestingComponent } from './testing.component';
+import { ZXingScannerModule } from "@zxing/ngx-scanner";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { FormsModule } from "@angular/forms";
+import { MatInputModule } from "@angular/material/input";
 
 
 @NgModule({
@@ -11,7 +16,12 @@ import { TestingComponent } from './testing.component';
   ],
   imports: [
     CommonModule,
-    TestingRoutingModule
-  ]
+    TestingRoutingModule,
+    ZXingScannerModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatInputModule,
+  ],
 })
 export class TestingModule { }

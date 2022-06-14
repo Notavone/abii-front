@@ -5,7 +5,8 @@
       <mat-icon>menu</mat-icon>
     </button>
     <span class="grow"></span>
-    <span class="truncate ml-1">Association Belfortaine des Informaticiens de l'IUT</span>
+    <span class="truncate ml-1 hidden sm:inline">Association Belfortaine des Informaticiens de l'IUT</span>
+    <span class="truncate ml-1 inline sm:hidden">ABII</span>
   </mat-toolbar>
   <mat-sidenav-container>
     <mat-sidenav #sidenav class="w-screen sm:w-fit px-5 sidenav">
@@ -41,9 +42,15 @@
         </a>
 
         <a *ngIf="isLoggedIn() && hasManageRights()" (click)="sidenav.close()"
-        mat-list-item routerLink="/stock" routerLinkActive="active">
+           mat-list-item routerLink="/stock" routerLinkActive="active">
           <mat-icon mat-list-icon>remove_shopping_cart</mat-icon>
           <span mat-line>Gestion Stock</span>
+        </a>
+
+        <a *ngIf="isLoggedIn() && isAdmin()" (click)="sidenav.close()"
+           mat-list-item routerLink="/testing" routerLinkActive="active">
+          <mat-icon mat-list-icon>build</mat-icon>
+          <span mat-line>Écran test</span>
         </a>
 
         <a *ngIf="isLoggedIn()" (click)="sidenav.close()"

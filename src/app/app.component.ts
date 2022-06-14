@@ -55,4 +55,9 @@ export class AppComponent implements OnInit {
     let currentUser = this.authService.getCurrentUser();
     return currentUser?.authorities?.includes(Authority.ADMIN) || currentUser?.authorities?.includes(Authority.USER_SELLER);
   }
+
+  isAdmin() {
+    let currentUser = this.authService.getCurrentUser();
+    return currentUser?.authorities?.includes(Authority.ADMIN);
+  }
 }

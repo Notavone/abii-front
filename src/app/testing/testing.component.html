@@ -1,1 +1,7 @@
-<p>testing works!</p>
+<mat-checkbox [(ngModel)]="showPreview">Afficher le rendu</mat-checkbox>
+<zxing-scanner #scanner [class.invisible]="!showPreview"></zxing-scanner>
+<div>
+  <span *ngFor="let scan of scans">
+    {{scan}}
+  </span>
+</div>

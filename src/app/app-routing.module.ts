@@ -13,8 +13,6 @@ const routes: Routes = [
   { path: "clients", loadChildren: () => import("./business/clients/clients.module").then(m => m.ClientsModule), canActivate: [AuthGuard] },
   { path: "users", loadChildren: () => import("./business/users/users.module").then(m => m.UsersModule), canActivate: [AuthGuard] },
   { path: "testing", loadChildren: () => import("./testing/testing.module").then(m => m.TestingModule), canActivate: [AuthGuard, AbiiGuard] },
-
-  { path: "**", pathMatch: "full", component: NotFoundComponent },
 ];
 
 @NgModule({

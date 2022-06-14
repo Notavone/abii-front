@@ -1,6 +1,7 @@
 {
   "name": "ABII",
   "short_name": "ABII",
+  "description": "ABII",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "fullscreen",
