@@ -9,7 +9,6 @@ import { BarcodeFormat } from "@zxing/library";
 })
 export class TestingComponent implements OnInit, AfterViewInit {
   scanning: boolean = false;
-  enableTorch: boolean = false;
   showPreview: boolean = false;
   @ViewChild("scanner") scanner?: ZXingScannerComponent;
 
@@ -31,7 +30,8 @@ export class TestingComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     if (this.scanner) {
-      this.scanner.formats = [BarcodeFormat.QR_CODE, BarcodeFormat.EAN_13, BarcodeFormat.EAN_8, BarcodeFormat.DATA_MATRIX];
+      this.scanner.formats = [BarcodeFormat.AZTEC, BarcodeFormat.CODABAR, BarcodeFormat.CODE_39, BarcodeFormat.CODE_93, BarcodeFormat.CODE_128, BarcodeFormat.DATA_MATRIX, BarcodeFormat.EAN_8, BarcodeFormat.EAN_13, BarcodeFormat.ITF, BarcodeFormat.MAXICODE, BarcodeFormat.PDF_417, BarcodeFormat.QR_CODE, BarcodeFormat.RSS_14, BarcodeFormat.RSS_EXPANDED, BarcodeFormat.UPC_A, BarcodeFormat.UPC_E, BarcodeFormat.UPC_EAN_EXTENSION];
+
       this.scanner.camerasFound
         .subscribe(console.log);
       this.scanner.scanError
