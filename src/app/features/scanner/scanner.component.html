@@ -1,0 +1,12 @@
+<ng-container>
+  <button *ngIf="enabled" (mousedown)="enableScanning = true" mat-raised-button
+          [color]="enableScanning ? 'warn' : 'primary'" (touchstart)="enableScanning = true"
+          (touchend)="enableScanning = false"
+          (mouseleave)="enableScanning = false" (mouseup)="enableScanning = false">
+    Scanner
+    <mat-icon>qr_code_scanner</mat-icon>
+  </button>
+  <zxing-scanner #scanner [enable]="enableScanning && enabled" [class.invisible]="!enableScanning"
+                 [autofocusEnabled]="false"
+                 class="mt-3" previewFitMode="cover"></zxing-scanner>
+</ng-container>

@@ -1,0 +1,41 @@
+<form>
+  <mat-dialog-content>
+    <h2 mat-dialog-title [ngSwitch]="modalData.mode">
+      <ng-container *ngSwitchCase="EanEditModalMode.CREATE">Création d'un code produit</ng-container>
+      <ng-container *ngSwitchCase="EanEditModalMode.UPDATE">Mise à jour d'un code produit</ng-container>
+      <ng-container *ngSwitchCase="EanEditModalMode.READONLY">Visualisation d'un code produit</ng-container>
+    </h2>
+    <div class="space">
+      <mat-form-field>
+        <mat-label>Code</mat-label>
+        <input type="text" matNativeControl [(ngModel)]="modalData.mappedEan.dto.value" name="value"
+               [disabled]="modalData.mode === EanEditModalMode.READONLY">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Quantité</mat-label>
+        <input type="number" matNativeControl [(ngModel)]="modalData.mappedEan.dto.quantity" name="quantity"
+               min="1" [disabled]="modalData.mode === EanEditModalMode.READONLY">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Commentaire</mat-label>
+        <input type="text" matNativeControl [(ngModel)]="modalData.mappedEan.dto.comment" name="comment"
+               [disabled]="modalData.mode === EanEditModalMode.READONLY">
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-icon-button [mat-dialog-close]="modalData.mappedEan" *ngIf="modalData.mode !== EanEditModalMode.READONLY"
+            type="submit" color="primary" matTooltip="Enregistrer" [disabled]="!dtoHasChanged" matBadgeSize="small"
+            matBadge="&#8203;" matBadgeColor="warn" [matBadgeHidden]="!dtoHasChanged">
+      <mat-icon>save</mat-icon>
+    </button>
+    <button mat-icon-button mat-dialog-close="" color="accent" matTooltip="Annuler"
+            (click)="modalData.mappedEan.dto = eanUpdateDtoOriginal;">
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <span class="grow"></span>
+    <button mat-icon-button [mat-dialog-close]="null" color="warn" matTooltip="Supprimer" *ngIf="modalData.mode === EanEditModalMode.UPDATE">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-dialog-actions>
+</form>

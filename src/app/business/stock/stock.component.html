@@ -1,46 +1,65 @@
 <app-loading *ngIf="isLoading"></app-loading>
-<div class="hidden sm:block">
-  <mat-card>
-    <mat-card-title>Gestion du stock</mat-card-title>
-    <div class="flex flex-col gap-3 mb-3">
-      <div *ngFor="let line of sortLines(lines)" class="flex items-center gap-3 md:gap-10"
-           [class.out-of-stock]="isLineOutOfStock(line)"
-           [class.unavailable]="isLineUnavailable(line)"
-           [class.alert]="isLineAlert(line)">
-        <div class="grow basis-1 truncate">
-          <button mat-button [routerLink]="'/products/' + line.product.id">{{line.product.name}}</button>
+<mat-tab-group>
+  <mat-tab label="Gestion du stock">
+    <mat-card>
+      <div class="hidden sm:block">
+        <mat-card-title>Gestion du stock</mat-card-title>
+
+        <ng-container [ngTemplateOutlet]="scanner"></ng-container>
+
+        <div class="flex flex-col gap-3 mb-3">
+          <div *ngFor="let line of sortLines(lines)" class="flex items-center gap-3 md:gap-10"
+               [class.out-of-stock]="isLineOutOfStock(line)"
+               [class.unavailable]="isLineUnavailable(line)"
+               [class.alert]="isLineAlert(line)">
+            <div class="grow basis-1 truncate">
+              <button mat-button [routerLink]="'/products/' + line.product.id" tabindex="-1">
+                {{line.product.name}}
+              </button>
+            </div>
+
+            <mat-form-field floatLabel="always" (click)="lineInput.select()" (focus)="lineInput.select()">
+              <mat-label>Stock du produit</mat-label>
+              <input type="number" #lineInput min="0" [(ngModel)]="line.stock" matNativeControl
+                     name="stock" [placeholder]="''+ line.product.stock">
+            </mat-form-field>
+
+            <mat-form-field floatLabel="always" (click)="alertInput.select()" (focus)="alertInput.select()">
+              <mat-label>Définir une alerte sur stock</mat-label>
+              <input type="number" #alertInput min="0" [(ngModel)]="line.alert" matNativeControl
+                     name="stock" [placeholder]="line.product.alert ? ''+ line.product.alert : ''">
+            </mat-form-field>
+
+            <span class="lg:grow"></span>
+
+            <button mat-button [routerLink]="'/stock/' + line.product.id" tabindex="-1">
+              <span class="hidden lg:inline mr-2">Historique</span>
+              <mat-icon>assessment</mat-icon>
+            </button>
+          </div>
         </div>
-
-        <mat-form-field floatLabel="always" (click)="lineInput.select()" (focus)="lineInput.select()">
-          <mat-label>Stock du produit</mat-label>
-          <input type="number" #lineInput min="0" [(ngModel)]="line.stock" matNativeControl
-                 name="stock" [placeholder]="''+ line.product.stock">
-        </mat-form-field>
-
-        <mat-form-field floatLabel="always" (click)="alertInput.select()" (focus)="alertInput.select()">
-          <mat-label>Définir une alerte sur stock</mat-label>
-          <input type="number" #alertInput min="0" [(ngModel)]="line.alert" matNativeControl
-                 name="stock" [placeholder]="line.product.alert ? ''+ line.product.alert : ''">
-        </mat-form-field>
-
-        <span class="lg:grow"></span>
-
-        <button mat-button [routerLink]="'/stock/' + line.product.id">
-          <span class="hidden lg:inline mr-2">Historique</span>
-          <mat-icon>assessment</mat-icon>
-        </button>
+        <div class="space">
+          <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
+          <button mat-raised-button color="primary" (click)="update()">Mettre à jour le stock</button>
+        </div>
       </div>
-    </div>
-    <div class="space">
-      <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
-      <button mat-raised-button color="primary" (click)="update()">Mettre à jour le stock</button>
-    </div>
-  </mat-card>
-</div>
-<div class="block sm:hidden">
-  <mat-card>
-    <mat-card-title>Gestion du stock</mat-card-title>
-    <mat-card-content>La gestion du stock n'est pas adaptée a un écran de cette taille, merci de passer sur un écran plus adapté pour continuer.</mat-card-content>
-    <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
-  </mat-card>
-</div>
+      <div class="block sm:hidden">
+        <mat-card-title>Gestion du stock</mat-card-title>
+
+        <ng-container [ngTemplateOutlet]="scanner"></ng-container>
+
+        <mat-card-content>La gestion du stock n'est pas adaptée a un écran de cette taille, merci de passer sur un écran plus adapté pour continuer.</mat-card-content>
+        <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
+      </div>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Codes produits">
+    <app-ean></app-ean>
+  </mat-tab>
+</mat-tab-group>
+
+<ng-template #scanner>
+  <div class="mb-3">
+    <app-scanner (scanSuccess)="triggerStockChangeForEan($event)"></app-scanner>
+  </div>
+</ng-template>

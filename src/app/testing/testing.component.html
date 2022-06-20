@@ -1,13 +1,7 @@
 <mat-card>
   <mat-card-title>Zone de test</mat-card-title>
   <mat-card-content>
-    <form>
-      <div>
-        <button mat-stroked-button (click)="scanning = !scanning" [color]="scanning ? 'accent' : 'primary'">Scan ON/OFF</button>
-        <mat-checkbox [(ngModel)]="showPreview" name="showPreview">Afficher le rendu</mat-checkbox>
-      </div>
-    </form>
-    <zxing-scanner #scanner [enable]="scanning" [class.invisible]="!showPreview"></zxing-scanner>
+    <app-scanner (scanSuccess)="handeScanSuccess($event)"></app-scanner>
     <div *ngFor="let scan of scans">
       {{scan}}
     </div>

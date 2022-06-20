@@ -27,6 +27,9 @@
   <mat-tab label="Ajouter">
     <ng-container [ngTemplateOutlet]="create"></ng-container>
   </mat-tab>
+  <mat-tab label="Codes produits">
+    <app-ean></app-ean>
+  </mat-tab>
 </mat-tab-group>
 
 <ng-template #create>

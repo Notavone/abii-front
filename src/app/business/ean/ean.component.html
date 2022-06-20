@@ -1,0 +1,23 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<mat-card>
+  <mat-card-title>
+    <div class="flex justify-between items-center">
+      <span class="truncate">Gestion des codes produits</span>
+      <button mat-icon-button (click)="handleCreation()" matTooltip="Nouveau code">
+        <mat-icon color="primary">add_circle</mat-icon>
+      </button>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <div class="mb-3">
+      <app-scanner (scanSuccess)="handleCreation($event)"></app-scanner>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 drag-boundary" cdkDropListGroup>
+      <app-ean-card *ngFor="let product of products" [content]="eanForProduct(product)" [data]="product"
+                    (onValueClick)="openReadonly($event)" (onDropped)="handleDrop($event)"
+                    (onSettingsOpen)="handleSettingsOpen($event)"></app-ean-card>
+      <app-ean-card [content]="unassignedEans()" [data]="null" (onSettingsOpen)="handleSettingsOpen($event)"
+                    (onDropped)="handleDrop($event)" (onValueClick)="openReadonly($event)"></app-ean-card>
+    </div>
+  </mat-card-content>
+</mat-card>

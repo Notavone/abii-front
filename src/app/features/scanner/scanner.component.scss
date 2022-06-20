@@ -1,0 +1,10 @@
+zxing-scanner {
+  max-width: 50vh;
+
+  &.invisible {
+    position: absolute;
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+}

@@ -15,6 +15,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatBadgeModule } from "@angular/material/badge";
+import { EanModule } from "../ean/ean.module";
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { MatBadgeModule } from "@angular/material/badge";
     MatCheckboxModule,
     MatTooltipModule,
     MatBadgeModule,
+    EanModule,
   ],
   providers: [
     ProductsService,

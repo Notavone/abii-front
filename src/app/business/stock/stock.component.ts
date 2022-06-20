@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {ProductsService} from "../products/products.service";
-import {Location} from "@angular/common";
-import {StockLine} from "./stock-line";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { Component, OnInit } from "@angular/core";
+import { ProductsService } from "../products/products.service";
+import { Location } from "@angular/common";
+import { StockLine } from "./stock-line";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { ConfirmService } from "../../features/confirm/confirm.service";
 import { tap } from "rxjs";
+import { EanService } from "../ean/ean.service";
 
 @Component({
-  selector: 'app-stock',
-  templateUrl: './stock.component.html',
-  styleUrls: ['./stock.component.scss']
+  selector: "app-stock",
+  templateUrl: "./stock.component.html",
+  styleUrls: ["./stock.component.scss"],
 })
 export class StockComponent implements OnInit {
   isLoading: boolean = true;
@@ -20,17 +21,18 @@ export class StockComponent implements OnInit {
     private location: Location,
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
+    private eanService: EanService,
   ) {
   }
 
   ngOnInit(): void {
-    this.productsService.getProducts({useStock: true})
+    this.productsService.getProducts({ useStock: true })
       .subscribe({
         next: (products) => {
-          this.lines = products.map((product) => ({product}));
+          this.lines = products.map((product) => ({ product }));
           this.isLoading = false;
-        }
-      })
+        },
+      });
   }
 
   goBack() {
@@ -45,8 +47,8 @@ export class StockComponent implements OnInit {
         this.isLoading = true;
         const lines = this.lines.filter((line) => line.alert !== undefined || line.stock !== undefined);
         this.productsService.updateBulk({
-          products: lines.map((l) => ({id: l.product.id, alert: l.alert, stock: l.stock})),
-          useTransaction: true
+          products: lines.map((l) => ({ id: l.product.id, alert: l.alert, stock: l.stock })),
+          useTransaction: true,
         })
           .pipe(tap(() => this.isLoading = false))
           .subscribe({
@@ -58,10 +60,10 @@ export class StockComponent implements OnInit {
                 line.alert = undefined;
                 line.stock = undefined;
               });
-            }
-          })
-      }
-    })
+            },
+          });
+      },
+    });
   }
 
   isLineOutOfStock(line: StockLine) {
@@ -93,6 +95,36 @@ export class StockComponent implements OnInit {
       if (!this.isLineAlert(a) && this.isLineAlert(b)) return 1;
 
       return aProduct.stock < bProduct.stock ? -1 : 1;
-    })
+    });
+  }
+
+  triggerStockChangeForEan(value: string) {
+    this.eanService.getEanByValue(value)
+      .subscribe((ean) => {
+        this.confirmService.open({
+          title: "Mise à jour du stock",
+          message: "Voulez-vous mettre à jour le stock du produit scanné ?",
+          onConfirm: () => {
+            if (ean?.product) {
+              this.isLoading = true;
+              this.productsService.updateProduct(ean.product.id, { stock: ean.product.stock + ean.quantity })
+                .subscribe({
+                  next: (product) => {
+                    const lineIdx = this.lines.findIndex((l) => l.product.id === product.id);
+                    this.lines[lineIdx].product = product;
+                    this.isLoading = false;
+                    this.snackBar.open("Stock mis à jour avec succès !");
+                  },
+                  error: () => {
+                    this.snackBar.open("Impossible de mettre à jour le stock du produit.");
+                    this.isLoading = false;
+                  },
+                });
+            } else {
+              this.snackBar.open("Ce code produit n'existe pas en base.");
+            }
+          },
+        });
+      });
   }
 }

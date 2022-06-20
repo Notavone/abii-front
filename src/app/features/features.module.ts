@@ -26,6 +26,9 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatBadgeModule } from "@angular/material/badge";
 import { RouterModule } from "@angular/router";
 import { MatNativeDateModule } from "@angular/material/core";
+import { ScannerComponent } from './scanner/scanner.component';
+import { ZXingScannerModule } from "@zxing/ngx-scanner";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 
 @NgModule({
@@ -36,6 +39,7 @@ import { MatNativeDateModule } from "@angular/material/core";
     OrdersTableComponent,
     ProductTableComponent,
     OrderTakingComponent,
+    ScannerComponent,
   ],
   imports: [
     CommonModule,
@@ -55,6 +59,8 @@ import { MatNativeDateModule } from "@angular/material/core";
     MatBadgeModule,
     RouterModule,
     MatNativeDateModule,
+    ZXingScannerModule,
+    MatButtonToggleModule,
   ],
   providers: [
     DatePipe,
@@ -70,6 +76,7 @@ import { MatNativeDateModule } from "@angular/material/core";
     OrdersTableComponent,
     ProductTableComponent,
     OrderTakingComponent,
+    ScannerComponent,
   ],
 })
 export class FeaturesModule {

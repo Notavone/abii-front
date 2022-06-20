@@ -1,0 +1,18 @@
+<mat-card cdkDropList [cdkDropListData]="data" (cdkDropListDropped)="onDropped.emit($event)" class="w-full h-full">
+  <mat-card-title>{{data?.name ?? 'Non catégorisé'}}</mat-card-title>
+  <mat-card-content>
+    <form *ngFor="let mappedEan of content" cdkDrag cdkDragBoundary=".drag-boundary"
+          [cdkDragData]="mappedEan" class="w-full my-2 border border-black rounded bg-white">
+      <div class="p-2">
+        <mat-form-field (click)="onValueClick.emit(mappedEan)" class="cursor-pointer grow">
+          <mat-label>{{ mappedEan.ean.comment ? 'Commentaire' : 'Code' }}</mat-label>
+          <input type="text" maxlength="20" disabled [ngModel]="mappedEan.ean.comment || mappedEan.ean.value" name="value" matNativeControl>
+        </mat-form-field>
+        <button mat-icon-button color="primary" class="grow-0" cdkDragHandle (click)="onSettingsOpen.emit(mappedEan)"
+                matTooltip="Paramètres">
+          <mat-icon>settings</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

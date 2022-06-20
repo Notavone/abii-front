@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./business/auth/auth.guard";
-import { NotFoundComponent } from "./pages/not-found/not-found.component";
 import { AbiiGuard } from "./business/auth/abii.guard";
 
 const routes: Routes = [
@@ -13,6 +12,7 @@ const routes: Routes = [
   { path: "clients", loadChildren: () => import("./business/clients/clients.module").then(m => m.ClientsModule), canActivate: [AuthGuard] },
   { path: "users", loadChildren: () => import("./business/users/users.module").then(m => m.UsersModule), canActivate: [AuthGuard] },
   { path: "testing", loadChildren: () => import("./testing/testing.module").then(m => m.TestingModule), canActivate: [AuthGuard, AbiiGuard] },
+  { path: "ean", loadChildren: () => import("./business/ean/ean.module").then(m => m.EanModule), canActivate: [AuthGuard, AbiiGuard] },
 ];
 
 @NgModule({

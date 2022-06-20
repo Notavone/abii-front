@@ -10,6 +10,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import { FeaturesModule } from "../../features/features.module";
+import { MatTabsModule } from "@angular/material/tabs";
+import { EanModule } from "../ean/ean.module";
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { FeaturesModule } from "../../features/features.module";
     FormsModule,
     MatIconModule,
     FeaturesModule,
+    MatTabsModule,
+    EanModule,
   ],
 })
 export class StockModule { }

@@ -19,6 +19,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { FeaturesModule } from "./features/features.module";
+import { MAT_TOOLTIP_DEFAULT_OPTIONS } from "@angular/material/tooltip";
 
 registerLocaleData(localeFr);
 
@@ -57,6 +58,7 @@ if (environment.production) {
     { provide: DEFAULT_CURRENCY_CODE, useValue: "EUR" },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: "standard" } },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
+    { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: { showDelay: 1000 } },
   ],
   bootstrap: [AppComponent],
 })
