@@ -9,7 +9,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { FormsModule } from "@angular/forms";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { CommonModule } from "@angular/common";
+import { CommonModule, CurrencyPipe } from "@angular/common";
 import { MatButtonModule } from "@angular/material/button";
 import { MatListModule } from "@angular/material/list";
 import { OrdersRoutingModule } from "./orders-routing.module";
@@ -35,6 +35,7 @@ import { OrdersRoutingModule } from "./orders-routing.module";
   ],
   providers: [
     OrdersService,
+    CurrencyPipe,
   ],
 })
 export class OrdersModule {
