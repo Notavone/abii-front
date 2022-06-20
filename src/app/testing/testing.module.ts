@@ -10,7 +10,7 @@ import { FormsModule } from "@angular/forms";
 import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
-import { FeaturesModule } from "../features/features.module";
+import { ScannerModule } from "../features/scanner/scanner.module";
 
 
 @NgModule({
@@ -27,7 +27,7 @@ import { FeaturesModule } from "../features/features.module";
     MatInputModule,
     MatCardModule,
     MatIconModule,
-    FeaturesModule,
+    ScannerModule,
   ],
 })
 export class TestingModule { }

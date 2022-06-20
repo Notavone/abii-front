@@ -17,6 +17,7 @@ import { EanEditModalComponent } from './ean-edit-modal/ean-edit-modal.component
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { ScannerModule } from "../../features/scanner/scanner.module";
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatDialogModule,
     MatBadgeModule,
     MatTooltipModule,
+    ScannerModule,
   ],
   exports: [
     EanComponent,
