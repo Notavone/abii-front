@@ -6,6 +6,9 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ConfirmService } from "../../features/confirm/confirm.service";
 import { tap } from "rxjs";
 import { EanService } from "../ean/ean.service";
+import { MatDialog } from "@angular/material/dialog";
+import { StockModalComponent } from "./stock-modal/stock-modal.component";
+import { Product } from "../products/dto/product";
 
 @Component({
   selector: "app-stock",
@@ -22,6 +25,7 @@ export class StockComponent implements OnInit {
     private snackBar: MatSnackBar,
     private confirmService: ConfirmService,
     private eanService: EanService,
+    private dialogService: MatDialog,
   ) {
   }
 
@@ -100,31 +104,43 @@ export class StockComponent implements OnInit {
 
   triggerStockChangeForEan(value: string) {
     this.eanService.getEanByValue(value)
-      .subscribe((ean) => {
-        this.confirmService.open({
-          title: "Mise à jour du stock",
-          message: "Voulez-vous mettre à jour le stock du produit scanné ?",
-          onConfirm: () => {
-            if (ean?.product) {
-              this.isLoading = true;
-              this.productsService.updateProduct(ean.product.id, { stock: ean.product.stock + ean.quantity })
-                .subscribe({
-                  next: (product) => {
-                    const lineIdx = this.lines.findIndex((l) => l.product.id === product.id);
-                    this.lines[lineIdx].product = product;
-                    this.isLoading = false;
-                    this.snackBar.open("Stock mis à jour avec succès !");
-                  },
-                  error: () => {
-                    this.snackBar.open("Impossible de mettre à jour le stock du produit.");
-                    this.isLoading = false;
-                  },
-                });
-            } else {
-              this.snackBar.open("Ce code produit n'existe pas en base.");
-            }
-          },
-        });
+      .subscribe({
+        next: (ean) => {
+          this.confirmService.open({
+            title: "Mise à jour du stock",
+            message: "Voulez-vous mettre à jour le stock du produit scanné ?",
+            onConfirm: () => {
+              if (ean?.product) {
+                this.isLoading = true;
+                this.productsService.updateProduct(ean.product.id, { stock: ean.product.stock + ean.quantity })
+                  .subscribe({
+                    next: (product) => {
+                      const lineIdx = this.lines.findIndex((l) => l.product.id === product.id);
+                      this.lines[lineIdx].product = product;
+                      this.isLoading = false;
+                      this.snackBar.open("Stock mis à jour avec succès !");
+                    },
+                    error: () => {
+                      this.snackBar.open("Impossible de mettre à jour le stock du produit.");
+                      this.isLoading = false;
+                    },
+                  });
+              } else {
+                this.snackBar.open("Ce code produit existe mais n'est pas lié à un produit.");
+              }
+            },
+          });
+        },
+        error: () => {
+          this.snackBar.open("Ce produit n'est pas dans la base de donnée.");
+        },
       });
+  }
+
+  openHistory(product: Product) {
+    this.dialogService.open(StockModalComponent, {
+      data: product,
+      panelClass: ["w-3/4"]
+    });
   }
 }

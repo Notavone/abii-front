@@ -1,16 +1,16 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Client} from "./dto/client";
-import {AuthService} from "../auth/auth.service";
-import {LoggingService} from "../../features/logging.service";
-import {ClientUpdateDto} from "./dto/client-update.dto";
-import {ClientCreateDto} from "./dto/client-create.dto";
-import {ClientQueryDto} from "./dto/client-query.dto";
-import {QueryService} from "../../features/query.service";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Client } from "./dto/client";
+import { AuthService } from "../auth/auth.service";
+import { LoggingService } from "../../features/logging.service";
+import { ClientUpdateDto } from "./dto/client-update.dto";
+import { ClientCreateDto } from "./dto/client-create.dto";
+import { ClientQueryDto } from "./dto/client-query.dto";
+import { QueryService } from "../../features/query.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ClientsService {
   private baseUrl = "/api/clients";
@@ -23,9 +23,7 @@ export class ClientsService {
   }
 
   getClients(query?: ClientQueryDto): Observable<Client[]> {
-    let url = this.baseUrl;
-    if (query) url += this.queryService.encode(query);
-    return this.http.get<Client[]>(url);
+    return this.http.get<Client[]>(this.baseUrl, { params: this.queryService.encode(query) });
   }
 
   getClient(id: number): Observable<Client> {
@@ -49,18 +47,18 @@ export class ClientsService {
   }
 
   updateStatus(id: number, newDate: Date): Observable<Client> {
-    let url = `${this.baseUrl}/${id}/`
+    let url = `${this.baseUrl}/${id}/`;
     const dto: ClientUpdateDto = {
-      subscribedUntil: newDate
-    }
+      subscribedUntil: newDate,
+    };
     return this.http.patch<Client>(url, dto);
   }
 
   updateBalance(id: number, newBalance: number): Observable<Client> {
     let url = `${this.baseUrl}/${id}/`;
     const dto: ClientUpdateDto = {
-      balance: newBalance
-    }
+      balance: newBalance,
+    };
     return this.http.patch<Client>(url, dto);
   }
 

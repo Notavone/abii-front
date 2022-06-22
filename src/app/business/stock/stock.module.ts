@@ -13,11 +13,17 @@ import { FeaturesModule } from "../../features/features.module";
 import { MatTabsModule } from "@angular/material/tabs";
 import { EanModule } from "../ean/ean.module";
 import { ScannerModule } from "../../features/scanner/scanner.module";
+import { StockModalComponent } from './stock-modal/stock-modal.component';
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatTableModule } from "@angular/material/table";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSortModule } from "@angular/material/sort";
 
 
 @NgModule({
   declarations: [
-    StockComponent
+    StockComponent,
+    StockModalComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +38,10 @@ import { ScannerModule } from "../../features/scanner/scanner.module";
     MatTabsModule,
     EanModule,
     ScannerModule,
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
 })
 export class StockModule { }

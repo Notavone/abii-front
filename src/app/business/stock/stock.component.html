@@ -32,7 +32,7 @@
 
             <span class="lg:grow"></span>
 
-            <button mat-button [routerLink]="'/stock/' + line.product.id" tabindex="-1">
+            <button mat-button tabindex="-1" (click)="openHistory(line.product)">
               <span class="hidden lg:inline mr-2">Historique</span>
               <mat-icon>assessment</mat-icon>
             </button>

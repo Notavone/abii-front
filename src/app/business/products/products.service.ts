@@ -1,15 +1,15 @@
-import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
-import {Product} from "./dto/product";
-import {HttpClient} from "@angular/common/http";
-import {ProductCreateDto} from "./dto/product-create.dto";
-import {ProductUpdateDto} from "./dto/product-update.dto";
-import {ProductBulkUpdateDto} from "./dto/product-bulk-update.dto";
-import {ProductQueryDto} from "./dto/product-query.dto";
-import {QueryService} from "../../features/query.service";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { Product } from "./dto/product";
+import { HttpClient } from "@angular/common/http";
+import { ProductCreateDto } from "./dto/product-create.dto";
+import { ProductUpdateDto } from "./dto/product-update.dto";
+import { ProductBulkUpdateDto } from "./dto/product-bulk-update.dto";
+import { ProductQueryDto } from "./dto/product-query.dto";
+import { QueryService } from "../../features/query.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ProductsService {
   private baseUrl = "/api/products";
@@ -21,10 +21,7 @@ export class ProductsService {
   }
 
   getProducts(query?: ProductQueryDto): Observable<Product[]> {
-    let url = `${this.baseUrl}`;
-    if (query) url += this.queryService.encode(query);
-
-    return this.http.get<Product[]>(url);
+    return this.http.get<Product[]>(this.baseUrl, { params: this.queryService.encode(query) });
   }
 
   getProduct(id: number): Observable<Product> {
@@ -48,7 +45,7 @@ export class ProductsService {
 
   toggleAvailability(product: Product): Observable<Product> {
     let url = `${this.baseUrl}/${product.id}`;
-    const dto: ProductUpdateDto = {available: !product.available};
+    const dto: ProductUpdateDto = { available: !product.available };
     return this.http.patch<Product>(url, dto);
   }
 

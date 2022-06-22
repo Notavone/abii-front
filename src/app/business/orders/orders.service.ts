@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Order} from "./dto/order";
-import {QueryService} from "../../features/query.service";
-import {OrderCreateDto} from "./dto/order-create.dto";
-import {OrderQueryDto} from "./dto/order-query.dto";
-import {OrderUpdateDto} from "./dto/order-update.dto";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Order } from "./dto/order";
+import { QueryService } from "../../features/query.service";
+import { OrderCreateDto } from "./dto/order-create.dto";
+import { OrderQueryDto } from "./dto/order-query.dto";
+import { OrderUpdateDto } from "./dto/order-update.dto";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class OrdersService {
   private baseUrl = "/api/orders";
@@ -20,10 +20,7 @@ export class OrdersService {
   }
 
   getOrders(query?: OrderQueryDto): Observable<Order[]> {
-    let url = `${this.baseUrl}`;
-    if (query) url += this.queryService.encode(query);
-
-    return this.http.get<Order[]>(url);
+    return this.http.get<Order[]>(this.baseUrl, { params: this.queryService.encode(query) });
   }
 
   getOrder(id: number): Observable<Order> {
@@ -36,7 +33,7 @@ export class OrdersService {
   }
 
   updateOrder(order: OrderUpdateDto): Observable<Order> {
-    return this.http.patch<Order>(`${this.baseUrl}/${order.id}`, {orderLines: order.orderLines});
+    return this.http.patch<Order>(`${this.baseUrl}/${order.id}`, { orderLines: order.orderLines });
   }
 
   confirmOrder(order: Order): Observable<Order> {
