@@ -34,7 +34,7 @@ export class AuthService {
           this.usersService.getMe()
             .subscribe(user => {
               this.currentUser = user;
-              this.notificationsService.requestPermission();
+              this.notificationsService.subscribe()
             });
         }),
       );

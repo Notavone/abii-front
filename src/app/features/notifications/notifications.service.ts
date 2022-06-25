@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { AngularFireMessaging } from "@angular/fire/compat/messaging";
 import { HttpClient } from "@angular/common/http";
 import { QueryService } from "../query.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { SwPush } from "@angular/service-worker";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -13,35 +14,25 @@ export class NotificationsService {
   constructor(
     private http: HttpClient,
     private queryService: QueryService,
-    private fireMessaging: AngularFireMessaging,
     private matSnackBar: MatSnackBar,
+    private swPush: SwPush,
   ) {
   }
 
-  subscribe(token: string) {
-    const params = this.queryService.encode({ token });
-    this.http.get(this.baseUrl + "/subscribe", { params }).subscribe();
-  }
-
-  requestPermission() {
-    this.fireMessaging.requestToken
-      .subscribe({
-        next: (token) => {
-          if (token) {
-            console.log(token);
-            this.subscribe(token);
-          }
-        },
-      });
-
-    this.fireMessaging.messages
-      .subscribe({
-        next: (message) => {
-          this.matSnackBar.open(message.notification?.title ?? "", "OK", {
-            duration: 3000,
-          });
-        },
-      });
+  subscribe() {
+    this.swPush.subscription.subscribe((sub) => {
+      if (sub) {
+        this.http.post(this.baseUrl + "/subscribe", sub)
+          .subscribe();
+      } else {
+        this.swPush.requestSubscription({
+          serverPublicKey: environment.vapidkey,
+        }).then((sub) => {
+          this.http.post(this.baseUrl + "/subscribe", sub)
+            .subscribe();
+        });
+      }
+    });
   }
 
   testPush() {

@@ -27,8 +27,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.authService.isLoggedIn) {
-      this.notificationService.requestPermission();
+    if (this.authService.isLoggedIn) {
+      this.notificationService.subscribe()
     }
 
     if (this.authService.isLoggedIn && !this.authService.getCurrentUser()) {

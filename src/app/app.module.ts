@@ -20,8 +20,6 @@ import { MatListModule } from "@angular/material/list";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { FeaturesModule } from "./features/features.module";
 import { MAT_TOOLTIP_DEFAULT_OPTIONS } from "@angular/material/tooltip";
-import { AngularFireModule } from "@angular/fire/compat";
-import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
 
 registerLocaleData(localeFr);
 
@@ -51,12 +49,6 @@ if (environment.production) {
       enabled: true,
       registrationStrategy: "registerWhenStable:30000",
     }),
-    ServiceWorkerModule.register("firebase-messaging-sw.js", {
-      enabled: true,
-      registrationStrategy: "registerWhenStable:30000",
-    }),
-    AngularFireMessagingModule,
-    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
