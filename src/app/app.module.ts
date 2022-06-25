@@ -20,6 +20,8 @@ import { MatListModule } from "@angular/material/list";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { FeaturesModule } from "./features/features.module";
 import { MAT_TOOLTIP_DEFAULT_OPTIONS } from "@angular/material/tooltip";
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
 
 registerLocaleData(localeFr);
 
@@ -46,11 +48,15 @@ if (environment.production) {
     MatIconModule,
     MatListModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
-      enabled: environment.production,
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
+      enabled: true,
       registrationStrategy: "registerWhenStable:30000",
     }),
+    ServiceWorkerModule.register("firebase-messaging-sw.js", {
+      enabled: true,
+      registrationStrategy: "registerWhenStable:30000",
+    }),
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

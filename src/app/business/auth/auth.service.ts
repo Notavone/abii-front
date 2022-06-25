@@ -5,6 +5,7 @@ import {CookieService} from "ngx-cookie-service";
 import {tap} from "rxjs";
 import {UsersService} from "../users/users.service";
 import {User} from "../users/dto/user";
+import { NotificationsService } from "../../features/notifications/notifications.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class AuthService {
     private loggingService: LoggingService,
     private cookieService: CookieService,
     private usersService: UsersService,
+    private notificationsService: NotificationsService,
   ) {
     this.loggingService.log(this.provider, "init");
     this.http = new HttpClient(this.httpBackend);
@@ -32,6 +34,7 @@ export class AuthService {
           this.usersService.getMe()
             .subscribe(user => {
               this.currentUser = user;
+              this.notificationsService.requestPermission();
             });
         }),
       );

@@ -3,6 +3,7 @@ import { AuthService } from "./business/auth/auth.service";
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Authority } from "./business/auth/authority";
+import { NotificationsService } from "./features/notifications/notifications.service";
 
 @Component({
   selector: "app-root",
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
+    private notificationService: NotificationsService,
   ) {
   }
 
@@ -25,6 +27,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.authService.isLoggedIn) {
+      this.notificationService.requestPermission();
+    }
+
     if (this.authService.isLoggedIn && !this.authService.getCurrentUser()) {
       this.authService.fetchCurrentUser().subscribe((user) => this.snackBar.open(`Connecté en tant que ${user.name}`));
     }

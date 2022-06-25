@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { NotificationsService } from "../features/notifications/notifications.service";
 
 @Component({
   selector: "app-testing",
@@ -9,8 +10,11 @@ export class TestingComponent implements OnInit {
   scanning: boolean = false;
   showPreview: boolean = false;
 
-  constructor() {
+  constructor(
+    private notificationService: NotificationsService,
+  ) {
   }
+
 
   ngOnInit(): void {
 
@@ -20,11 +24,16 @@ export class TestingComponent implements OnInit {
   get scans() {
     return this._scans;
   }
+
   set scans(value: string[]) {
     this._scans = value;
   }
 
   handeScanSuccess($event: string) {
     this.scans = [...this.scans, $event];
+  }
+
+  testPush() {
+    this.notificationService.testPush();
   }
 }
