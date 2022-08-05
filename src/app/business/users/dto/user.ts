@@ -15,4 +15,5 @@ export class User {
   readonly name!: string;
   readonly client?: Client;
   readonly clientId?: number;
+  readonly shortName!: string;
 }

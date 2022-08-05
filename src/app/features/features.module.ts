@@ -27,6 +27,7 @@ import { MatBadgeModule } from "@angular/material/badge";
 import { RouterModule } from "@angular/router";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { HoldableDirective } from './holdable.directive';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
     OrdersTableComponent,
     ProductTableComponent,
     OrderTakingComponent,
+    HoldableDirective,
   ],
   imports: [
     CommonModule,
@@ -72,6 +74,7 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
     OrdersTableComponent,
     ProductTableComponent,
     OrderTakingComponent,
+    HoldableDirective,
   ],
 })
 export class FeaturesModule {

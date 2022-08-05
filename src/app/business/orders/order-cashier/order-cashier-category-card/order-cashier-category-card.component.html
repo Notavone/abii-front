@@ -1,0 +1,10 @@
+<button [disabled]="disabled" (click)="clicked.emit()"
+        mat-raised-button
+        class="h-full w-full">
+  <div class="flex flex-col justify-between h-full pt-2">
+    <div class="text-2xl">
+      <mat-icon inline>{{category?.icon || 'add_circle'}}</mat-icon>
+    </div>
+    <div class="truncate">{{(category?.label || 'Nouvelle catégorie') | uppercase }}</div>
+  </div>
+</button>

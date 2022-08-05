@@ -13,12 +13,21 @@ import { CommonModule, CurrencyPipe } from "@angular/common";
 import { MatButtonModule } from "@angular/material/button";
 import { MatListModule } from "@angular/material/list";
 import { OrdersRoutingModule } from "./orders-routing.module";
+import { MatTabsModule } from "@angular/material/tabs";
+import { OrderCashierComponent } from './order-cashier/order-cashier.component';
+import { MatIconModule } from "@angular/material/icon";
+import { MatRippleModule } from "@angular/material/core";
+import { OrderCashierCategoryCardComponent } from './order-cashier/order-cashier-category-card/order-cashier-category-card.component';
+import { MatBadgeModule } from "@angular/material/badge";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 
 @NgModule({
   declarations: [
     OrdersComponent,
     OrderComponent,
+    OrderCashierComponent,
+    OrderCashierCategoryCardComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +41,11 @@ import { OrdersRoutingModule } from "./orders-routing.module";
     MatCheckboxModule,
     MatButtonModule,
     MatListModule,
+    MatTabsModule,
+    MatIconModule,
+    MatRippleModule,
+    MatBadgeModule,
+    MatProgressBarModule,
   ],
   providers: [
     OrdersService,

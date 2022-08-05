@@ -7,6 +7,7 @@ import { ProductUpdateDto } from "./dto/product-update.dto";
 import { ProductBulkUpdateDto } from "./dto/product-bulk-update.dto";
 import { ProductQueryDto } from "./dto/product-query.dto";
 import { QueryService } from "../../features/query.service";
+import { ProductCategory } from "./dto/product-category";
 
 @Injectable({
   providedIn: "root",
@@ -52,5 +53,10 @@ export class ProductsService {
   updateBulk(productBulkUpdateDto: ProductBulkUpdateDto): Observable<Product[]> {
     const url = `${this.baseUrl}/bulk`;
     return this.http.patch<Product[]>(url, productBulkUpdateDto);
+  }
+
+  getCategories(): Observable<ProductCategory[]> {
+    const url = `${this.baseUrl}/categories`;
+    return this.http.get<ProductCategory[]>(url);
   }
 }

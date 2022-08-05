@@ -1,0 +1,111 @@
+<mat-card>
+  <div class="flex flex-col gap-2">
+    <div class="flex gap-2">
+      <mat-card class="w-2/5">
+        <div class="flex flex-col h-full">
+          <div class="grow">
+            <table>
+              <tbody>
+              <ng-container *ngFor="let line of orderLines">
+                <tr (click)="decrementProduct(line.productId)" class="text-xl" holdable (holdTime)="holdTime(line, progressBar, $event)">
+                  <td class="p-1">
+
+                  </td>
+                  <td class="w-full p-1">{{line.quantity}}X {{findProduct(line.productId)?.name | uppercase}}</td>
+                  <td class="p-1">{{totalForLine(line) | currency}}</td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <mat-progress-bar #progressBar [value]="0" ></mat-progress-bar>
+                  </td>
+                </tr>
+              </ng-container>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="orderLines.length" class="pt-3 text-2xl border-t flex justify-between">
+            Total : {{total | currency}} <span class="text-blue-500">/ {{totalReduced | currency}}</span>
+          </div>
+        </div>
+      </mat-card>
+      <div class="w-3/5">
+        <div class="flex actions">
+          <button mat-raised-button>
+            <div class="text-and-icon-h">
+              <mat-icon>face</mat-icon>
+              {{getSeller() | uppercase }}
+            </div>
+          </button>
+          <button mat-raised-button>
+            <div class="text-and-icon-h">
+              <mat-icon>receipt</mat-icon>
+              SUIVANT
+            </div>
+          </button>
+          <button mat-raised-button>
+            <div class="text-and-icon-h">
+              <mat-icon>sell</mat-icon>
+              RÉDUCTION
+            </div>
+          </button>
+        </div>
+        <hr class="border-t">
+        <div class="flex gap-2">
+          <div class="grid grid-cols-3 grid-rows-3 gap-2 mt-4 grow">
+            <app-order-cashier-category-card *ngFor="let category of categoriesOnThisPage"
+                                             [category]="category"
+                                             [disabled]="!sellableProductsInCategory(category).length"
+                                             (clicked)="toggleCategorySelection(category)"
+                                             [class.active]="selectedCategory === category">
+            </app-order-cashier-category-card>
+            <app-order-cashier-category-card (clicked)="openAddCategoryModal()">
+            </app-order-cashier-category-card>
+          </div>
+          <div *ngIf="categories.length > MAX_CATEGORY_DISPLAYED"
+               class="flex flex-col">
+            <button mat-icon-button
+                    [disabled]="!categoryPage"
+                    (click)="categoryPageUp()">
+              <mat-icon>expand_less</mat-icon>
+            </button>
+            <button mat-icon-button
+                    [disabled]="categoryPage >= categories.length / MAX_CATEGORY_DISPLAYED - 1"
+                    (click)="categoryPageDown()">
+              <mat-icon>expand_more</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="my-2 border-t">
+    <div class="flex gap-2">
+      <ng-container *ngIf="productsInSelectedCategory.length">
+        <div class="grow grid grid-cols-5 grid-rows-2 gap-2">
+          <button *ngFor="let product of productsInSelectedCategory"
+                  (click)="incrementProduct(product)" color="primary"
+                  [matBadge]="getStock(product)" matBadgeColor="warn"
+                  [matBadgeHidden]="!product.useStock"
+                  mat-raised-button [disabled]="isProductDisabled(product)">
+            <div class="py-5">{{product.name | uppercase}}</div>
+          </button>
+        </div>
+        <div *ngIf="productsInSelectedCategory.length > MAX_PRODUCTS_DISPLAYED"
+             class="flex flex-col">
+          <button mat-icon-button
+                  [disabled]="!productPage"
+                  (click)="productPageUp()">
+            <mat-icon>expand_less</mat-icon>
+          </button>
+          <button mat-icon-button
+                  [disabled]="categoryPage >= productsInSelectedCategory.length / MAX_PRODUCTS_DISPLAYED - 1"
+                  (click)="productPageDown()">
+            <mat-icon>expand_more</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+      <div *ngIf="!productsInSelectedCategory.length" class="text-3xl border py-10 text-center grow">
+        Aucun produit dans cette catégorie !
+      </div>
+    </div>
+  </div>
+</mat-card>

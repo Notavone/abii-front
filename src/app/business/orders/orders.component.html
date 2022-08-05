@@ -1,35 +1,42 @@
 <app-loading *ngIf="isLoading"></app-loading>
-<mat-card class="mb-3">
-  <div class="space">
-    <mat-form-field>
-      <mat-label>Période</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date" [(ngModel)]="start" (dateChange)="update()">
-        <input matEndDate placeholder="End date" [(ngModel)]="end" (dateChange)="update()">
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
+<mat-tab-group>
+  <mat-tab label="Récapitulatif">
+    <mat-card class="mb-3">
+      <div class="space">
+        <mat-form-field>
+          <mat-label>Période</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="start" (dateChange)="update()">
+            <input matEndDate placeholder="End date" [(ngModel)]="end" (dateChange)="update()">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Filtrer par client</mat-label>
-      <mat-select [(ngModel)]="selectedClient" (selectionChange)="update()">
-        <mat-option>NE PAS FILTRER</mat-option>
-        <mat-option *ngFor="let client of clients" [value]="client">{{client.user?.name ?? client.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Filtrer par client</mat-label>
+          <mat-select [(ngModel)]="selectedClient" (selectionChange)="update()">
+            <mat-option>NE PAS FILTRER</mat-option>
+            <mat-option *ngFor="let client of clients" [value]="client">{{client.user?.name ?? client.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Filtrer par produit</mat-label>
-      <mat-select [(ngModel)]="selectedProduct" (selectionChange)="update()">
-        <mat-option>NE PAS FILTRER</mat-option>
-        <mat-option *ngFor="let product of products" [value]="product">{{product.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Filtrer par produit</mat-label>
+          <mat-select [(ngModel)]="selectedProduct" (selectionChange)="update()">
+            <mat-option>NE PAS FILTRER</mat-option>
+            <mat-option *ngFor="let product of products" [value]="product">{{product.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-checkbox [(ngModel)]="allowRefunded" (change)="update()">Inclure les commandes remboursés</mat-checkbox>
-    <mat-checkbox [(ngModel)]="allowIncomplete" (change)="update()">Inclure les commandes non confirmées</mat-checkbox>
-    <p *ngIf="total">Total pour la période sélectionné : {{total | currency}}</p>
-  </div>
-</mat-card>
-<app-orders-table [orders]="orders"></app-orders-table>
+        <mat-checkbox [(ngModel)]="allowRefunded" (change)="update()">Inclure les commandes remboursés</mat-checkbox>
+        <mat-checkbox [(ngModel)]="allowIncomplete" (change)="update()">Inclure les commandes non confirmées</mat-checkbox>
+        <p *ngIf="total">Total pour la période sélectionné : {{total | currency}}</p>
+      </div>
+    </mat-card>
+    <app-orders-table [orders]="orders"></app-orders-table>
+  </mat-tab>
+  <mat-tab label="Caisse">
+    <app-order-cashier></app-order-cashier>
+  </mat-tab>
+</mat-tab-group>
