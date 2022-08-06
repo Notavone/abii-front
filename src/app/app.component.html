@@ -1,5 +1,5 @@
 <app-loading *ngIf="transitioning"></app-loading>
-<div class="flex flex-col h-screen">
+<div class="flex flex-col h-screen" (contextmenu)="false">
   <mat-toolbar role="heading" color="primary">
     <button mat-icon-button (click)="sidenav.toggle()">
       <mat-icon>menu</mat-icon>
