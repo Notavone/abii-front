@@ -1,11 +1,20 @@
 import { Component, OnInit } from "@angular/core";
 import { ProductsService } from "../../products/products.service";
-import { forkJoin } from "rxjs";
+import { forkJoin, mergeMap, Observable, tap } from "rxjs";
 import { Product } from "../../products/dto/product";
 import { ProductCategory } from "../../products/dto/product-category";
 import { OrderLineCreateDto } from "../dto/order-line-create.dto";
 import { AuthService } from "../../auth/auth.service";
 import { MatProgressBar } from "@angular/material/progress-bar";
+import { ConfirmService } from "../../../features/confirm/confirm.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
+import { User } from "../../users/dto/user";
+import { Client } from "../../clients/dto/client";
+import { MatDialog } from "@angular/material/dialog";
+import { ClientSearchComponent } from "../../clients/client-search/client-search.component";
+import { OrdersService } from "../orders.service";
+import { OrderCreateDto } from "../dto/order-create.dto";
 
 @Component({
   selector: "app-order-cashier",
@@ -14,7 +23,7 @@ import { MatProgressBar } from "@angular/material/progress-bar";
 })
 export class OrderCashierComponent implements OnInit {
 
-  MAX_CATEGORY_DISPLAYED = 8;
+  MAX_CATEGORY_DISPLAYED = 9;
   MAX_PRODUCTS_DISPLAYED = 10;
   PLACEHOLDER_CATEGORY: ProductCategory = { display: false, icon: " ", id: 0, order: 0, label: " " };
 
@@ -25,10 +34,17 @@ export class OrderCashierComponent implements OnInit {
   productPage: number = 0;
   selectedCategory?: ProductCategory;
   orderLines: OrderLineCreateDto[] = [];
+  selectedClient?: Client;
+  holdThresh: number = 1000;
 
   constructor(
     private productsService: ProductsService,
     private authService: AuthService,
+    private confirmService: ConfirmService,
+    private matSnackBar: MatSnackBar,
+    private router: Router,
+    private matDialog: MatDialog,
+    private ordersService: OrdersService,
   ) {
   }
 
@@ -97,7 +113,14 @@ export class OrderCashierComponent implements OnInit {
 
   get total(): number {
     return this.orderLines
-      .reduce((total, line) => total + (this.findProduct(line.productId)?.price ?? 0) * line.quantity, 0);
+      .reduce((total, line) => {
+        const product = this.findProduct(line.productId);
+        const price = new Date(this.selectedClient?.subscribedUntil ?? 0)?.getTime() < new Date().getTime()
+          ? product?.price
+          : product?.price_red;
+
+        return total + (price ?? 0) * line.quantity;
+      }, 0);
   }
 
   get totalReduced(): number {
@@ -114,8 +137,8 @@ export class OrderCashierComponent implements OnInit {
     return !product.sellable || this.getStock(product) <= 0;
   }
 
-  getSeller(): string | undefined {
-    return this.authService?.getCurrentUser()?.shortName;
+  getSeller(): User | undefined {
+    return this.authService?.getCurrentUser();
   }
 
   categoryPageDown(): void {
@@ -148,11 +171,74 @@ export class OrderCashierComponent implements OnInit {
   }
 
   holdTime(line: OrderLineCreateDto, progressBar: MatProgressBar, $event: number) {
-    const val = $event / 10;
-    console.debug(val)
-    progressBar.value = val;
-    progressBar.animationEnd.subscribe(() => {
-      if(val >= 100) this.orderLines.splice(this.orderLines.indexOf(line), 1);
-    })
+    progressBar.value = $event / 10;
+    progressBar.animationEnd
+      .subscribe(() => {
+        if ($event >= this.holdThresh) this.orderLines.splice(this.orderLines.indexOf(line), 1);
+      });
+  }
+
+  promptUserChange(): void {
+    this.confirmService.open({
+      message: "Voulez-vous changer de profil vendeur ?",
+      onConfirm: () => {
+        this.authService.logout()
+          .subscribe({
+            next: () => this.router.navigate(["/login"]),
+            error: () => this.matSnackBar.open("Une erreur est survenue"),
+          });
+      },
+      title: "Changement d'utilisateur",
+    });
+  }
+
+  getClient(): Client | undefined {
+    return this.selectedClient;
+  }
+
+  updateSelectedClient() {
+    this.openClientSearchForm()
+      .subscribe(client => this.selectedClient = client);
+  }
+
+  openClientSearchForm(): Observable<Client | undefined> {
+    const modalRef = this.matDialog.open(ClientSearchComponent, {
+      panelClass: ["w-3/4", "h-3/4"],
+    });
+    modalRef.componentInstance.clientSelected.subscribe((client: Client) => modalRef.close(client));
+    return modalRef.afterClosed()
+      .pipe(tap((client: Client | undefined) => this.selectedClient = client));
+  }
+
+  handleConfirmOrderClick(): void {
+    if (!this.selectedClient) {
+      this.openClientSearchForm()
+        .subscribe((client?: Client) => {
+          this.selectedClient = client;
+          if (client) {
+            this.confirmOrder();
+          } else this.matSnackBar.open("Vous devez choisir un client");
+        });
+    }
+  }
+
+  confirmOrder(): void {
+    this.confirmService.open({
+      message: "Voulez-vous vraiment valider cette commande ?",
+      onConfirm: () => {
+        const order = new OrderCreateDto();
+        order.orderLines = this.orderLines;
+        order.clientId = this.selectedClient!.id;
+        this.ordersService.addOrder(order)
+          .pipe(mergeMap((o) => this.ordersService.confirmOrder(o)))
+          .subscribe({
+            next: () => {
+              this.orderLines = [];
+              this.matSnackBar.open("Commande confirmée");
+            },
+            error: () => this.matSnackBar.open("Une erreur est survenue, veuillez réessayer"),
+          });
+      },
+    });
   }
 }

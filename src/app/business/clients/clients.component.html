@@ -1,37 +1,7 @@
 <app-loading *ngIf="isLoading"></app-loading>
 <mat-tab-group>
   <mat-tab label="Liste">
-    <mat-card class="mb-3">
-      <mat-form-field class="min-w-full sm:min-w-0">
-        <mat-label>Trier</mat-label>
-        <input type="text" matNativeControl [(ngModel)]="dataSet.filter" placeholder="Trier">
-      </mat-form-field>
-    </mat-card>
-
-      <table mat-table [dataSource]="dataSet" matSort>
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="">Nom</th>
-          <td mat-cell *matCellDef="let client">
-            <a routerLink="/clients/{{client.id}}" mat-button>{{client.user?.name ?? client.name}}</a>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="subscription">
-          <th mat-header-cell *matHeaderCellDef class="hide-on-mobile">Fin de l'adhésion le</th>
-          <td mat-cell *matCellDef="let client" class="hide-on-mobile">
-            {{ client.subscribedUntil ? (client.subscribedUntil | date:"dd/MM/yyyy") : "N/A" }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="balance">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="">Solde</th>
-          <td mat-cell *matCellDef="let client">{{client.balance | currency}}</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row *matRowDef="let client; columns: columnsToDisplay"></tr>
-      </table>
-      <mat-paginator #paginator showFirstLastButtons [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
+    <app-client-search (clientSelected)="openClientDetails($event)"></app-client-search>
   </mat-tab>
   <mat-tab label="Ajouter">
     <mat-card>

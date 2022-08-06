@@ -1,16 +1,15 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {ConfirmDataModel} from "./confirm-data.model";
+import { Component, Inject } from "@angular/core";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ConfirmDataModel } from "./confirm-data.model";
 
 @Component({
-  selector: 'app-confirm',
-  templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.scss']
+  selector: "app-confirm",
+  templateUrl: "./confirm.component.html",
+  styleUrls: ["./confirm.component.scss"],
 })
 export class ConfirmComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmDataModel) {
-    console.log(data)
   }
 
   confirm() {

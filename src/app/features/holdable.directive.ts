@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostListener, Output } from "@angular/core";
+import { Directive, EventEmitter, HostListener, Input, Output } from "@angular/core";
 import { filter, interval, Observable, Subject, takeUntil, tap } from "rxjs";
 
 @Directive({
@@ -7,6 +7,7 @@ import { filter, interval, Observable, Subject, takeUntil, tap } from "rxjs";
 export class HoldableDirective {
 
   @Output() holdTime: EventEmitter<number> = new EventEmitter();
+  @Input() threshold: number = 1000;
   state: Subject<boolean> = new Subject();
   cancel: Observable<boolean>;
 
@@ -33,7 +34,13 @@ export class HoldableDirective {
 
     interval(n).pipe(
       takeUntil(this.cancel),
-      tap(v => this.holdTime.emit(v * n)),
+      tap(v => {
+        const value = v * n;
+        this.holdTime.emit(value);
+        if (value >= this.threshold) {
+          this.state.next(true);
+        }
+      }),
     ).subscribe();
   }
 }

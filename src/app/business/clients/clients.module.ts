@@ -23,12 +23,14 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatBadgeModule } from "@angular/material/badge";
 import { ClientsRoutingModule } from "./clients-routing.module";
+import { ClientSearchComponent } from './client-search/client-search.component';
 
 
 @NgModule({
   declarations: [
     ClientsComponent,
     ClientComponent,
+    ClientSearchComponent,
   ],
   imports: [
     ClientsRoutingModule,

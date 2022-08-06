@@ -7,16 +7,14 @@
             <table>
               <tbody>
               <ng-container *ngFor="let line of orderLines">
-                <tr (click)="decrementProduct(line.productId)" class="text-xl" holdable (holdTime)="holdTime(line, progressBar, $event)">
-                  <td class="p-1">
-
-                  </td>
+                <tr (click)="decrementProduct(line.productId)" class="text-xl" holdable [threshold]="holdThresh" (holdTime)="holdTime(line, progressBar, $event)">
+                  <td class="p-1"></td>
                   <td class="w-full p-1">{{line.quantity}}X {{findProduct(line.productId)?.name | uppercase}}</td>
                   <td class="p-1">{{totalForLine(line) | currency}}</td>
                 </tr>
                 <tr>
                   <td colspan="3">
-                    <mat-progress-bar #progressBar [value]="0" ></mat-progress-bar>
+                    <mat-progress-bar #progressBar [value]="0" color="warn"></mat-progress-bar>
                   </td>
                 </tr>
               </ng-container>
@@ -24,42 +22,47 @@
             </table>
           </div>
           <div *ngIf="orderLines.length" class="pt-3 text-2xl border-t flex justify-between">
-            Total : {{total | currency}} <span class="text-blue-500">/ {{totalReduced | currency}}</span>
+            Total : {{total | currency}} <span *ngIf="!selectedClient" class="text-blue-500">/ {{totalReduced | currency}}</span>
           </div>
         </div>
       </mat-card>
       <div class="w-3/5">
         <div class="flex actions">
-          <button mat-raised-button>
+          <button mat-raised-button (click)="promptUserChange()">
             <div class="text-and-icon-h">
               <mat-icon>face</mat-icon>
-              {{getSeller() | uppercase }}
+              {{getSeller()?.shortName | uppercase }}
             </div>
           </button>
-          <button mat-raised-button>
+          <button mat-raised-button (click)="updateSelectedClient()">
+            <div class="text-and-icon-h">
+              <mat-icon>manage_accounts</mat-icon>
+              {{(getClient()?.user?.shortName || getClient()?.shortName || 'Choisir cli.') | uppercase }}
+            </div>
+          </button>
+          <button mat-raised-button [disabled]="!orderLines.length" (click)="handleConfirmOrderClick()">
             <div class="text-and-icon-h">
               <mat-icon>receipt</mat-icon>
-              SUIVANT
-            </div>
-          </button>
-          <button mat-raised-button>
-            <div class="text-and-icon-h">
-              <mat-icon>sell</mat-icon>
-              RÉDUCTION
+              CONFIRMER
             </div>
           </button>
         </div>
         <hr class="border-t">
         <div class="flex gap-2">
           <div class="grid grid-cols-3 grid-rows-3 gap-2 mt-4 grow">
-            <app-order-cashier-category-card *ngFor="let category of categoriesOnThisPage"
-                                             [category]="category"
-                                             [disabled]="!sellableProductsInCategory(category).length"
-                                             (clicked)="toggleCategorySelection(category)"
-                                             [class.active]="selectedCategory === category">
-            </app-order-cashier-category-card>
-            <app-order-cashier-category-card (clicked)="openAddCategoryModal()">
-            </app-order-cashier-category-card>
+            <button *ngFor="let category of categoriesOnThisPage"
+                    [disabled]="!sellableProductsInCategory(category).length && selectedCategory !== category"
+                    (click)="toggleCategorySelection(category)"
+                    [color]="selectedCategory === category ? 'primary': undefined"
+                    mat-raised-button
+                    class="h-full w-full">
+              <div class="flex flex-col justify-between h-full pt-2">
+                <div class="text-2xl">
+                  <mat-icon inline>{{category.icon}}</mat-icon>
+                </div>
+                <div class="truncate">{{category.label | uppercase }}</div>
+              </div>
+            </button>
           </div>
           <div *ngIf="categories.length > MAX_CATEGORY_DISPLAYED"
                class="flex flex-col">

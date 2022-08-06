@@ -1,26 +1,19 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {Client} from "./dto/client";
-import {ClientsService} from "./clients.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {ClientCreateDto} from "./dto/client-create.dto";
-import {Router} from "@angular/router";
-import {ConfirmService} from "../../features/confirm/confirm.service";
+import { Component, OnInit } from "@angular/core";
+import { ClientsService } from "./clients.service";
+import { ClientCreateDto } from "./dto/client-create.dto";
+import { Router } from "@angular/router";
+import { ConfirmService } from "../../features/confirm/confirm.service";
 import { tap } from "rxjs";
+import { Client } from "./dto/client";
 
 @Component({
-  selector: 'app-clients',
-  templateUrl: './clients.component.html',
-  styleUrls: ['./clients.component.scss']
+  selector: "app-clients",
+  templateUrl: "./clients.component.html",
+  styleUrls: ["./clients.component.scss"],
 })
-export class ClientsComponent implements OnInit, AfterViewInit {
-  @ViewChild("paginator") paginator?: MatPaginator;
-  @ViewChild(MatSort) sort?: MatSort;
+export class ClientsComponent implements OnInit {
   client: ClientCreateDto = new ClientCreateDto();
-  dataSet: MatTableDataSource<Client> = new MatTableDataSource<Client>();
-  columnsToDisplay = ["name", "balance", "subscription"];
-  isLoading: boolean = true;
+  isLoading: boolean = false;
 
   constructor(
     private clientService: ClientsService,
@@ -30,16 +23,6 @@ export class ClientsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.clientService.getClients()
-      .subscribe(clients => {
-        this.dataSet.data = clients;
-        this.isLoading = false;
-      });
-  }
-
-  ngAfterViewInit() {
-    if (this.sort) this.dataSet.sort = this.sort;
-    if (this.paginator) this.dataSet.paginator = this.paginator;
   }
 
   save() {
@@ -51,7 +34,11 @@ export class ClientsComponent implements OnInit, AfterViewInit {
         this.clientService.addClient(this.client)
           .pipe(tap(() => this.isLoading = false))
           .subscribe(client => this.router.navigate([`/clients/${client.id}`]));
-      }
-    })
+      },
+    });
+  }
+
+  openClientDetails($event: Client): Promise<boolean> {
+    return this.router.navigate([`/clients/${$event.id}`]);
   }
 }
