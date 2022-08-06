@@ -7,4 +7,5 @@ export class Client {
   readonly subscribedUntil!: Date;
   readonly userId?: number;
   readonly user?: User;
+  readonly shortName!: string;
 }
