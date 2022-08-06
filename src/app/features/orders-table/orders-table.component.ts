@@ -21,7 +21,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.dataSet.data = this.orders.sort((a, b) => new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1);
+    this.dataSet.data = this.orders;
   }
 
   ngAfterViewInit() {
