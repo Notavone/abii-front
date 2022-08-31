@@ -32,8 +32,8 @@
   </ng-container>
 
   <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="" class="hide-on-mobile">Statut</th>
-    <td mat-cell *matCellDef="let order" class="hide-on-mobile">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="">Statut</th>
+    <td mat-cell *matCellDef="let order">
       <span *ngIf="order.editable">Non confirmé</span>
       <span *ngIf="!order.editable && !order.refunded">Payé</span>
       <span *ngIf="!order.editable && order.refunded">Remboursé</span>
@@ -41,8 +41,8 @@
   </ng-container>
 
   <ng-container matColumnDef="date">
-    <th mat-header-cell *matHeaderCellDef>Date</th>
-    <td mat-cell *matCellDef="let order">{{order.createdAt | date:"dd/MM/yyyy"}}</td>
+    <th mat-header-cell *matHeaderCellDef class="hide-on-mobile">Date</th>
+    <td mat-cell *matCellDef="let order" class="hide-on-mobile">{{order.createdAt | date:"le dd/MM/yyyy à hh:mm"}}</td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

@@ -1,22 +1,21 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from "@angular/core";
-import {Order} from "./dto/order";
-import {OrdersService} from './orders.service';
-import {Client} from "../clients/dto/client";
-import {Product} from "../products/dto/product";
-import {ClientsService} from "../clients/clients.service";
-import {ProductsService} from "../products/products.service";
-import {OrderQueryDto} from "./dto/order-query.dto";
-import {forkJoin} from "rxjs";
+import { Component, OnInit } from "@angular/core";
+import { Order } from "./dto/order";
+import { OrdersService } from "./orders.service";
+import { Client } from "../clients/dto/client";
+import { Product } from "../products/dto/product";
+import { ClientsService } from "../clients/clients.service";
+import { ProductsService } from "../products/products.service";
+import { OrderQueryDto } from "./dto/order-query.dto";
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  selector: "app-orders",
+  templateUrl: "./orders.component.html",
+  styleUrls: ["./orders.component.scss"],
 })
 export class OrdersComponent implements OnInit {
   orders: Order[] = [];
   clients: Client[] = [];
-  products: Product[] = []
+  products: Product[] = [];
 
   start?: Date;
   end?: Date;
@@ -30,12 +29,8 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    forkJoin([
-      this.orderService.getOrders(),
-      this.clientService.getClients(),
-    ])
-      .subscribe(([orders, clients]) => {
-        this.orders = orders;
+    this.clientService.getClients()
+      .subscribe((clients: Client[]) => {
         this.clients = clients;
         this.isLoading = false;
       });
