@@ -7,4 +7,5 @@ export class ProductCreateDto {
   type!: ProductType;
   available!: boolean;
   image?: string;
+  buyPrice?: number;
 }

@@ -15,4 +15,5 @@ export class Product {
   readonly useStock!: boolean;
   readonly sellable!: boolean;
   readonly categoriesIds!: number[];
+  readonly buyPrice!: number;
 }

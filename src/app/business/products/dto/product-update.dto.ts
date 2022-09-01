@@ -1,5 +1,6 @@
 import {ProductCreateDto} from "./product-create.dto";
 import {ProductType} from "../product-type";
+import { ProductCategory } from "./product-category";
 
 export class ProductUpdateDto implements Partial<ProductCreateDto> {
   name?: string;
@@ -11,4 +12,6 @@ export class ProductUpdateDto implements Partial<ProductCreateDto> {
   stock?: number;
   useStock?: boolean;
   alert?: number;
+  buyPrice?: number;
+  categories?: ProductCategory[];
 }

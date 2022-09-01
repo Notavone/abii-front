@@ -10,6 +10,8 @@ import { ProductType } from "../product-type";
 import { ConfirmService } from "../../../features/confirm/confirm.service";
 import { ProductUpdateDto } from "../dto/product-update.dto";
 import { tap } from "rxjs";
+import { ProductCategory } from "../dto/product-category";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 
 @Component({
   selector: "app-product",
@@ -18,7 +20,8 @@ import { tap } from "rxjs";
 })
 export class ProductComponent implements OnInit {
   product!: Product;
-  orders?: Order[];
+  orders: Order[] = [];
+  categories: ProductCategory[] = [];
   productDto!: ProductUpdateDto;
   productType = ProductType;
   productDtoOriginal!: ProductUpdateDto;
@@ -60,6 +63,11 @@ export class ProductComponent implements OnInit {
             });
         });
     });
+
+    this.productService.getCategories()
+      .subscribe((categories: ProductCategory[]) => {
+        this.categories = categories;
+      });
   }
 
 
@@ -127,5 +135,14 @@ export class ProductComponent implements OnInit {
           });
       },
     });
+  }
+
+  addCategory(event: MatAutocompleteSelectedEvent) {
+    if (!this.productDto.categories) this.productDto.categories = [];
+    this.productDto.categories.push(event.option as unknown as ProductCategory);
+  }
+
+  removeCategory(category: ProductCategory) {
+    this.productDto.categories = this.productDto.categories?.filter((c: ProductCategory) => c !== category);
   }
 }

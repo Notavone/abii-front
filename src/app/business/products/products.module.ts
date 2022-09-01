@@ -16,6 +16,9 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatBadgeModule } from "@angular/material/badge";
 import { EanModule } from "../ean/ean.module";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatIconModule } from "@angular/material/icon";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 
 @NgModule({
@@ -38,6 +41,9 @@ import { EanModule } from "../ean/ean.module";
     MatTooltipModule,
     MatBadgeModule,
     EanModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule,
   ],
   providers: [
     ProductsService,

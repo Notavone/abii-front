@@ -166,14 +166,17 @@ export class ClientComponent implements OnInit {
       title: "Mettre à jour l'adhésion d'un client",
       onConfirm: () => {
         this.isLoading = true;
-        this.clientService.updateStatus(this.client.id, new Date(Date.now() + status))
-          .pipe(tap(() => this.isLoading = false))
+        this.clientService.updateStatus(this.client.id, new Date(new Date().getTime() + status))
           .subscribe({
             next: (client) => {
               this.client = client;
-              this.snackbar.open("Client mis à jour")
+              this.snackbar.open("Client mis à jour");
+              this.isLoading = false;
             },
-            error: () => this.snackbar.open("Impossible de modifier le statut de ce client")
+            error: () => {
+              this.snackbar.open("Impossible de modifier le statut de ce client");
+              this.isLoading = false;
+            }
           })
       }
     })

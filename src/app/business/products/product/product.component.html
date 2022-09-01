@@ -33,6 +33,11 @@
               </mat-form-field>
 
               <mat-form-field>
+                <mat-label>Prix d'achat</mat-label>
+                <input type="number" min="0" matNativeControl required placeholder="Prix d'achat" [(ngModel)]="productDto.buyPrice" name="buy_price">
+              </mat-form-field>
+
+              <mat-form-field>
                 <mat-label>Type de produit</mat-label>
                 <mat-select [(ngModel)]="productDto.type" required name="type">
                   <mat-option [value]="productType.PRODUCT_FOOD">Nourriture / Boisson</mat-option>
@@ -40,9 +45,30 @@
                   <mat-option [value]="productType.SUBSCRIPTION">Adhésion</mat-option>
                 </mat-select>
               </mat-form-field>
+            </div>
 
+            <div>
+              <mat-form-field>
+                <mat-label>Catégories (mode caisse)</mat-label>
+                <mat-chip-list #chipList>
+                  <mat-chip *ngFor="let category of productDto.categories"
+                            [selectable]="false"
+                            (removed)="removeCategory(category)">
+                    {{category.label}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+                <input #categoriesInput placeholder="Catégories (mode caisse)" [matAutocomplete]="auto" [matChipInputFor]="chipList">
+                <mat-autocomplete #auto (optionSelected)="addCategory($event)">
+                  <mat-option *ngFor="let category of categories" [value]="category">
+                    {{category.label}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+
+            <div>
               <mat-checkbox [(ngModel)]="productDto.available" name="available">Disponible</mat-checkbox>
-
               <mat-checkbox [(ngModel)]="productDto.useStock" name="use_stock">Gestion stock</mat-checkbox>
             </div>
 
