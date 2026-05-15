@@ -2,7 +2,7 @@
 <mat-tab-group *ngIf="user">
   <mat-tab label="Paramètres">
     <mat-card>
-      <mat-card-title>Profil de {{user?.name}}</mat-card-title>
+      <mat-card-title>Profil de {{user.name}}</mat-card-title>
       <form (submit)="save()">
         <div>
           <mat-form-field>
