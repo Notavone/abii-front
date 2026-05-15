@@ -22,7 +22,7 @@ jobs:
 
     # 2. Configure Docker Buildx (indispensable pour les builds modernes et la mise en cache)
     - name: Set up Docker Buildx
-      uses: actions/setup-buildx-action@v3
+      uses: docker/setup-buildx-action@v3  # <--- Correction ici (docker/ au lieu de actions/)
 
     # 3. Connexion au registre GitHub (uniquement si ce n'est pas une Pull Request)
     - name: Log in to GitHub Container Registry
