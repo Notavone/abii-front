@@ -3,9 +3,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "skipLibCheck": true,
-    "strictInjectionParameters": true,
     "outDir": "./out-tsc/app",
     "types": []
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true
   },
   "files": [
     "src/main.ts",
