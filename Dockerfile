@@ -9,6 +9,7 @@ RUN npm install --verbose --legacy-peer-deps
 # Copie du code et build de l'application
 COPY . .
 RUN npm run build --configuration=production
+RUN ls -la dist/
 
 # Étape 2 : Serveur web Nginx pour servir la PWA
 FROM nginx:alpine
