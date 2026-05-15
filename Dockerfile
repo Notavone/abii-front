@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Installation des dépendances
 COPY package*.json ./
-RUN npm install
+RUN npm install --verbose
 
 # Copie du code et build de l'application
 COPY . .
