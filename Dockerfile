@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Installation des dépendances
 COPY package*.json ./
-RUN npm install --verbose
+RUN npm install --verbose --legacy-peer-deps
 
 # Copie du code et build de l'application
 COPY . .
