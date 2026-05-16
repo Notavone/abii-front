@@ -21,5 +21,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Note : Retrait du "/browser" qui n'existe pas sur cette génération d'Angular
 COPY --from=build /app/dist/abii-front /usr/share/nginx/html
 
+CMD ["/bin/sh", "-c", "envsubst '${BACKEND_URL}' < /usr/share/nginx/html/assets/config.js > /usr/share/nginx/html/assets/config.js.tmp && mv /usr/share/nginx/html/assets/config.js.tmp /usr/share/nginx/html/assets/config.js && exec nginx -g 'daemon off;'"]
+
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

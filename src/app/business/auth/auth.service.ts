@@ -11,7 +11,7 @@ import { NotificationsService } from "../../features/notifications/notifications
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = "api/auth";
+  private baseUrl = "/api/auth";
   private provider = "AuthService";
   private http: HttpClient;
   private currentUser?: User;

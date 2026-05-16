@@ -20,6 +20,7 @@ import { MatListModule } from "@angular/material/list";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { FeaturesModule } from "./features/features.module";
 import { MAT_TOOLTIP_DEFAULT_OPTIONS } from "@angular/material/tooltip";
+import { ApiUrlInterceptor } from "./api-url.interceptor";
 
 registerLocaleData(localeFr);
 
@@ -52,6 +53,7 @@ if (environment.production) {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: "fr-FR" },
     { provide: DEFAULT_CURRENCY_CODE, useValue: "EUR" },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: "standard" } },
