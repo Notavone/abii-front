@@ -52,8 +52,8 @@ if (environment.production) {
     }),
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: "fr-FR" },
     { provide: DEFAULT_CURRENCY_CODE, useValue: "EUR" },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: "standard" } },
