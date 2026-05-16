@@ -47,7 +47,7 @@ if (environment.production) {
     MatIconModule,
     MatListModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
-      enabled: true,
+      enabled: environment.production,
       registrationStrategy: "registerWhenStable:30000",
     }),
   ],

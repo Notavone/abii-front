@@ -1,27 +1,18 @@
-# Étape 1 : Build de l'application Angular
+# Étape 1 : Build Angular
 FROM node:16-alpine AS build
 WORKDIR /app
 
-# Installation des dépendances
 COPY package*.json ./
-RUN npm install --verbose --legacy-peer-deps
+RUN npm install --legacy-peer-deps
 
-# Copie du code et build de l'application
 COPY . .
-RUN npm run build --configuration=production
-RUN ls -la dist/
+RUN npm run build -- --configuration=production
 
-# Étape 2 : Serveur web Nginx pour servir la PWA
+# Étape 2 : Nginx
 FROM nginx:alpine
 
-# Copie de la configuration Nginx personnalisée (Gestion des routes Angular)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copie des fichiers compilés d'Angular vers Nginx
-# Note : Retrait du "/browser" qui n'existe pas sur cette génération d'Angular
 COPY --from=build /app/dist/abii-front /usr/share/nginx/html
 
-CMD ["/bin/sh", "-c", "envsubst '${BACKEND_URL}' < /usr/share/nginx/html/assets/config.js > /usr/share/nginx/html/assets/config.js.tmp && mv /usr/share/nginx/html/assets/config.js.tmp /usr/share/nginx/html/assets/config.js && exec nginx -g 'daemon off;'"]
-
 EXPOSE 80
-CMD ["/bin/sh", "-c", "sed -i \"s|http://localhost:3000|${BACKEND_URL}|g\" /usr/share/nginx/html/assets/config.js && exec nginx -g 'daemon off;'"]
+CMD ["nginx", "-g", "daemon off;"]

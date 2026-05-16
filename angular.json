@@ -35,7 +35,7 @@
             ],
             "scripts": [],
             "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json",
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -75,7 +75,6 @@
           "configurations": {
             "production": {
               "browserTarget": "abii-front:build:production",
-              "proxyConfig": "config/proxy.conf.prod.json",
               "open": true
             },
             "development": {

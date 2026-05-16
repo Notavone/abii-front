@@ -46,7 +46,6 @@ import { ClientSearchComponent } from './client-search/client-search.component';
     MatIconModule,
     MatTableModule,
     MatSortModule,
-    HttpClientModule,
     FeaturesModule,
     MatPaginatorModule,
     MatSlideToggleModule,

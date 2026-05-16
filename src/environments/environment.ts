@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: "http://localhost:3000",
   vapidkey: "BOgrvZZxG_6btrMRuRS3hdw9gW-unES6YshZH4caceRlUlmbwfdMqhgS2-o5g0yrrBSqSzIA5-bqdo8bAcFahJs"
 };
 
