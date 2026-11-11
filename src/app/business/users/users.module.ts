@@ -19,6 +19,7 @@ import { MatBadgeModule } from "@angular/material/badge";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { UsersRoutingModule } from "./users-routing.module";
 import { FeaturesModule } from "../../features/features.module";
+import { NotificationsModule } from "../../features/notifications/notifications.module";
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { FeaturesModule } from "../../features/features.module";
     MatBadgeModule,
     MatTooltipModule,
     FeaturesModule,
+    NotificationsModule,
   ],
 })
 export class UsersModule {

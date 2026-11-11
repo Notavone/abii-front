@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn) {
-      this.notificationService.subscribe()
+      void this.notificationService.sync();
     }
 
     if (this.authService.isLoggedIn && !this.authService.getCurrentUser()) {

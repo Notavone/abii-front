@@ -4,5 +4,4 @@
 export const environment = {
   production: true,
   apiUrl: "",
-  vapidkey: "BOgrvZZxG_6btrMRuRS3hdw9gW-unES6YshZH4caceRlUlmbwfdMqhgS2-o5g0yrrBSqSzIA5-bqdo8bAcFahJs"
 };

@@ -60,6 +60,8 @@
         </div>
       </form>
     </mat-card>
+    <!-- Réglage propre à l'appareil : seulement sur son propre profil -->
+    <app-notifications-settings *ngIf="isOwnProfile()"></app-notifications-settings>
   </mat-tab>
   <mat-tab label="Passer commande" *ngIf="user.client">
     <mat-card>
