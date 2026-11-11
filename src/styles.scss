@@ -4,14 +4,44 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, .material-app, .mat-sidenav-container {
+html, body, .material-app {
   height: 100%;
   width: 100%;
+}
+
+/*
+ * Comportement "application" : la page elle-même ne défile jamais (ni rebond, ni zoom au double-tap).
+ * Seule la zone de contenu (mat-sidenav-content, voir app.component.scss) défile, la barre reste fixe.
+ */
+html {
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: manipulation; // supprime le zoom au double-tap
+  -webkit-text-size-adjust: 100%; // pas d'agrandissement auto du texte en paysage
 }
 
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  position: fixed; // bloque le défilement/rebond de la fenêtre sur iOS
+  inset: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent; // pas de flash gris au toucher
+  -webkit-touch-callout: none; // pas de menu "copier / ouvrir le lien" à l'appui long
+}
+
+// Interface (barre, menu, boutons) non sélectionnable comme dans une app ; les champs restent éditables
+.mat-toolbar, .mat-sidenav, .mat-tab-header, .mat-button-base, .mat-list-item, mat-icon {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+// iOS zoome automatiquement sur un champ dont le texte fait moins de 16px : on l'évite sur écran tactile
+@media (pointer: coarse) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
 }
 
 .mat-table {
