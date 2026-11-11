@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ProductsService } from "../products.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Product } from "../dto/product";
@@ -26,6 +26,7 @@ export class ProductComponent implements OnInit {
   productType = ProductType;
   productDtoOriginal!: ProductUpdateDto;
   isLoading: boolean = true;
+  @ViewChild("categoriesInput") categoriesInput?: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,6 +54,7 @@ export class ProductComponent implements OnInit {
             available: product.available,
             stock: product.stock,
             useStock: product.useStock,
+            categories: [...(product.categories ?? [])],
           };
           this.productDtoOriginal = { ...this.productDto };
 
@@ -137,12 +139,21 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  /** Catégories pas encore affectées au produit (proposées dans l'autocomplete). */
+  get availableCategories(): ProductCategory[] {
+    const selectedIds = (this.productDto?.categories ?? []).map(c => c.id);
+    return this.categories.filter(c => !selectedIds.includes(c.id));
+  }
+
   addCategory(event: MatAutocompleteSelectedEvent) {
-    if (!this.productDto.categories) this.productDto.categories = [];
-    this.productDto.categories.push(event.option as unknown as ProductCategory);
+    const category: ProductCategory = event.option.value;
+    const current = this.productDto.categories ?? [];
+    // Nouveau tableau (pas de push) : productDtoOriginal partage l'ancien, sinon hasDtoChanged ne verrait rien
+    if (!current.some(c => c.id === category.id)) this.productDto.categories = [...current, category];
+    if (this.categoriesInput) this.categoriesInput.nativeElement.value = "";
   }
 
   removeCategory(category: ProductCategory) {
-    this.productDto.categories = this.productDto.categories?.filter((c: ProductCategory) => c !== category);
+    this.productDto.categories = this.productDto.categories?.filter((c: ProductCategory) => c.id !== category.id);
   }
 }

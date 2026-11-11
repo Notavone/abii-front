@@ -60,7 +60,7 @@
                 </mat-chip-list>
                 <input #categoriesInput placeholder="Catégories (mode caisse)" [matAutocomplete]="auto" [matChipInputFor]="chipList">
                 <mat-autocomplete #auto (optionSelected)="addCategory($event)">
-                  <mat-option *ngFor="let category of categories" [value]="category">
+                  <mat-option *ngFor="let category of availableCategories" [value]="category">
                     {{category.label}}
                   </mat-option>
                 </mat-autocomplete>

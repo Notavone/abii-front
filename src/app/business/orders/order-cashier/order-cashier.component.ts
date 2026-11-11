@@ -55,15 +55,19 @@ export class OrderCashierComponent implements OnInit {
         this.categories = categories
           .filter(c => c.display)
           .sort((a, b) => {
-            return this.sellableProductsInCategory(b).length - this.sellableProductsInCategory(b).length
-              || a.order - b.order;
+            // Catégories sans produit vendable en dernier, sinon l'ordre défini par l'admin
+            const aEmpty = this.sellableProductsInCategory(a).length ? 0 : 1;
+            const bEmpty = this.sellableProductsInCategory(b).length ? 0 : 1;
+            return aEmpty - bEmpty || a.order - b.order;
           });
-        this.selectedCategory = categories?.[0];
+        // Sélection par défaut parmi les catégories affichées (et non la liste brute, qui inclut les masquées)
+        this.selectedCategory = this.categories[0];
       });
   }
 
   toggleCategorySelection(category: ProductCategory): void {
     this.selectedCategory = category;
+    this.productPage = 0;
   }
 
   openAddCategoryModal(): void {
