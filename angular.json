@@ -27,7 +27,12 @@
               "src/assets",
               "src/manifest.webmanifest",
               "src/firebase-messaging-sw.js",
-              "src/robots.txt"
+              "src/robots.txt",
+              {
+                "glob": "zxing_reader.wasm",
+                "input": "node_modules/zxing-wasm/dist/reader",
+                "output": "assets/wasm"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
@@ -117,7 +122,12 @@
               "src/assets",
               "src/manifest.webmanifest",
               "src/firebase-messaging-sw.js",
-              "src/robots.txt"
+              "src/robots.txt",
+              {
+                "glob": "zxing_reader.wasm",
+                "input": "node_modules/zxing-wasm/dist/reader",
+                "output": "assets/wasm"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

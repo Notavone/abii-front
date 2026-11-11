@@ -1,12 +1,21 @@
-<ng-container>
-  <button *ngIf="enabled" (mousedown)="enableScanning = true" mat-raised-button
-          [color]="enableScanning ? 'warn' : 'primary'" (touchstart)="enableScanning = true"
-          (touchend)="enableScanning = false"
-          (mouseleave)="enableScanning = false" (mouseup)="enableScanning = false">
-    Scanner
-    <mat-icon>qr_code_scanner</mat-icon>
+<ng-container *ngIf="supported; else unsupported">
+  <button mat-raised-button type="button" [color]="active ? 'warn' : 'primary'" (click)="toggle()">
+    {{ active ? "Arrêter" : "Scanner" }}
+    <mat-icon>{{ active ? "stop_circle" : "qr_code_scanner" }}</mat-icon>
   </button>
-  <!---<zxing-scanner #scanner [enable]="enableScanning && enabled" [class.invisible]="!enableScanning"
-                 [autofocusEnabled]="false"
-                 class="mt-3" previewFitMode="cover"></zxing-scanner>-->
+
+  <!-- La vidéo reste dans le DOM (masquée) pour être disponible dès le démarrage -->
+  <div class="scanner-view mt-3" [class.hidden]="!active">
+    <video #video playsinline muted autoplay></video>
+    <div class="scanner-frame" aria-hidden="true"></div>
+    <div class="scanner-hint">
+      {{ state === "starting" ? "Ouverture de la caméra…" : "Placez le code-barres dans le cadre, à 15-20 cm" }}
+    </div>
+  </div>
+
+  <p *ngIf="state === 'error'" class="mt-2 text-red-600">{{ errorMessage }}</p>
 </ng-container>
+
+<ng-template #unsupported>
+  <p class="text-gray-500">Scanner indisponible : la caméra nécessite une connexion HTTPS et un navigateur compatible.</p>
+</ng-template>

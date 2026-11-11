@@ -90,7 +90,7 @@ const TYPES = {
   ".html": "text/html; charset=utf-8", ".js": "application/javascript", ".css": "text/css",
   ".json": "application/json", ".webmanifest": "application/manifest+json", ".map": "application/json",
   ".png": "image/png", ".jpg": "image/jpeg", ".svg": "image/svg+xml", ".ico": "image/x-icon",
-  ".woff": "font/woff", ".woff2": "font/woff2", ".ttf": "font/ttf", ".txt": "text/plain",
+  ".wasm": "application/wasm", ".woff": "font/woff", ".woff2": "font/woff2", ".ttf": "font/ttf", ".txt": "text/plain",
 };
 
 function serveStatic(req, res) {
