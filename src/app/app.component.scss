@@ -6,10 +6,48 @@
   @apply border-b-zinc-200 border-b-2;
 }
 
+// Coque de l'app : occupe exactement l'écran visible ; barre fixe en haut, contenu défilant dessous
+.app-shell {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh; // hauteur réellement visible (barres du navigateur exclues)
+}
+
 .mat-toolbar {
-  position: sticky;
-  top: 0;
+  flex: none;
   z-index: 10;
+  // Sous la barre d'état / l'encoche (status-bar-style black-translucent + viewport-fit=cover)
+  height: auto;
+  min-height: calc(56px + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  padding-left: calc(16px + env(safe-area-inset-left));
+  padding-right: calc(16px + env(safe-area-inset-right));
+
+  @media (min-width: 600px) {
+    min-height: calc(64px + env(safe-area-inset-top)); // hauteur standard Material sur grand écran
+  }
+}
+
+.mat-sidenav-container {
+  flex: 1 1 auto;
+  min-height: 0; // autorise le conteneur à rétrécir : c'est lui qui borne la zone défilante
+}
+
+// Seule zone qui défile ; le rebond reste contenu (ne déplace jamais la barre)
+.mat-sidenav-content {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom)) !important;
+  padding-left: calc(1rem + env(safe-area-inset-left)) !important;
+  padding-right: calc(1rem + env(safe-area-inset-right)) !important;
+}
+
+.sidenav {
+  padding-top: 0.5rem;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .sidenav::ng-deep > div {

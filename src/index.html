@@ -1,11 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8">
   <title>ABII</title>
   <base href="/">
   <script src="assets/config.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Comportement d'app : pas de zoom, contenu sous la barre d'état et l'encoche (safe areas gérées en CSS) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ABII">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="assets/icons/icon-192x192_m.png">
   <link rel="apple-touch-startup-image" href="assets/icons/icon-192x192_m.png">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -15,7 +20,7 @@
   <link rel="stylesheet" href="assets/icon.css">
   <link rel="stylesheet" href="assets/css2.css">
   <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#1976d2">
+  <meta name="theme-color" content="#3f51b5">
   <meta name="description" content="ABII">
 </head>
 <body class="mat-typography">
