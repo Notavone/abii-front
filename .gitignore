@@ -5,6 +5,8 @@
 /tmp
 /out-tsc
 /bazel-out
+# Certificats locaux du mode PWA dev (clé privée de l'autorité : ne jamais commiter)
+/pwa-dev/certs
 
 # Node
 /node_modules
