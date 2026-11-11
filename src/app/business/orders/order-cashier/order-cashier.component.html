@@ -84,7 +84,7 @@
     <div class="flex gap-2">
       <ng-container *ngIf="productsInSelectedCategory.length">
         <div class="grow grid grid-cols-5 grid-rows-2 gap-2">
-          <button *ngFor="let product of productsInSelectedCategory"
+          <button *ngFor="let product of productsOnThisPage"
                   (click)="incrementProduct(product)" color="primary"
                   [matBadge]="getStock(product)" matBadgeColor="warn"
                   [matBadgeHidden]="!product.useStock"
@@ -100,7 +100,7 @@
             <mat-icon>expand_less</mat-icon>
           </button>
           <button mat-icon-button
-                  [disabled]="categoryPage >= productsInSelectedCategory.length / MAX_PRODUCTS_DISPLAYED - 1"
+                  [disabled]="productPage >= productsInSelectedCategory.length / MAX_PRODUCTS_DISPLAYED - 1"
                   (click)="productPageDown()">
             <mat-icon>expand_more</mat-icon>
           </button>

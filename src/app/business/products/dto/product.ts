@@ -1,4 +1,5 @@
 import {ProductType} from "../product-type";
+import {ProductCategory} from "./product-category";
 
 export class Product {
   readonly id!: number;
@@ -15,5 +16,6 @@ export class Product {
   readonly useStock!: boolean;
   readonly sellable!: boolean;
   readonly categoriesIds!: number[];
+  readonly categories?: ProductCategory[]; // fourni par GET /api/products/:id
   readonly buyPrice!: number;
 }
