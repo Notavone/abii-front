@@ -1,3 +1,23 @@
+// Mobile : les deux champs se partagent la largeur au lieu de garder les 180px fixes d'Angular Material
+@media (max-width: 639px) {
+  .stock-field {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  :host ::ng-deep .stock-field .mat-form-field-infix {
+    width: auto;
+  }
+
+  // Nom du produit : tronqué proprement au lieu de déborder
+  :host ::ng-deep .product-name {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+  }
+}
+
 .alert {
   @apply bg-red-200 rounded;
 
