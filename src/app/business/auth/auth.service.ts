@@ -32,7 +32,7 @@ export class AuthService {
           this.usersService.getMe()
             .subscribe(user => {
               this.currentUser = user;
-              this.notificationsService.subscribe()
+              void this.notificationsService.sync();
             });
         }),
       );

@@ -80,6 +80,10 @@ export class UserComponent implements OnInit {
       });
   }
 
+  isOwnProfile() {
+    return !!this.user && this.authService.getCurrentUser()?.id === this.user.id;
+  }
+
   canUpdateAdmin() {
     return this.authService.getCurrentUser()?.authorities?.includes(Authority.ADMIN);
   }
