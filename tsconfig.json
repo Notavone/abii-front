@@ -3,6 +3,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    // TypeScript 4.7 en moduleResolution "node" ne lit pas le champ "exports" des paquets :
+    // on pointe les sous-chemins vers leurs fichiers (sans extension -> .d.ts pour TS, .js pour webpack)
+    "paths": {
+      "barcode-detector/ponyfill": ["node_modules/barcode-detector/dist/es/ponyfill"],
+      "zxing-wasm/reader": ["node_modules/zxing-wasm/dist/es/reader/index"]
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
