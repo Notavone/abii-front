@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { BreakpointObserver } from "@angular/cdk/layout";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ProductsService } from "../../products/products.service";
 import { forkJoin, mergeMap, Observable, tap } from "rxjs";
 import { Product } from "../../products/dto/product";
@@ -38,6 +40,11 @@ export class OrderCashierComponent implements OnInit {
   selectedClient?: Client;
   holdThresh: number = 1000;
 
+  /** Mise en page téléphone (< 640px, breakpoint `sm` de Tailwind) : puces, défilement, barre de ticket en bas. */
+  compact = false;
+  /** Téléphone : ticket déplié au-dessus de la barre du bas. */
+  ticketOpen = false;
+
   constructor(
     private productsService: ProductsService,
     private authService: AuthService,
@@ -46,7 +53,24 @@ export class OrderCashierComponent implements OnInit {
     private router: Router,
     private matDialog: MatDialog,
     private ordersService: OrdersService,
+    breakpointObserver: BreakpointObserver,
   ) {
+    breakpointObserver.observe("(max-width: 639.98px)")
+      .pipe(takeUntilDestroyed())
+      .subscribe((state) => {
+        this.compact = state.matches;
+        if (!state.matches) this.ticketOpen = false;
+      });
+  }
+
+  /** Nombre total d'articles dans le ticket. */
+  get itemCount(): number {
+    return this.orderLines.reduce((count, line) => count + line.quantity, 0);
+  }
+
+  /** Téléphone : tous les produits de la catégorie (défilement) ; sinon la page courante. */
+  get displayedProducts(): Product[] {
+    return this.compact ? this.productsInSelectedCategory : this.productsOnThisPage;
   }
 
   ngOnInit(): void {
@@ -216,15 +240,18 @@ export class OrderCashierComponent implements OnInit {
   }
 
   handleConfirmOrderClick(): void {
-    if (!this.selectedClient) {
-      this.openClientSearchForm()
-        .subscribe((client?: Client) => {
-          this.selectedClient = client;
-          if (client) {
-            this.confirmOrder();
-          } else this.matSnackBar.open("Vous devez choisir un client");
-        });
+    // Client déjà choisi : confirmation directe (auparavant le bouton ne faisait rien dans ce cas)
+    if (this.selectedClient) {
+      this.confirmOrder();
+      return;
     }
+    this.openClientSearchForm()
+      .subscribe((client?: Client) => {
+        this.selectedClient = client;
+        if (client) {
+          this.confirmOrder();
+        } else this.matSnackBar.open("Vous devez choisir un client");
+      });
   }
 
   confirmOrder(): void {
@@ -239,6 +266,7 @@ export class OrderCashierComponent implements OnInit {
           .subscribe({
             next: () => {
               this.orderLines = [];
+              this.ticketOpen = false;
               this.matSnackBar.open("Commande confirmée");
             },
             error: () => this.matSnackBar.open("Une erreur est survenue, veuillez réessayer"),
