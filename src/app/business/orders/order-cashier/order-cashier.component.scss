@@ -1,15 +1,26 @@
 .actions {
   @apply mb-4 gap-2;
   button {
-    @apply basis-1/3;
+    @apply basis-1/3 min-w-0;
     div {
       @apply py-6;
+    }
+
+    // Petits écrans : moins de marge latérale pour laisser de la place à l'icône et au texte
+    @media (max-width: 639px) {
+      padding-left: 6px;
+      padding-right: 6px;
     }
   }
 }
 
+// Icône toujours visible, seul le texte est tronqué avec "…" s'il manque de place
 .text-and-icon-h {
-  @apply flex items-center gap-1 justify-center truncate;
+  @apply flex items-center gap-1 justify-center min-w-0;
+
+  mat-icon {
+    @apply flex-none;
+  }
 }
 
 .vertical-writing {

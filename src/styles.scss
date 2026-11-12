@@ -67,6 +67,26 @@ html {
   margin-bottom: 8px;
 }
 
+/*
+ * Boutons : en Material 14 leur hauteur suivait le contenu ; les boutons MDC ont une hauteur fixe de 36px.
+ * La caisse en dépend (tuiles de catégories icône + libellé, gros boutons produits) : contenu qui débordait,
+ * grille écrasée. On garde 36px minimum et on laisse le contenu agrandir le bouton.
+ */
+.mat-mdc-button.mat-mdc-button-base,
+.mat-mdc-raised-button.mat-mdc-button-base,
+.mat-mdc-unelevated-button.mat-mdc-button-base,
+.mat-mdc-outlined-button.mat-mdc-button-base {
+  height: auto;
+  min-height: 36px;
+
+  // Le libellé peut rétrécir : les contenus "truncate" (ex. boutons du haut de la caisse) se coupent avec "…"
+  // au lieu de déborder sur le bouton voisin
+  .mdc-button__label {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
 /* Tailles de Material 14 via les variables (tokens) des composants MDC */
 html {
   --mat-card-title-text-size: 24px;
