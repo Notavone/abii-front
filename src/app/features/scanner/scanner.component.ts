@@ -43,9 +43,10 @@ const EXCLUDED_CAMERAS = /front|avant|facetime|ultra|télé|tele/i;
 type ExtendedCapabilities = MediaTrackCapabilities & { focusMode?: string[]; zoom?: { min: number; max: number } };
 
 @Component({
-  selector: "app-scanner",
-  templateUrl: "./scanner.component.html",
-  styleUrls: ["./scanner.component.scss"],
+    selector: "app-scanner",
+    templateUrl: "./scanner.component.html",
+    styleUrls: ["./scanner.component.scss"],
+    standalone: false
 })
 export class ScannerComponent implements OnDestroy {
   /** Valeur du code lu. Le scanner s'arrête après chaque lecture réussie. */

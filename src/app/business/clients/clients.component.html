@@ -1,4 +1,6 @@
-<app-loading *ngIf="isLoading"></app-loading>
+@if (isLoading) {
+  <app-loading></app-loading>
+}
 <mat-tab-group>
   <mat-tab label="Liste">
     <app-client-search (clientSelected)="openClientDetails($event)"></app-client-search>

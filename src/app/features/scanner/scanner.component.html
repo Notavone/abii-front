@@ -1,9 +1,8 @@
-<ng-container *ngIf="supported; else unsupported">
+@if (supported) {
   <button mat-raised-button type="button" [color]="active ? 'warn' : 'primary'" (click)="toggle()">
     {{ active ? "Arrêter" : "Scanner" }}
     <mat-icon>{{ active ? "stop_circle" : "qr_code_scanner" }}</mat-icon>
   </button>
-
   <!-- La vidéo reste dans le DOM (masquée) pour être disponible dès le démarrage -->
   <div class="scanner-view mt-3" [class.hidden]="!active">
     <video #video playsinline muted autoplay></video>
@@ -12,10 +11,10 @@
       {{ state === "starting" ? "Ouverture de la caméra…" : "Placez le code-barres dans le cadre, à 15-20 cm" }}
     </div>
   </div>
-
-  <p *ngIf="state === 'error'" class="mt-2 text-red-600">{{ errorMessage }}</p>
-</ng-container>
-
-<ng-template #unsupported>
+  @if (state === 'error') {
+    <p class="mt-2 text-red-600">{{ errorMessage }}</p>
+  }
+} @else {
   <p class="text-gray-500">Scanner indisponible : la caméra nécessite une connexion HTTPS et un navigateur compatible.</p>
-</ng-template>
+}
+

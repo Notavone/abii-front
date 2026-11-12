@@ -1,4 +1,6 @@
-<app-loading *ngIf="isLoading"></app-loading>
+@if (isLoading) {
+  <app-loading></app-loading>
+}
 <mat-card>
   <mat-card-title>
     <div class="flex justify-between items-center">
@@ -13,11 +15,13 @@
       <app-scanner (scanSuccess)="handleCreation($event)"></app-scanner>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 drag-boundary" cdkDropListGroup>
-      <app-ean-card *ngFor="let product of products" [content]="eanForProduct(product)" [data]="product"
-                    (onValueClick)="openReadonly($event)" (onDropped)="handleDrop($event)"
-                    (onSettingsOpen)="handleSettingsOpen($event)"></app-ean-card>
+      @for (product of products; track product) {
+        <app-ean-card [content]="eanForProduct(product)" [data]="product"
+          (onValueClick)="openReadonly($event)" (onDropped)="handleDrop($event)"
+        (onSettingsOpen)="handleSettingsOpen($event)"></app-ean-card>
+      }
       <app-ean-card [content]="unassignedEans()" [data]="null" (onSettingsOpen)="handleSettingsOpen($event)"
-                    (onDropped)="handleDrop($event)" (onValueClick)="openReadonly($event)"></app-ean-card>
+      (onDropped)="handleDrop($event)" (onValueClick)="openReadonly($event)"></app-ean-card>
     </div>
   </mat-card-content>
 </mat-card>

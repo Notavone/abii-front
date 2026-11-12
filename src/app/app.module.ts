@@ -56,7 +56,7 @@ if (environment.production) {
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: "fr-FR" },
     { provide: DEFAULT_CURRENCY_CODE, useValue: "EUR" },
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: "standard" } },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: "fill" } },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
     { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: { showDelay: 1000 } },
   ],

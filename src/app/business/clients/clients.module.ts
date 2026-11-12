@@ -15,7 +15,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
-import { HttpClientModule } from "@angular/common/http";
+import {} from "@angular/common/http";
 import { FeaturesModule } from "../../features/features.module";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";

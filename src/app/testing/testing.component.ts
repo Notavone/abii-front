@@ -2,9 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { NotificationsService } from "../features/notifications/notifications.service";
 
 @Component({
-  selector: "app-testing",
-  templateUrl: "./testing.component.html",
-  styleUrls: ["./testing.component.scss"],
+    selector: "app-testing",
+    templateUrl: "./testing.component.html",
+    styleUrls: ["./testing.component.scss"],
+    standalone: false
 })
 export class TestingComponent implements OnInit {
   scanning: boolean = false;

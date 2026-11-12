@@ -18,9 +18,10 @@ export class EanEditModalData {
 }
 
 @Component({
-  selector: "app-ean-edit-modal",
-  templateUrl: "./ean-edit-modal.component.html",
-  styleUrls: ["./ean-edit-modal.component.scss"],
+    selector: "app-ean-edit-modal",
+    templateUrl: "./ean-edit-modal.component.html",
+    styleUrls: ["./ean-edit-modal.component.scss"],
+    standalone: false
 })
 export class EanEditModalComponent implements OnInit {
   isLoading: boolean = false;

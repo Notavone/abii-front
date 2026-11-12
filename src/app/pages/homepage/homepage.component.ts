@@ -4,9 +4,10 @@ import {Product} from "../../business/products/dto/product";
 import {ProductType} from "../../business/products/product-type";
 
 @Component({
-  selector: 'app-homepage',
-  templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.scss']
+    selector: 'app-homepage',
+    templateUrl: './homepage.component.html',
+    styleUrls: ['./homepage.component.scss'],
+    standalone: false
 })
 export class HomepageComponent implements OnInit {
   products: Product[] = [];

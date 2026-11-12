@@ -6,56 +6,61 @@
           <div class="grow">
             <table>
               <tbody>
-              <ng-container *ngFor="let line of orderLines">
-                <tr (click)="decrementProduct(line.productId)" class="text-xl" holdable [threshold]="holdThresh" (holdTime)="holdTime(line, progressBar, $event)">
-                  <td class="p-1"></td>
-                  <td class="w-full p-1">{{line.quantity}}X {{findProduct(line.productId)?.name | uppercase}}</td>
-                  <td class="p-1">{{totalForLine(line) | currency}}</td>
-                </tr>
-                <tr>
-                  <td colspan="3">
-                    <mat-progress-bar #progressBar [value]="0" color="warn"></mat-progress-bar>
-                  </td>
-                </tr>
-              </ng-container>
+                @for (line of orderLines; track line) {
+                  <tr (click)="decrementProduct(line.productId)" class="text-xl" holdable [threshold]="holdThresh" (holdTime)="holdTime(line, progressBar, $event)">
+                    <td class="p-1"></td>
+                    <td class="w-full p-1">{{line.quantity}}X {{findProduct(line.productId)?.name | uppercase}}</td>
+                    <td class="p-1">{{totalForLine(line) | currency}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3">
+                      <mat-progress-bar #progressBar [value]="0" color="warn"></mat-progress-bar>
+                    </td>
+                  </tr>
+                }
               </tbody>
             </table>
           </div>
-          <div *ngIf="orderLines.length" class="pt-3 text-2xl border-t flex justify-between">
-            Total : {{total | currency}} <span *ngIf="!selectedClient" class="text-blue-500">/ {{totalReduced | currency}}</span>
+          @if (orderLines.length) {
+            <div class="pt-3 text-2xl border-t flex justify-between">
+              Total : {{total | currency}} @if (!selectedClient) {
+              <span class="text-blue-500">/ {{totalReduced | currency}}</span>
+            }
           </div>
-        </div>
-      </mat-card>
-      <div class="w-3/5">
-        <div class="flex actions">
-          <button mat-raised-button (click)="promptUserChange()">
-            <div class="text-and-icon-h">
-              <mat-icon>face</mat-icon>
-              {{getSeller()?.shortName | uppercase }}
-            </div>
-          </button>
-          <button mat-raised-button (click)="updateSelectedClient()">
-            <div class="text-and-icon-h">
-              <mat-icon>manage_accounts</mat-icon>
-              {{(getClient()?.user?.shortName || getClient()?.shortName || 'Choisir cli.') | uppercase }}
-            </div>
-          </button>
-          <button mat-raised-button [disabled]="!orderLines.length" (click)="handleConfirmOrderClick()">
-            <div class="text-and-icon-h">
-              <mat-icon>receipt</mat-icon>
-              CONFIRMER
-            </div>
-          </button>
-        </div>
-        <hr class="border-t">
-        <div class="flex gap-2">
-          <div class="grid grid-cols-3 grid-rows-3 gap-2 mt-4 grow">
-            <button *ngFor="let category of categoriesOnThisPage"
-                    [disabled]="!sellableProductsInCategory(category).length && selectedCategory !== category"
-                    (click)="toggleCategorySelection(category)"
-                    [color]="selectedCategory === category ? 'primary': undefined"
-                    mat-raised-button
-                    class="h-full w-full">
+        }
+      </div>
+    </mat-card>
+    <div class="w-3/5">
+      <div class="flex actions">
+        <button mat-raised-button (click)="promptUserChange()">
+          <div class="text-and-icon-h">
+            <mat-icon>face</mat-icon>
+            {{getSeller()?.shortName | uppercase }}
+          </div>
+        </button>
+        <button mat-raised-button (click)="updateSelectedClient()">
+          <div class="text-and-icon-h">
+            <mat-icon>manage_accounts</mat-icon>
+            {{(getClient()?.user?.shortName || getClient()?.shortName || 'Choisir cli.') | uppercase }}
+          </div>
+        </button>
+        <button mat-raised-button [disabled]="!orderLines.length" (click)="handleConfirmOrderClick()">
+          <div class="text-and-icon-h">
+            <mat-icon>receipt</mat-icon>
+            CONFIRMER
+          </div>
+        </button>
+      </div>
+      <hr class="border-t">
+      <div class="flex gap-2">
+        <div class="grid grid-cols-3 grid-rows-3 gap-2 mt-4 grow">
+          @for (category of categoriesOnThisPage; track category) {
+            <button
+              [disabled]="!sellableProductsInCategory(category).length && selectedCategory !== category"
+              (click)="toggleCategorySelection(category)"
+              [color]="selectedCategory === category ? 'primary': undefined"
+              mat-raised-button
+              class="h-full w-full">
               <div class="flex flex-col justify-between h-full pt-2">
                 <div class="text-2xl">
                   <mat-icon inline>{{category.icon}}</mat-icon>
@@ -63,52 +68,61 @@
                 <div class="truncate">{{category.label | uppercase }}</div>
               </div>
             </button>
-          </div>
-          <div *ngIf="categories.length > MAX_CATEGORY_DISPLAYED"
-               class="flex flex-col">
+          }
+        </div>
+        @if (categories.length > MAX_CATEGORY_DISPLAYED) {
+          <div
+            class="flex flex-col">
             <button mat-icon-button
-                    [disabled]="!categoryPage"
-                    (click)="categoryPageUp()">
+              [disabled]="!categoryPage"
+              (click)="categoryPageUp()">
               <mat-icon>expand_less</mat-icon>
             </button>
             <button mat-icon-button
-                    [disabled]="categoryPage >= categories.length / MAX_CATEGORY_DISPLAYED - 1"
-                    (click)="categoryPageDown()">
+              [disabled]="categoryPage >= categories.length / MAX_CATEGORY_DISPLAYED - 1"
+              (click)="categoryPageDown()">
               <mat-icon>expand_more</mat-icon>
             </button>
           </div>
-        </div>
-      </div>
-    </div>
-    <hr class="my-2 border-t">
-    <div class="flex gap-2">
-      <ng-container *ngIf="productsInSelectedCategory.length">
-        <div class="grow grid grid-cols-5 grid-rows-2 gap-2">
-          <button *ngFor="let product of productsOnThisPage"
-                  (click)="incrementProduct(product)" color="primary"
-                  [matBadge]="getStock(product)" matBadgeColor="warn"
-                  [matBadgeHidden]="!product.useStock"
-                  mat-raised-button [disabled]="isProductDisabled(product)">
-            <div class="py-5">{{product.name | uppercase}}</div>
-          </button>
-        </div>
-        <div *ngIf="productsInSelectedCategory.length > MAX_PRODUCTS_DISPLAYED"
-             class="flex flex-col">
-          <button mat-icon-button
-                  [disabled]="!productPage"
-                  (click)="productPageUp()">
-            <mat-icon>expand_less</mat-icon>
-          </button>
-          <button mat-icon-button
-                  [disabled]="productPage >= productsInSelectedCategory.length / MAX_PRODUCTS_DISPLAYED - 1"
-                  (click)="productPageDown()">
-            <mat-icon>expand_more</mat-icon>
-          </button>
-        </div>
-      </ng-container>
-      <div *ngIf="!productsInSelectedCategory.length" class="text-3xl border py-10 text-center grow">
-        Aucun produit dans cette catégorie !
+        }
       </div>
     </div>
   </div>
+  <hr class="my-2 border-t">
+  <div class="flex gap-2">
+    @if (productsInSelectedCategory.length) {
+      <div class="grow grid grid-cols-5 grid-rows-2 gap-2">
+        @for (product of productsOnThisPage; track product) {
+          <button
+            (click)="incrementProduct(product)" color="primary"
+            [matBadge]="getStock(product)" matBadgeColor="warn"
+            [matBadgeHidden]="!product.useStock"
+            mat-raised-button [disabled]="isProductDisabled(product)">
+            <div class="py-5">{{product.name | uppercase}}</div>
+          </button>
+        }
+      </div>
+      @if (productsInSelectedCategory.length > MAX_PRODUCTS_DISPLAYED) {
+        <div
+          class="flex flex-col">
+          <button mat-icon-button
+            [disabled]="!productPage"
+            (click)="productPageUp()">
+            <mat-icon>expand_less</mat-icon>
+          </button>
+          <button mat-icon-button
+            [disabled]="productPage >= productsInSelectedCategory.length / MAX_PRODUCTS_DISPLAYED - 1"
+            (click)="productPageDown()">
+            <mat-icon>expand_more</mat-icon>
+          </button>
+        </div>
+      }
+    }
+    @if (!productsInSelectedCategory.length) {
+      <div class="text-3xl border py-10 text-center grow">
+        Aucun produit dans cette catégorie !
+      </div>
+    }
+  </div>
+</div>
 </mat-card>

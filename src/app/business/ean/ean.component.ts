@@ -14,9 +14,10 @@ import { EanUpdateDto } from "./dto/ean-update.dto";
 import { EanCreateDto } from "./dto/ean-create.dto";
 
 @Component({
-  selector: "app-ean",
-  templateUrl: "./ean.component.html",
-  styleUrls: ["./ean.component.scss"],
+    selector: "app-ean",
+    templateUrl: "./ean.component.html",
+    styleUrls: ["./ean.component.scss"],
+    standalone: false
 })
 export class EanComponent implements OnInit {
   public isLoading: boolean = true;

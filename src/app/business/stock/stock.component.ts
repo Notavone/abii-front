@@ -11,9 +11,10 @@ import { StockModalComponent } from "./stock-modal/stock-modal.component";
 import { Product } from "../products/dto/product";
 
 @Component({
-  selector: "app-stock",
-  templateUrl: "./stock.component.html",
-  styleUrls: ["./stock.component.scss"],
+    selector: "app-stock",
+    templateUrl: "./stock.component.html",
+    styleUrls: ["./stock.component.scss"],
+    standalone: false
 })
 export class StockComponent implements OnInit {
   isLoading: boolean = true;

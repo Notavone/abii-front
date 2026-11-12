@@ -4,35 +4,46 @@ import { NotificationsService, PushStatus } from "./notifications.service";
 
 /** Carte "Notifications" du profil : état sur cet appareil, activation et test. */
 @Component({
-  selector: "app-notifications-settings",
-  template: `
+    selector: "app-notifications-settings",
+    template: `
     <mat-card class="mt-3">
       <mat-card-title>Notifications</mat-card-title>
       <mat-card-content>
-        <p [ngSwitch]="status">
-          <ng-container *ngSwitchCase="'granted'">Activées sur cet appareil.</ng-container>
-          <ng-container *ngSwitchCase="'denied'">
-            Bloquées sur cet appareil. Réactivez-les dans les réglages
-            (iPhone : Réglages → Notifications → ABII).
-          </ng-container>
-          <ng-container *ngSwitchCase="'unsupported'">
-            Indisponibles ici. Sur iPhone, installez d'abord l'app sur l'écran d'accueil
-            (Partager → Sur l'écran d'accueil) puis ouvrez-la depuis son icône.
-          </ng-container>
-          <ng-container *ngSwitchDefault>Pas encore activées sur cet appareil.</ng-container>
+        <p>
+          @switch (status) {
+            @case ('granted') {
+              Activées sur cet appareil.
+            }
+            @case ('denied') {
+              Bloquées sur cet appareil. Réactivez-les dans les réglages
+              (iPhone : Réglages → Notifications → ABII).
+            }
+            @case ('unsupported') {
+              Indisponibles ici. Sur iPhone, installez d'abord l'app sur l'écran d'accueil
+              (Partager → Sur l'écran d'accueil) puis ouvrez-la depuis son icône.
+            }
+            @default {
+              Pas encore activées sur cet appareil.
+            }
+          }
         </p>
       </mat-card-content>
       <div class="space">
-        <button *ngIf="status === 'default' || status === 'granted'" mat-raised-button color="primary"
-                type="button" [disabled]="busy" (click)="enable()">
-          {{ status === 'granted' ? 'Réenregistrer cet appareil' : 'Activer les notifications' }}
-        </button>
-        <button *ngIf="status === 'granted'" mat-button color="primary" type="button" [disabled]="busy" (click)="test()">
-          Envoyer une notification de test
-        </button>
+        @if (status === 'default' || status === 'granted') {
+          <button mat-raised-button color="primary"
+            type="button" [disabled]="busy" (click)="enable()">
+            {{ status === 'granted' ? 'Réenregistrer cet appareil' : 'Activer les notifications' }}
+          </button>
+        }
+        @if (status === 'granted') {
+          <button mat-button color="primary" type="button" [disabled]="busy" (click)="test()">
+            Envoyer une notification de test
+          </button>
+        }
       </div>
     </mat-card>
-  `,
+    `,
+    standalone: false
 })
 export class NotificationsSettingsComponent {
   busy = false;

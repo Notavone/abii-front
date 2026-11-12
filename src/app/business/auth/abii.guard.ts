@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {map, Observable} from 'rxjs';
 import {AuthService} from "./auth.service";
 import {Authority} from "./authority";
@@ -7,7 +7,7 @@ import {Authority} from "./authority";
 @Injectable({
   providedIn: 'root'
 })
-export class AbiiGuard implements CanActivate {
+export class AbiiGuard  {
   constructor(
     private authService: AuthService,
   ) {

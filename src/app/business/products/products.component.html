@@ -1,4 +1,6 @@
-<app-loading *ngIf="isLoading"></app-loading>
+@if (isLoading) {
+  <app-loading></app-loading>
+}
 <mat-tab-group>
   <mat-tab label="Liste">
     <mat-accordion>

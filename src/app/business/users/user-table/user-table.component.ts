@@ -4,9 +4,10 @@ import {MatTableDataSource} from "@angular/material/table";
 import {User} from "../dto/user";
 
 @Component({
-  selector: 'app-user-table',
-  templateUrl: './user-table.component.html',
-  styleUrls: ['./user-table.component.scss']
+    selector: 'app-user-table',
+    templateUrl: './user-table.component.html',
+    styleUrls: ['./user-table.component.scss'],
+    standalone: false
 })
 export class UserTableComponent implements OnChanges, AfterViewInit {
   @Input() users: User[] = [];

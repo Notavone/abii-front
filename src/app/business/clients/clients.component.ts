@@ -7,9 +7,10 @@ import { tap } from "rxjs";
 import { Client } from "./dto/client";
 
 @Component({
-  selector: "app-clients",
-  templateUrl: "./clients.component.html",
-  styleUrls: ["./clients.component.scss"],
+    selector: "app-clients",
+    templateUrl: "./clients.component.html",
+    styleUrls: ["./clients.component.scss"],
+    standalone: false
 })
 export class ClientsComponent implements OnInit {
   client: ClientCreateDto = new ClientCreateDto();
