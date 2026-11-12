@@ -123,8 +123,12 @@
   </div>
 </mat-card>
 
-@if (compact) {
-  <!-- Téléphone : ticket déplié par-dessus la caisse, au-dessus de la barre -->
+<!--
+  Téléphone : barre du bas, affichée dans l'emplacement de barre basse de l'app (BottomBarService, portail CDK)
+  et non en position fixe (non fiable sur iPhone dans les conteneurs défilants de Material).
+-->
+<ng-template #mobileBar>
+  <!-- Ticket déplié par-dessus la caisse, au-dessus de la barre -->
   @if (ticketOpen && orderLines.length) {
     <div class="ticket-backdrop" (click)="ticketOpen = false"></div>
     <div class="ticket-sheet">
@@ -148,7 +152,7 @@
       </div>
     </button>
   </div>
-}
+</ng-template>
 
 <!-- Ticket : partagé par les deux mises en page -->
 <ng-template #ticket>

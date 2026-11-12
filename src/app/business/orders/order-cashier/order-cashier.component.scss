@@ -28,14 +28,10 @@
   text-orientation: upright;
 }
 
+
 /* ------------------------------------------------------------------ téléphone (compact) */
 
-$bar-height: 64px;
-
 .cashier.compact {
-  // Laisse la place à la barre fixe du bas pour que les derniers produits restent accessibles
-  padding-bottom: calc(#{$bar-height} + 24px + env(safe-area-inset-bottom));
-
   .actions {
     @apply mb-3;
 
@@ -76,17 +72,17 @@ $bar-height: 64px;
   }
 }
 
-// Barre fixe du bas : résumé du ticket (déplie le ticket) + Confirmer
+/*
+ * Barre du bas (rendue dans l'emplacement .app-bottom-bar de l'app, voir BottomBarService) :
+ * résumé du ticket (déplie le ticket) + Confirmer. Elle fait partie de la mise en page, pas de position fixe.
+ */
 .cashier-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2; // sous le menu latéral et les dialogues
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: $bar-height;
+  min-height: 64px;
   padding: 8px calc(12px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left));
   background: #fff;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
@@ -112,19 +108,22 @@ $bar-height: 64px;
   }
 }
 
+// Fond assombri sur toute la zone au-dessus de la barre (touche pour fermer le ticket)
 .ticket-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 2;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 100dvh;
   background: rgba(0, 0, 0, 0.3);
 }
 
+// Ticket déplié : posé sur le haut de la barre
 .ticket-sheet {
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(#{$bar-height} + env(safe-area-inset-bottom));
-  z-index: 2;
+  bottom: 100%;
   max-height: 60dvh;
   overflow-y: auto;
   overscroll-behavior: contain;

@@ -45,6 +45,18 @@
   padding-right: calc(1rem + env(safe-area-inset-right)) !important;
 }
 
+// Avec une barre basse, c'est elle qui gère la zone de la barre d'accueil de l'iPhone
+.mat-sidenav-content.has-bottom-bar {
+  padding-bottom: 1rem !important;
+}
+
+// Emplacement de barre basse (BottomBarService) : fait partie de la mise en page, sous le contenu
+.app-bottom-bar {
+  flex: none;
+  position: relative;
+  z-index: 2; // le ticket déplié passe au-dessus du contenu
+}
+
 .sidenav {
   padding-top: 0.5rem;
   padding-bottom: env(safe-area-inset-bottom);
