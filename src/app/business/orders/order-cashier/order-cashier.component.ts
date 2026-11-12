@@ -1,4 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef } from "@angular/core";
+import { BreakpointObserver } from "@angular/cdk/layout";
+import { TemplatePortal } from "@angular/cdk/portal";
+import { BottomBarService } from "../../../features/bottom-bar.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ProductsService } from "../../products/products.service";
 import { forkJoin, mergeMap, Observable, tap } from "rxjs";
 import { Product } from "../../products/dto/product";
@@ -22,7 +26,18 @@ import { OrderCreateDto } from "../dto/order-create.dto";
     styleUrls: ["./order-cashier.component.scss"],
     standalone: false
 })
-export class OrderCashierComponent implements OnInit {
+export class OrderCashierComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild("mobileBar") mobileBarTemplate?: TemplateRef<unknown>;
+  private mobileBarPortal?: TemplatePortal;
+  private destroyed = false;
+  private isActive = true;
+
+  /** Caisse visible (onglet sélectionné) : la barre basse n'est affichée que dans ce cas. */
+  @Input() set active(value: boolean) {
+    this.isActive = value;
+    if (!value) this.ticketOpen = false;
+    this.updateMobileBar();
+  }
 
   MAX_CATEGORY_DISPLAYED = 9;
   MAX_PRODUCTS_DISPLAYED = 10;
@@ -38,6 +53,11 @@ export class OrderCashierComponent implements OnInit {
   selectedClient?: Client;
   holdThresh: number = 1000;
 
+  /** Mise en page téléphone (< 640px, breakpoint `sm` de Tailwind) : puces, défilement, barre de ticket en bas. */
+  compact = false;
+  /** Téléphone : ticket déplié au-dessus de la barre du bas. */
+  ticketOpen = false;
+
   constructor(
     private productsService: ProductsService,
     private authService: AuthService,
@@ -46,7 +66,50 @@ export class OrderCashierComponent implements OnInit {
     private router: Router,
     private matDialog: MatDialog,
     private ordersService: OrdersService,
+    breakpointObserver: BreakpointObserver,
+    private bottomBar: BottomBarService,
+    private viewContainerRef: ViewContainerRef,
   ) {
+    breakpointObserver.observe("(max-width: 639.98px)")
+      .pipe(takeUntilDestroyed())
+      .subscribe((state) => {
+        this.compact = state.matches;
+        if (!state.matches) this.ticketOpen = false;
+        this.updateMobileBar();
+      });
+  }
+
+  ngAfterViewInit(): void {
+    this.updateMobileBar();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed = true;
+    this.bottomBar.detach(this.mobileBarPortal);
+  }
+
+  /** Affiche la barre de caisse dans la barre basse de l'app sur téléphone, la retire sinon. */
+  private updateMobileBar(): void {
+    if (!this.mobileBarTemplate) return; // vue pas encore prête : ngAfterViewInit s'en charge
+    if (this.compact && this.isActive) {
+      this.mobileBarPortal ??= new TemplatePortal(this.mobileBarTemplate, this.viewContainerRef);
+      // Différé : évite de modifier la vue de l'app pendant la détection de changements en cours
+      queueMicrotask(() => {
+        if (!this.destroyed && this.compact && this.isActive) this.bottomBar.attach(this.mobileBarPortal!);
+      });
+    } else {
+      this.bottomBar.detach(this.mobileBarPortal);
+    }
+  }
+
+  /** Nombre total d'articles dans le ticket. */
+  get itemCount(): number {
+    return this.orderLines.reduce((count, line) => count + line.quantity, 0);
+  }
+
+  /** Téléphone : tous les produits de la catégorie (défilement) ; sinon la page courante. */
+  get displayedProducts(): Product[] {
+    return this.compact ? this.productsInSelectedCategory : this.productsOnThisPage;
   }
 
   ngOnInit(): void {
@@ -216,15 +279,18 @@ export class OrderCashierComponent implements OnInit {
   }
 
   handleConfirmOrderClick(): void {
-    if (!this.selectedClient) {
-      this.openClientSearchForm()
-        .subscribe((client?: Client) => {
-          this.selectedClient = client;
-          if (client) {
-            this.confirmOrder();
-          } else this.matSnackBar.open("Vous devez choisir un client");
-        });
+    // Client déjà choisi : confirmation directe (auparavant le bouton ne faisait rien dans ce cas)
+    if (this.selectedClient) {
+      this.confirmOrder();
+      return;
     }
+    this.openClientSearchForm()
+      .subscribe((client?: Client) => {
+        this.selectedClient = client;
+        if (client) {
+          this.confirmOrder();
+        } else this.matSnackBar.open("Vous devez choisir un client");
+      });
   }
 
   confirmOrder(): void {
@@ -239,6 +305,7 @@ export class OrderCashierComponent implements OnInit {
           .subscribe({
             next: () => {
               this.orderLines = [];
+              this.ticketOpen = false;
               this.matSnackBar.open("Commande confirmée");
             },
             error: () => this.matSnackBar.open("Une erreur est survenue, veuillez réessayer"),

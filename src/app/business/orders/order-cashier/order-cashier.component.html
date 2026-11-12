@@ -1,88 +1,87 @@
-<mat-card>
+<!--
+  Caisse : un seul gabarit pour tous les écrans, adapté par "compact" (< 640px, voir le composant).
+  - Ordinateur / tablette : ticket à gauche, tuiles de catégories 3x3 paginées, produits paginés (5 x 2)
+  - Téléphone : catégories en puces défilantes, produits en grille 3 colonnes qui défile,
+    ticket dans une barre fixe en bas (nombre d'articles, total, Confirmer) qui se déplie
+-->
+<mat-card class="cashier" [class.compact]="compact">
   <div class="flex flex-col gap-2">
     <div class="flex gap-2">
-      <mat-card class="w-2/5">
-        <div class="flex flex-col h-full">
-          <div class="grow">
-            <table>
-              <tbody>
-                @for (line of orderLines; track line) {
-                  <tr (click)="decrementProduct(line.productId)" class="text-xl" holdable [threshold]="holdThresh" (holdTime)="holdTime(line, progressBar, $event)">
-                    <td class="p-1"></td>
-                    <td class="w-full p-1">{{line.quantity}}X {{findProduct(line.productId)?.name | uppercase}}</td>
-                    <td class="p-1">{{totalForLine(line) | currency}}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="3">
-                      <mat-progress-bar #progressBar [value]="0" color="warn"></mat-progress-bar>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-          @if (orderLines.length) {
-            <div class="pt-3 text-2xl border-t flex justify-between">
-              Total : {{total | currency}} @if (!selectedClient) {
-              <span class="text-blue-500">/ {{totalReduced | currency}}</span>
-            }
-          </div>
-        }
-      </div>
-    </mat-card>
-    <div class="w-3/5">
-      <div class="flex actions">
-        <button mat-raised-button (click)="promptUserChange()">
-          <div class="text-and-icon-h">
-            <mat-icon>face</mat-icon>
-            <span class="truncate">{{getSeller()?.shortName | uppercase }}</span>
-          </div>
-        </button>
-        <button mat-raised-button (click)="updateSelectedClient()">
-          <div class="text-and-icon-h">
-            <mat-icon>manage_accounts</mat-icon>
-            <span class="truncate">{{(getClient()?.user?.shortName || getClient()?.shortName || 'Choisir cli.') | uppercase }}</span>
-          </div>
-        </button>
-        <button mat-raised-button [disabled]="!orderLines.length" (click)="handleConfirmOrderClick()">
-          <div class="text-and-icon-h">
-            <mat-icon>receipt</mat-icon>
-            <span class="truncate">CONFIRMER</span>
-          </div>
-        </button>
-      </div>
-      <hr class="border-t">
-      <div class="flex gap-2">
-        <div class="grid grid-cols-3 grid-rows-3 gap-2 mt-4 grow">
-          @for (category of categoriesOnThisPage; track category) {
-            <button
-              [disabled]="!sellableProductsInCategory(category).length && selectedCategory !== category"
-              (click)="toggleCategorySelection(category)"
-              [color]="selectedCategory === category ? 'primary': undefined"
-              mat-raised-button
-              class="h-full w-full">
-              <div class="flex flex-col justify-between h-full pt-2">
-                <div class="text-2xl">
-                  <mat-icon inline>{{category.icon}}</mat-icon>
-                </div>
-                <div class="truncate">{{category.label | uppercase }}</div>
+      @if (!compact) {
+        <mat-card class="w-2/5">
+          <ng-container [ngTemplateOutlet]="ticket"></ng-container>
+        </mat-card>
+      }
+      <div class="w-full sm:w-3/5">
+        <div class="flex actions">
+          <button mat-raised-button (click)="promptUserChange()">
+            <div class="text-and-icon-h">
+              <mat-icon>face</mat-icon>
+              <span class="truncate">{{getSeller()?.shortName | uppercase }}</span>
+            </div>
+          </button>
+          <button mat-raised-button (click)="updateSelectedClient()">
+            <div class="text-and-icon-h">
+              <mat-icon>manage_accounts</mat-icon>
+              <span class="truncate">{{(getClient()?.user?.shortName || getClient()?.shortName || 'Choisir cli.') | uppercase }}</span>
+            </div>
+          </button>
+          @if (!compact) {
+            <button mat-raised-button [disabled]="!orderLines.length" (click)="handleConfirmOrderClick()">
+              <div class="text-and-icon-h">
+                <mat-icon>receipt</mat-icon>
+                <span class="truncate">CONFIRMER</span>
               </div>
             </button>
           }
         </div>
-        @if (categories.length > MAX_CATEGORY_DISPLAYED) {
-          <div
-            class="flex flex-col">
-            <button mat-icon-button
-              [disabled]="!categoryPage"
-              (click)="categoryPageUp()">
-              <mat-icon>expand_less</mat-icon>
-            </button>
-            <button mat-icon-button
-              [disabled]="categoryPage >= categories.length / MAX_CATEGORY_DISPLAYED - 1"
-              (click)="categoryPageDown()">
-              <mat-icon>expand_more</mat-icon>
-            </button>
+        <hr class="border-t">
+
+        @if (compact) {
+          <!-- Téléphone : toutes les catégories en puces, glisser horizontalement -->
+          <div class="category-chips">
+            @for (category of categories; track category.id) {
+              <button mat-flat-button
+                [class.selected]="selectedCategory === category"
+                [color]="selectedCategory === category ? 'primary' : undefined"
+                [disabled]="!sellableProductsInCategory(category).length && selectedCategory !== category"
+                (click)="toggleCategorySelection(category)">
+                <mat-icon>{{category.icon}}</mat-icon>
+                {{category.label | uppercase}}
+              </button>
+            }
+          </div>
+        } @else {
+          <div class="flex gap-2">
+            <div class="grid grid-cols-3 grid-rows-3 gap-2 mt-4 grow">
+              @for (category of categoriesOnThisPage; track $index) {
+                <button
+                  [disabled]="!sellableProductsInCategory(category).length && selectedCategory !== category"
+                  (click)="toggleCategorySelection(category)"
+                  [color]="selectedCategory === category ? 'primary': undefined"
+                  mat-raised-button
+                  class="h-full w-full">
+                  <div class="flex flex-col justify-between h-full pt-2">
+                    <div class="text-2xl">
+                      <mat-icon inline>{{category.icon}}</mat-icon>
+                    </div>
+                    <div class="truncate">{{category.label | uppercase }}</div>
+                  </div>
+                </button>
+              }
+            </div>
+            @if (categories.length > MAX_CATEGORY_DISPLAYED) {
+              <div class="flex flex-col">
+                <button mat-icon-button [disabled]="!categoryPage" (click)="categoryPageUp()">
+                  <mat-icon>expand_less</mat-icon>
+                </button>
+                <button mat-icon-button
+                  [disabled]="categoryPage >= categories.length / MAX_CATEGORY_DISPLAYED - 1"
+                  (click)="categoryPageDown()">
+                  <mat-icon>expand_more</mat-icon>
+                </button>
+              </div>
+            }
           </div>
         }
       </div>
@@ -91,8 +90,9 @@
   <hr class="my-2 border-t">
   <div class="flex gap-2">
     @if (productsInSelectedCategory.length) {
-      <div class="grow grid grid-cols-5 grid-rows-2 gap-2">
-        @for (product of productsOnThisPage; track product) {
+      <!-- Téléphone : 3 colonnes, tous les produits (défilement) ; sinon 5 x 2 paginé -->
+      <div class="grow grid gap-2 grid-cols-3 sm:grid-cols-5 sm:grid-rows-2 products">
+        @for (product of displayedProducts; track product.id) {
           <button
             (click)="incrementProduct(product)" color="primary"
             [matBadge]="getStock(product)" matBadgeColor="warn"
@@ -102,12 +102,9 @@
           </button>
         }
       </div>
-      @if (productsInSelectedCategory.length > MAX_PRODUCTS_DISPLAYED) {
-        <div
-          class="flex flex-col">
-          <button mat-icon-button
-            [disabled]="!productPage"
-            (click)="productPageUp()">
+      @if (!compact && productsInSelectedCategory.length > MAX_PRODUCTS_DISPLAYED) {
+        <div class="flex flex-col">
+          <button mat-icon-button [disabled]="!productPage" (click)="productPageUp()">
             <mat-icon>expand_less</mat-icon>
           </button>
           <button mat-icon-button
@@ -124,5 +121,70 @@
       </div>
     }
   </div>
-</div>
 </mat-card>
+
+<!--
+  Téléphone : barre du bas, affichée dans l'emplacement de barre basse de l'app (BottomBarService, portail CDK)
+  et non en position fixe (non fiable sur iPhone dans les conteneurs défilants de Material).
+-->
+<ng-template #mobileBar>
+  <!-- Ticket déplié par-dessus la caisse, au-dessus de la barre -->
+  @if (ticketOpen && orderLines.length) {
+    <div class="ticket-backdrop" (click)="ticketOpen = false"></div>
+    <div class="ticket-sheet">
+      <ng-container [ngTemplateOutlet]="ticket"></ng-container>
+    </div>
+  }
+  <div class="cashier-bar">
+    <button type="button" class="bar-summary" [disabled]="!orderLines.length" (click)="ticketOpen = !ticketOpen"
+            [attr.aria-expanded]="ticketOpen" aria-label="Afficher le ticket">
+      <mat-icon>{{ ticketOpen ? 'expand_more' : 'expand_less' }}</mat-icon>
+      @if (orderLines.length) {
+        <span>{{itemCount}} art. · {{total | currency}}</span>
+      } @else {
+        <span class="text-gray-500">Ticket vide</span>
+      }
+    </button>
+    <button mat-raised-button color="primary" [disabled]="!orderLines.length" (click)="handleConfirmOrderClick()">
+      <div class="text-and-icon-h">
+        <mat-icon>receipt</mat-icon>
+        <span class="truncate">CONFIRMER</span>
+      </div>
+    </button>
+  </div>
+</ng-template>
+
+<!-- Ticket : partagé par les deux mises en page -->
+<ng-template #ticket>
+  <div class="flex flex-col h-full">
+    <div class="grow">
+      <table class="w-full">
+        <tbody>
+          @for (line of orderLines; track line.productId) {
+            <tr (click)="decrementProduct(line.productId)" class="text-xl" holdable [threshold]="holdThresh" (holdTime)="holdTime(line, progressBar, $event)">
+              <td class="p-1"></td>
+              <td class="w-full p-1">{{line.quantity}}X {{findProduct(line.productId)?.name | uppercase}}</td>
+              <td class="p-1 whitespace-nowrap">{{totalForLine(line) | currency}}</td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <mat-progress-bar #progressBar [value]="0" color="warn"></mat-progress-bar>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    @if (orderLines.length) {
+      <div class="pt-3 text-2xl border-t flex justify-between">
+        Total : {{total | currency}}
+        @if (!selectedClient) {
+          <span class="text-blue-500">/ {{totalReduced | currency}}</span>
+        }
+      </div>
+      @if (compact) {
+        <p class="mt-2 text-sm text-gray-500">Toucher une ligne retire un article, appui long pour supprimer la ligne.</p>
+      }
+    }
+  </div>
+</ng-template>

@@ -4,6 +4,7 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Authority } from "./business/auth/authority";
 import { NotificationsService } from "./features/notifications/notifications.service";
+import { BottomBarService } from "./features/bottom-bar.service";
 
 @Component({
     selector: "app-root",
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private notificationService: NotificationsService,
+    readonly bottomBar: BottomBarService,
   ) {
   }
 

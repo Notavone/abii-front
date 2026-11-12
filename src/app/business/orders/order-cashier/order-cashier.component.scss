@@ -1,7 +1,7 @@
 .actions {
   @apply mb-4 gap-2;
   button {
-    @apply basis-1/3 min-w-0;
+    @apply basis-1/3 min-w-0 grow;
     div {
       @apply py-6;
     }
@@ -26,4 +26,109 @@
 .vertical-writing {
   writing-mode: vertical-lr;
   text-orientation: upright;
+}
+
+
+/* ------------------------------------------------------------------ téléphone (compact) */
+
+.cashier.compact {
+  .actions {
+    @apply mb-3;
+
+    button div {
+      @apply py-3;
+    }
+  }
+
+  .products button {
+    min-height: 72px;
+
+    div {
+      @apply py-3;
+    }
+  }
+}
+
+// Catégories en puces qu'on fait glisser horizontalement
+.category-chips {
+  @apply flex gap-2 mt-3 pb-1;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  button {
+    flex: none;
+    border-radius: 9999px;
+    scroll-snap-align: start;
+
+    &:not(.selected) {
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+/*
+ * Barre du bas (rendue dans l'emplacement .app-bottom-bar de l'app, voir BottomBarService) :
+ * résumé du ticket (déplie le ticket) + Confirmer. Elle fait partie de la mise en page, pas de position fixe.
+ */
+.cashier-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 64px;
+  padding: 8px calc(12px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left));
+  background: #fff;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+
+  > button[mat-raised-button] {
+    flex: none;
+  }
+}
+
+.bar-summary {
+  @apply flex items-center gap-1 grow min-w-0 text-lg font-medium text-left;
+  background: none;
+  border: 0;
+  color: inherit;
+  padding: 8px 0;
+
+  span {
+    @apply truncate;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+// Fond assombri sur toute la zone au-dessus de la barre (touche pour fermer le ticket)
+.ticket-backdrop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 100dvh;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+// Ticket déplié : posé sur le haut de la barre
+.ticket-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  max-height: 60dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px;
+  background: #fff;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
 }

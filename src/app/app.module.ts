@@ -18,6 +18,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
+import { PortalModule } from "@angular/cdk/portal";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { FeaturesModule } from "./features/features.module";
 import { MAT_TOOLTIP_DEFAULT_OPTIONS } from "@angular/material/tooltip";
@@ -47,6 +48,7 @@ if (environment.production) {
     MatSnackBarModule,
     MatIconModule,
     MatListModule,
+    PortalModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
       registrationStrategy: "registerWhenStable:30000",
