@@ -6,9 +6,10 @@ import { Authority } from "./business/auth/authority";
 import { NotificationsService } from "./features/notifications/notifications.service";
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+    selector: "app-root",
+    templateUrl: "./app.component.html",
+    styleUrls: ["./app.component.scss"],
+    standalone: false
 })
 export class AppComponent implements OnInit {
   transitioning: boolean = false;

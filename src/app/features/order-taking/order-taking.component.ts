@@ -10,9 +10,10 @@ import {Order} from "../../business/orders/dto/order";
 import {MatExpansionPanel} from "@angular/material/expansion";
 
 @Component({
-  selector: 'app-order-taking',
-  templateUrl: './order-taking.component.html',
-  styleUrls: ['./order-taking.component.scss']
+    selector: 'app-order-taking',
+    templateUrl: './order-taking.component.html',
+    styleUrls: ['./order-taking.component.scss'],
+    standalone: false
 })
 export class OrderTakingComponent implements OnInit {
   @ViewChild("expansionPanel") expansionPanel?: MatExpansionPanel;

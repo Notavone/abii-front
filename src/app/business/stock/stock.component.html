@@ -1,4 +1,6 @@
-<app-loading *ngIf="isLoading"></app-loading>
+@if (isLoading) {
+  <app-loading></app-loading>
+}
 <mat-tab-group>
   <mat-tab label="Gestion du stock">
     <mat-card>
@@ -7,62 +9,59 @@
       <ng-container [ngTemplateOutlet]="scanner"></ng-container>
 
       <!--
-        Une seule mise en page pour toutes les tailles d'écran :
-        - mobile (< 640px) : carte par produit -> [nom ........ historique] puis [stock | alerte] sur la ligne suivante
-        - sm et plus       : une ligne -> [nom | stock | alerte | ... | historique]
-        L'ordre visuel est géré avec les classes order-* (le DOM garde l'ordre desktop).
+      Une seule mise en page pour toutes les tailles d'écran :
+      - mobile (< 640px) : carte par produit -> [nom ........ historique] puis [stock | alerte] sur la ligne suivante
+      - sm et plus       : une ligne -> [nom | stock | alerte | ... | historique]
+      L'ordre visuel est géré avec les classes order-* (le DOM garde l'ordre desktop).
       -->
       <div class="flex flex-col gap-3 mb-3">
-        <div *ngFor="let line of sortLines(lines)"
-             class="stock-line flex flex-wrap sm:flex-nowrap items-center gap-x-3 md:gap-x-10 px-1 sm:px-0"
-             [class.out-of-stock]="isLineOutOfStock(line)"
-             [class.unavailable]="isLineUnavailable(line)"
-             [class.alert]="isLineAlert(line)">
-          <div class="order-1 grow basis-0 min-w-0 truncate">
-            <button mat-button class="product-name" [routerLink]="'/products/' + line.product.id" tabindex="-1">
-              {{line.product.name}}
-            </button>
-          </div>
-
-          <!-- Retour à la ligne forcé sur mobile : les champs passent sous le nom -->
-          <div class="order-3 basis-full h-0 sm:hidden" aria-hidden="true"></div>
-
-          <mat-form-field class="stock-field order-4 sm:order-2" floatLabel="always"
-                          (click)="lineInput.select()" (focus)="lineInput.select()">
-            <mat-label><span class="sm:hidden">Stock</span><span class="hidden sm:inline">Stock du produit</span></mat-label>
-            <input type="number" #lineInput min="0" [(ngModel)]="line.stock" matNativeControl inputmode="numeric"
-                   name="stock" [placeholder]="''+ line.product.stock">
-          </mat-form-field>
-
-          <mat-form-field class="stock-field order-5 sm:order-3" floatLabel="always"
-                          (click)="alertInput.select()" (focus)="alertInput.select()">
-            <mat-label><span class="sm:hidden">Alerte</span><span class="hidden sm:inline">Définir une alerte sur stock</span></mat-label>
-            <input type="number" #alertInput min="0" [(ngModel)]="line.alert" matNativeControl inputmode="numeric"
-                   name="alert" [placeholder]="line.product.alert ? ''+ line.product.alert : ''">
-          </mat-form-field>
-
-          <span class="hidden sm:block sm:order-4 lg:grow"></span>
-
-          <button mat-button class="order-2 sm:order-5 shrink-0" tabindex="-1" (click)="openHistory(line.product)"
+        @for (line of sortLines(lines); track line) {
+          <div
+            class="stock-line flex flex-wrap sm:flex-nowrap items-center gap-x-3 md:gap-x-10 px-1 sm:px-0"
+            [class.out-of-stock]="isLineOutOfStock(line)"
+            [class.unavailable]="isLineUnavailable(line)"
+            [class.alert]="isLineAlert(line)">
+            <div class="order-1 grow basis-0 min-w-0 truncate">
+              <button mat-button class="product-name" [routerLink]="'/products/' + line.product.id" tabindex="-1">
+                {{line.product.name}}
+              </button>
+            </div>
+            <!-- Retour à la ligne forcé sur mobile : les champs passent sous le nom -->
+            <div class="order-3 basis-full h-0 sm:hidden" aria-hidden="true"></div>
+            <mat-form-field class="stock-field order-4 sm:order-2" floatLabel="always"
+              (click)="lineInput.select()" (focus)="lineInput.select()">
+              <mat-label><span class="sm:hidden">Stock</span><span class="hidden sm:inline">Stock du produit</span></mat-label>
+              <input type="number" #lineInput min="0" [(ngModel)]="line.stock" matNativeControl inputmode="numeric"
+                name="stock" [placeholder]="''+ line.product.stock">
+              </mat-form-field>
+              <mat-form-field class="stock-field order-5 sm:order-3" floatLabel="always"
+                (click)="alertInput.select()" (focus)="alertInput.select()">
+                <mat-label><span class="sm:hidden">Alerte</span><span class="hidden sm:inline">Définir une alerte sur stock</span></mat-label>
+                <input type="number" #alertInput min="0" [(ngModel)]="line.alert" matNativeControl inputmode="numeric"
+                  name="alert" [placeholder]="line.product.alert ? ''+ line.product.alert : ''">
+                </mat-form-field>
+                <span class="hidden sm:block sm:order-4 lg:grow"></span>
+                <button mat-button class="order-2 sm:order-5 shrink-0" tabindex="-1" (click)="openHistory(line.product)"
                   aria-label="Historique du stock">
-            <span class="hidden lg:inline mr-2">Historique</span>
-            <mat-icon>assessment</mat-icon>
-          </button>
-        </div>
-      </div>
-      <div class="space">
-        <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
-        <button mat-raised-button color="primary" (click)="update()">Mettre à jour le stock</button>
-      </div>
-    </mat-card>
-  </mat-tab>
-  <mat-tab label="Codes produits">
-    <app-ean></app-ean>
-  </mat-tab>
-</mat-tab-group>
+                  <span class="hidden lg:inline mr-2">Historique</span>
+                  <mat-icon>assessment</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+          <div class="space">
+            <button mat-raised-button color="accent" (click)="goBack()">Retour</button>
+            <button mat-raised-button color="primary" (click)="update()">Mettre à jour le stock</button>
+          </div>
+        </mat-card>
+      </mat-tab>
+      <mat-tab label="Codes produits">
+        <app-ean></app-ean>
+      </mat-tab>
+    </mat-tab-group>
 
-<ng-template #scanner>
-  <div class="mb-3">
-    <app-scanner (scanSuccess)="triggerStockChangeForEan($event)"></app-scanner>
-  </div>
-</ng-template>
+    <ng-template #scanner>
+      <div class="mb-3">
+        <app-scanner (scanSuccess)="triggerStockChangeForEan($event)"></app-scanner>
+      </div>
+    </ng-template>

@@ -3,9 +3,10 @@ import {UsersService} from "./users.service";
 import {User} from "./dto/user";
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss'],
+    standalone: false
 })
 export class UsersComponent implements OnInit {
   users: User[] = []

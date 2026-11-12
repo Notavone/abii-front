@@ -18,10 +18,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Contient {{countProducts(order.orderLines)}} produit(s)</mat-panel-title>
         </mat-expansion-panel-header>
-        <div *ngFor="let line of order.orderLines">
-          {{line.quantity}}x
-          <a routerLink="/products/{{line.product?.id ?? ''}}" mat-button>{{ line.product?.name ?? "??" }}</a>
-        </div>
+        @for (line of order.orderLines; track line) {
+          <div>
+            {{line.quantity}}x
+            <a routerLink="/products/{{line.product?.id ?? ''}}" mat-button>{{ line.product?.name ?? "??" }}</a>
+          </div>
+        }
       </mat-expansion-panel>
     </td>
   </ng-container>
@@ -34,9 +36,15 @@
   <ng-container matColumnDef="status">
     <th mat-header-cell *matHeaderCellDef mat-sort-header="">Statut</th>
     <td mat-cell *matCellDef="let order">
-      <span *ngIf="order.editable">Non confirmé</span>
-      <span *ngIf="!order.editable && !order.refunded">Payé</span>
-      <span *ngIf="!order.editable && order.refunded">Remboursé</span>
+      @if (order.editable) {
+        <span>Non confirmé</span>
+      }
+      @if (!order.editable && !order.refunded) {
+        <span>Payé</span>
+      }
+      @if (!order.editable && order.refunded) {
+        <span>Remboursé</span>
+      }
     </td>
   </ng-container>
 

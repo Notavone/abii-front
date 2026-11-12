@@ -5,9 +5,10 @@ import {LoginDto} from "../../business/auth/dto/login.dto";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
-  selector: 'app-auth-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-auth-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent {
   loginDto: LoginDto = new LoginDto();

@@ -4,9 +4,10 @@ import { UsersService } from "../../business/users/users.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
-  selector: "app-confirm",
-  templateUrl: "./confirm.component.html",
-  styleUrls: ["./confirm.component.scss"],
+    selector: "app-confirm",
+    templateUrl: "./confirm.component.html",
+    styleUrls: ["./confirm.component.scss"],
+    standalone: false
 })
 export class ConfirmComponent implements OnInit {
 

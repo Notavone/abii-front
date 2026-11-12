@@ -5,9 +5,10 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 
 @Component({
-  selector: 'app-product-table',
-  templateUrl: './product-table.component.html',
-  styleUrls: ['./product-table.component.scss']
+    selector: 'app-product-table',
+    templateUrl: './product-table.component.html',
+    styleUrls: ['./product-table.component.scss'],
+    standalone: false
 })
 export class ProductTableComponent implements OnChanges, AfterViewInit {
   @Input() products: Product[] = [];

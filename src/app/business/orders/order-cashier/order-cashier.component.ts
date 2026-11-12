@@ -17,9 +17,10 @@ import { OrdersService } from "../orders.service";
 import { OrderCreateDto } from "../dto/order-create.dto";
 
 @Component({
-  selector: "app-order-cashier",
-  templateUrl: "./order-cashier.component.html",
-  styleUrls: ["./order-cashier.component.scss"],
+    selector: "app-order-cashier",
+    templateUrl: "./order-cashier.component.html",
+    styleUrls: ["./order-cashier.component.scss"],
+    standalone: false
 })
 export class OrderCashierComponent implements OnInit {
 

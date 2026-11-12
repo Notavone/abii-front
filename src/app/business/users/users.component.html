@@ -1,2 +1,4 @@
-<app-loading *ngIf="isLoading"></app-loading>
+@if (isLoading) {
+  <app-loading></app-loading>
+}
 <app-user-table [users]="users"></app-user-table>

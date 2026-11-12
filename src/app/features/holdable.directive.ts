@@ -2,7 +2,8 @@ import { Directive, EventEmitter, HostListener, Input, Output } from "@angular/c
 import { filter, interval, Observable, Subject, takeUntil, tap } from "rxjs";
 
 @Directive({
-  selector: "[holdable]",
+    selector: "[holdable]",
+    standalone: false
 })
 export class HoldableDirective {
 
@@ -18,15 +19,15 @@ export class HoldableDirective {
     );
   }
 
-  @HostListener("touchend", ["$event"])
-  @HostListener("mouseup", ["$event"])
-  @HostListener("mouseleave", ["$event"])
+  @HostListener("touchend")
+  @HostListener("mouseup")
+  @HostListener("mouseleave")
   onExit() {
     this.state.next(true);
   }
 
-  @HostListener("touchstart", ["$event"])
-  @HostListener("mousedown", ["$event"])
+  @HostListener("touchstart")
+  @HostListener("mousedown")
   onHold() {
     this.state.next(false);
 

@@ -10,9 +10,10 @@ import {ConfirmService} from "../../../features/confirm/confirm.service";
 import {CurrencyPipe, Location} from "@angular/common";
 
 @Component({
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+    selector: 'app-order',
+    templateUrl: './order.component.html',
+    styleUrls: ['./order.component.scss'],
+    standalone: false
 })
 export class OrderComponent implements OnInit {
   order!: Order;

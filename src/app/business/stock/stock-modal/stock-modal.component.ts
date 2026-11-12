@@ -11,9 +11,10 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 
 @Component({
-  selector: "app-stock-modal",
-  templateUrl: "./stock-modal.component.html",
-  styleUrls: ["./stock-modal.component.scss"],
+    selector: "app-stock-modal",
+    templateUrl: "./stock-modal.component.html",
+    styleUrls: ["./stock-modal.component.scss"],
+    standalone: false
 })
 export class StockModalComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;

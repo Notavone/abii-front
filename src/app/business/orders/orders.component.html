@@ -1,4 +1,6 @@
-<app-loading *ngIf="isLoading"></app-loading>
+@if (isLoading) {
+  <app-loading></app-loading>
+}
 <mat-tab-group>
   <mat-tab label="Récapitulatif">
     <mat-card class="mb-3">
@@ -17,7 +19,9 @@
           <mat-label>Filtrer par client</mat-label>
           <mat-select [(ngModel)]="selectedClient" (selectionChange)="update()">
             <mat-option></mat-option>
-            <mat-option *ngFor="let client of clients" [value]="client">{{client.user?.name ?? client.name}}</mat-option>
+            @for (client of clients; track client) {
+              <mat-option [value]="client">{{client.user?.name ?? client.name}}</mat-option>
+            }
           </mat-select>
         </mat-form-field>
 
@@ -25,7 +29,9 @@
           <mat-label>Filtrer par produit</mat-label>
           <mat-select [(ngModel)]="selectedProduct" (selectionChange)="update()">
             <mat-option></mat-option>
-            <mat-option *ngFor="let product of products" [value]="product">{{product.name}}</mat-option>
+            @for (product of products; track product) {
+              <mat-option [value]="product">{{product.name}}</mat-option>
+            }
           </mat-select>
         </mat-form-field>
 
@@ -36,7 +42,9 @@
           <mat-icon>search</mat-icon>
         </button>
 
-        <p *ngIf="total">Total pour la période sélectionné : {{total | currency}}</p>
+        @if (total) {
+          <p>Total pour la période sélectionné : {{total | currency}}</p>
+        }
       </div>
     </mat-card>
     <app-orders-table [orders]="orders"></app-orders-table>

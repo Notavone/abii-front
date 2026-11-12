@@ -6,9 +6,10 @@ import { Client } from "../dto/client";
 import { ClientsService } from "../clients.service";
 
 @Component({
-  selector: "app-client-search",
-  templateUrl: "./client-search.component.html",
-  styleUrls: ["./client-search.component.scss"],
+    selector: "app-client-search",
+    templateUrl: "./client-search.component.html",
+    styleUrls: ["./client-search.component.scss"],
+    standalone: false
 })
 export class ClientSearchComponent implements OnInit, AfterViewInit {
   @ViewChild("paginator") paginator?: MatPaginator;

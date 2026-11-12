@@ -12,9 +12,10 @@ enum View {
 }
 
 @Component({
-  selector: "app-reset",
-  templateUrl: "./reset.component.html",
-  styleUrls: ["./reset.component.scss"],
+    selector: "app-reset",
+    templateUrl: "./reset.component.html",
+    styleUrls: ["./reset.component.scss"],
+    standalone: false
 })
 export class ResetComponent implements OnInit {
   View = View;

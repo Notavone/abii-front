@@ -2,9 +2,11 @@
   <mat-card-title>Zone de test</mat-card-title>
   <mat-card-content>
     <app-scanner (scanSuccess)="handeScanSuccess($event)"></app-scanner>
-    <div *ngFor="let scan of scans">
-      {{scan}}
-    </div>
+    @for (scan of scans; track scan) {
+      <div>
+        {{scan}}
+      </div>
+    }
 
     <button mat-raised-button color="primary" (click)="testPush()">Test push notification</button>
   </mat-card-content>

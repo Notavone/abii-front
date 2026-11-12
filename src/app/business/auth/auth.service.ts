@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpBackend, HttpClient} from "@angular/common/http";
+import { HttpBackend, HttpClient } from "@angular/common/http";
 import {LoggingService} from '../../features/logging.service';
 import {CookieService} from "ngx-cookie-service";
 import {tap} from "rxjs";
@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   get isLoggedIn() {
-    return this.cookieService.check("access_token");
+    return this.cookieService.check("logged_in");
   }
 
   getCurrentUser() {

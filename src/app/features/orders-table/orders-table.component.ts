@@ -6,9 +6,10 @@ import {MatSort} from "@angular/material/sort";
 import {OrderLine} from "../../business/orders/dto/order-line";
 
 @Component({
-  selector: 'app-orders-table',
-  templateUrl: './orders-table.component.html',
-  styleUrls: ['./orders-table.component.scss']
+    selector: 'app-orders-table',
+    templateUrl: './orders-table.component.html',
+    styleUrls: ['./orders-table.component.scss'],
+    standalone: false
 })
 export class OrdersTableComponent implements OnChanges, AfterViewInit {
   @Input() orders: Order[] = [];

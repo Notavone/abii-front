@@ -3,7 +3,8 @@
   "version": "2.7.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node pwa-dev/server.js",
+    "start:ng": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "analyse": "ng build --configuration development --stats-json && webpack-bundle-analyzer dist/abii-front/stats.json",
@@ -12,17 +13,17 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^14.0.0",
-    "@angular/cdk": "^14.0.0",
-    "@angular/common": "^14.0.0",
-    "@angular/compiler": "^14.0.0",
-    "@angular/core": "^14.0.0",
-    "@angular/forms": "^14.0.0",
-    "@angular/material": "^14.0.0",
-    "@angular/platform-browser": "^14.0.0",
-    "@angular/platform-browser-dynamic": "^14.0.0",
-    "@angular/router": "^14.0.0",
-    "@angular/service-worker": "^14.0.0",
+    "@angular/animations": "^21.0.0",
+    "@angular/cdk": "^21.0.0",
+    "@angular/common": "^21.0.0",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@angular/material": "^21.0.0",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/platform-browser-dynamic": "^21.0.0",
+    "@angular/router": "^21.0.0",
+    "@angular/service-worker": "^21.0.0",
     "autoprefixer": "^10.4.7",
     "barcode-detector": "3.2.3",
     "ngx-cookie-service": "^13.2.0",
@@ -30,14 +31,14 @@
     "rxjs": "~7.5.0",
     "tailwindcss": "^3.0.24",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.0.0",
-    "@angular/cli": "^14.0.0",
-    "@angular/compiler-cli": "^14.0.0",
+    "@angular-devkit/build-angular": "^21.0.0",
+    "@angular/cli": "^21.0.0",
+    "@angular/compiler-cli": "^21.0.0",
     "@types/node": "^12.11.1",
-    "typescript": "~4.7.3",
+    "typescript": "~5.9.2",
     "webpack-bundle-analyzer": "^4.5.0"
   }
 }
