@@ -4,6 +4,97 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Thème Material (remplace le thème précompilé indigo-pink.css) — retrouver le rendu d'avant la migration
+ * Angular 14 -> 21 : depuis Material 15, les composants (MDC) utilisent la typographie Material Design
+ * (lettres espacées, texte des champs en 16px) et une densité "tactile" plus grosse.
+ * - mêmes couleurs que indigo-pink
+ * - typographie "legacy" de Material 14 : mêmes tailles, aucun espacement de lettres
+ * - densité réduite pour les icônes-boutons, cases à cocher et champs (tailles proches de Material 14)
+ */
+$abii-typography: mat.m2-define-legacy-typography-config();
+$abii-theme: mat.m2-define-light-theme((
+  color: (
+    primary: mat.m2-define-palette(mat.$m2-indigo-palette),
+    accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400),
+    warn: mat.m2-define-palette(mat.$m2-red-palette),
+  ),
+  typography: $abii-typography,
+  density: 0,
+));
+
+@include mat.elevation-classes();
+@include mat.app-background();
+@include mat.all-component-themes($abii-theme);
+@include mat.typography-hierarchy($abii-typography);
+
+html {
+  @include mat.icon-button-density(-2);   // 48px -> 40px
+  @include mat.checkbox-density(-3);      // 40px -> 28px de zone tactile
+  @include mat.form-field-density(-1);    // champs un peu moins hauts (à -2, l'apparence "fill" masque le libellé flottant)
+}
+
+/* Champs : apparence "fill" sans fond gris ni retrait, comme le simple soulignement de Material 14 */
+.mat-mdc-form-field.mat-form-field-appearance-fill {
+  .mat-mdc-text-field-wrapper {
+    background-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .mat-mdc-form-field-focus-overlay {
+    display: none;
+  }
+}
+
+/* Cartes : marge intérieure et titre de Material 14 (les cartes MDC n'ont plus de padding) */
+.mat-mdc-card {
+  padding: 16px;
+
+  > .mat-mdc-card-content,
+  > .mat-mdc-card-header,
+  > .mat-mdc-card-actions {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  > .mat-mdc-card-content:first-child { padding-top: 0; }
+  > .mat-mdc-card-content:last-child { padding-bottom: 0; }
+}
+
+.mat-mdc-card-title {
+  display: block;
+  margin-bottom: 8px;
+}
+
+/*
+ * Boutons : en Material 14 leur hauteur suivait le contenu ; les boutons MDC ont une hauteur fixe de 36px.
+ * La caisse en dépend (tuiles de catégories icône + libellé, gros boutons produits) : contenu qui débordait,
+ * grille écrasée. On garde 36px minimum et on laisse le contenu agrandir le bouton.
+ */
+.mat-mdc-button.mat-mdc-button-base,
+.mat-mdc-raised-button.mat-mdc-button-base,
+.mat-mdc-unelevated-button.mat-mdc-button-base,
+.mat-mdc-outlined-button.mat-mdc-button-base {
+  height: auto;
+  min-height: 36px;
+
+  // Le libellé peut rétrécir : les contenus "truncate" (ex. boutons du haut de la caisse) se coupent avec "…"
+  // au lieu de déborder sur le bouton voisin
+  .mdc-button__label {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+/* Tailles de Material 14 via les variables (tokens) des composants MDC */
+html {
+  --mat-card-title-text-size: 24px;
+  --mat-card-title-text-line-height: 32px;
+  --mat-form-field-container-text-size: 14px;
+  --mat-form-field-filled-label-text-size: 14px;
+}
+
 html, body, .material-app {
   height: 100%;
   width: 100%;
@@ -32,7 +123,7 @@ body {
 }
 
 // Interface (barre, menu, boutons) non sélectionnable comme dans une app ; les champs restent éditables
-.mat-toolbar, .mat-sidenav, .mat-tab-header, .mat-button-base, .mat-list-item, mat-icon {
+.mat-toolbar, .mat-sidenav, .mat-mdc-tab-header, .mat-mdc-button-base, .mat-mdc-list-item, mat-icon {
   -webkit-user-select: none;
   user-select: none;
 }
@@ -44,7 +135,7 @@ body {
   }
 }
 
-.mat-table {
+.mat-mdc-table {
   width: 100%;
 }
 
@@ -53,8 +144,8 @@ body {
     display: none;
   }
 
-  .mat-form-field,
-  .space .mat-form-field,
+  .mat-mdc-form-field,
+  .space .mat-mdc-form-field,
   .space button,
   form > div > button {
     flex-grow: 1;

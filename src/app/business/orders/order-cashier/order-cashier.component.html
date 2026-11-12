@@ -35,19 +35,19 @@
         <button mat-raised-button (click)="promptUserChange()">
           <div class="text-and-icon-h">
             <mat-icon>face</mat-icon>
-            {{getSeller()?.shortName | uppercase }}
+            <span class="truncate">{{getSeller()?.shortName | uppercase }}</span>
           </div>
         </button>
         <button mat-raised-button (click)="updateSelectedClient()">
           <div class="text-and-icon-h">
             <mat-icon>manage_accounts</mat-icon>
-            {{(getClient()?.user?.shortName || getClient()?.shortName || 'Choisir cli.') | uppercase }}
+            <span class="truncate">{{(getClient()?.user?.shortName || getClient()?.shortName || 'Choisir cli.') | uppercase }}</span>
           </div>
         </button>
         <button mat-raised-button [disabled]="!orderLines.length" (click)="handleConfirmOrderClick()">
           <div class="text-and-icon-h">
             <mat-icon>receipt</mat-icon>
-            CONFIRMER
+            <span class="truncate">CONFIRMER</span>
           </div>
         </button>
       </div>

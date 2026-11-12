@@ -2,6 +2,7 @@ import { DEFAULT_CURRENCY_CODE, enableProdMode, LOCALE_ID, NgModule } from "@ang
 import { AppComponent } from "./app.component";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
+import { MAT_TABS_CONFIG } from "@angular/material/tabs";
 import localeFr from "@angular/common/locales/fr";
 import { CommonModule, registerLocaleData } from "@angular/common";
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from "@angular/material/snack-bar";
@@ -57,6 +58,8 @@ if (environment.production) {
     { provide: LOCALE_ID, useValue: "fr-FR" },
     { provide: DEFAULT_CURRENCY_CODE, useValue: "EUR" },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: "fill" } },
+    // Onglets alignés à gauche et non étirés, comme avant Material 15 (stretchTabs vaut true par défaut depuis)
+    { provide: MAT_TABS_CONFIG, useValue: { stretchTabs: false, alignTabs: "start" } },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
     { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: { showDelay: 1000 } },
   ],
