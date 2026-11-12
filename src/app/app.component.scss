@@ -12,7 +12,9 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  height: 100dvh; // hauteur réellement visible (barres du navigateur exclues)
+  // Pas de `height: 100dvh` : dans l'app installée sur iPhone (barre d'état translucide, viewport-fit=cover),
+  // 100dvh est plus court que l'écran et laissait une bande blanche sous la barre basse.
+  // `inset: 0` sur un élément fixe couvre exactement la zone affichée, dans Safari comme dans l'app installée.
 }
 
 .mat-toolbar {
